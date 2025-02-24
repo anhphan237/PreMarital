@@ -1,9 +1,5 @@
 package com.example.premarital.services.impl;
 
-
-import com.example.premarital.common.pagination.PaginationRequest;
-import com.example.premarital.common.pagination.PaginationUtils;
-import com.example.premarital.common.pagination.PagingResult;
 import com.example.premarital.models.Role;
 import com.example.premarital.repositories.RoleRepository;
 import com.example.premarital.dtos.UserDTO;
@@ -11,12 +7,9 @@ import com.example.premarital.mappers.UserMapper;
 import com.example.premarital.models.User;
 import com.example.premarital.repositories.UserRepository;
 import com.example.premarital.services.UserService;
-import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 import java.util.function.Function;
 
 @Service
@@ -30,22 +23,6 @@ public class UserServiceImpl implements UserService {
         this.roleRepository = roleRepository;
         this.userMapper = userMapper;
     }
-
-//    @Override
-//    public PagingResult<UserDTO> getUsers(PaginationRequest request) {
-//        final Pageable pageable = PaginationUtils.getPageable(request);
-//        final Page<User> entities = userRepository.findAll(pageable);
-//        final List<UserDTO> entitiesDto = entities.stream().map(userMapper::toDTO).toList();
-//        return new PagingResult<>(
-//                entitiesDto,
-//                entities.getTotalPages(),
-//                entities.getTotalElements(),
-//                entities.getSize(),
-//                entities.getNumber(),
-//                entities.isEmpty()
-//        );
-//    }
-
 
     @Override
     public Page<UserDTO> getUsers(Pageable pageable) {
