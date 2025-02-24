@@ -1,5 +1,6 @@
 package com.example.premarital.therapist.model;
 
+import com.example.premarital.article.model.Article;
 import com.example.premarital.therapistMajor.model.TherapistMajor;
 import com.example.premarital.user.model.User;
 import jakarta.persistence.*;
@@ -20,6 +21,9 @@ public class Therapist {
 
     @OneToMany(mappedBy = "therapist", fetch = FetchType.LAZY)
     private List<TherapistMajor> therapistMajor;
+
+    @OneToMany(mappedBy = "therapist", fetch = FetchType.LAZY)
+    private List<Article> articles;
 
     private String bio;
     private String therapistCertificationName;

@@ -1,5 +1,6 @@
 package com.example.premarital.user.model;
 
+import com.example.premarital.article.model.Article;
 import com.example.premarital.role.model.Role;
 import com.example.premarital.therapist.model.Therapist;
 import com.example.premarital.userQuizHistory.model.UserQuizHistory;
@@ -42,6 +43,9 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<UserQuizHistory> userQuizHistory;
+
+    @OneToMany(mappedBy = "approvedAdmin")
+    private List<Article> articles;
 
     public User() {
     }

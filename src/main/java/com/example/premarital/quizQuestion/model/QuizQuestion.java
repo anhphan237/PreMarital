@@ -1,6 +1,7 @@
 package com.example.premarital.quizQuestion.model;
 
 import com.example.premarital.Question.model.Question;
+import com.example.premarital.category.model.Category;
 import com.example.premarital.quiz.model.Quiz;
 import com.example.premarital.userAnswer.model.UserAnswer;
 import jakarta.persistence.*;
@@ -22,9 +23,12 @@ public class QuizQuestion {
     @JoinColumn(name = "quiz_id", nullable = false)
     private Quiz quiz;
 
-    @OneToMany
-    @JoinColumn(name = "quiz_question_id", nullable = false)
+    @OneToMany(mappedBy = "quizQuestion")
     private List<UserAnswer> userAnswer;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
 
     public QuizQuestion() {
     }

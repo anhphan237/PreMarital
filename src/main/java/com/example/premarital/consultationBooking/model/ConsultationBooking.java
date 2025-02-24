@@ -1,5 +1,6 @@
 package com.example.premarital.consultationBooking.model;
 
+import com.example.premarital.category.model.Category;
 import com.example.premarital.therapistSchedule.model.TherapistSchedule;
 import com.example.premarital.transaction.model.Transaction;
 import com.example.premarital.user.model.User;
@@ -24,6 +25,10 @@ public class ConsultationBooking {
     @JoinColumn(name = "transaction_id", nullable = false)
     private Transaction transaction;
 
+    @ManyToOne
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
+
     private String status;
     private Long amount;
     private String meetUrl;
@@ -31,14 +36,23 @@ public class ConsultationBooking {
     public ConsultationBooking() {
     }
 
-    public ConsultationBooking(Long id, TherapistSchedule therapistSchedule, User user, Transaction transaction, String status, Long amount, String meetUrl) {
+    public ConsultationBooking(Long id, TherapistSchedule therapistSchedule, User user, Transaction transaction, Category category, String status, Long amount, String meetUrl) {
         this.id = id;
         this.therapistSchedule = therapistSchedule;
         this.user = user;
         this.transaction = transaction;
+        this.category = category;
         this.status = status;
         this.amount = amount;
         this.meetUrl = meetUrl;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     public Long getId() {
