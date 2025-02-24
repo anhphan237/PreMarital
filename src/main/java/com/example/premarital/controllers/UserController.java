@@ -5,6 +5,9 @@ import com.example.premarital.common.pagination.PagingResult;
 import com.example.premarital.dtos.UserDTO;
 import com.example.premarital.services.UserService;
 import com.example.premarital.models.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,14 +24,22 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<PagingResult<UserDTO>> getUsers(
+    public ResponseEntity<Page<UserDTO>> getUsers(
             @RequestParam(required = false) Integer page,
             @RequestParam(required = false) Integer size,
             @RequestParam(required = false) String sortField,
             @RequestParam(required = false) Sort.Direction direction
     ) {
-        final PaginationRequest request = new PaginationRequest(page - 1, size, sortField, direction);
-        final PagingResult<UserDTO> users = userService.getUsers(request);
+//        final PaginationRequest request = new PaginationRequest(page - 1, size, sortField, direction);
+//        final PagingResult<UserDTO> users = userService.getUsers(request);
+//        return new ResponseEntity<>(users, HttpStatus.OK);
+        Pageable pageable = PageRequest.of(
+                page - 1,
+                size,
+                direction != null ? direction : Sort.Direction.ASC,
+                sortField != null ? sortField : "id"
+        );
+        Page<UserDTO> users = userService.getUsers(pageable);
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
