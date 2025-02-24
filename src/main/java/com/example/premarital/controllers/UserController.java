@@ -27,17 +27,14 @@ public class UserController {
     public ResponseEntity<Page<UserDTO>> getUsers(
             @RequestParam(required = false) Integer page,
             @RequestParam(required = false) Integer size,
-            @RequestParam(required = false) String sortField,
+            @RequestParam(required = false) String sort,
             @RequestParam(required = false) Sort.Direction direction
     ) {
-//        final PaginationRequest request = new PaginationRequest(page - 1, size, sortField, direction);
-//        final PagingResult<UserDTO> users = userService.getUsers(request);
-//        return new ResponseEntity<>(users, HttpStatus.OK);
         Pageable pageable = PageRequest.of(
                 page - 1,
                 size,
                 direction != null ? direction : Sort.Direction.ASC,
-                sortField != null ? sortField : "id"
+                sort != null ? sort : "id"
         );
         Page<UserDTO> users = userService.getUsers(pageable);
         return new ResponseEntity<>(users, HttpStatus.OK);
