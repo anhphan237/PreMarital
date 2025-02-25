@@ -4,7 +4,6 @@ public class UserDTO {
     private Long id;
     private String firstName;
     private String lastName;
-    private String password;
     private String email;
     private String username;
     private Long roleId;
@@ -17,11 +16,10 @@ public class UserDTO {
     public UserDTO() {
     }
 
-    public UserDTO(Long id, String firstName, String lastName, String password, String email, String username, Long roleId, String street, String city, String state, String postalCode, String country) {
+    public UserDTO(Long id, String firstName, String lastName, String email, String username, Long roleId, String street, String city, String state, String postalCode, String country) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.password = password;
         this.email = email;
         this.username = username;
         this.roleId = roleId;
@@ -54,14 +52,6 @@ public class UserDTO {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getEmail() {
