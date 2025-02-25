@@ -21,6 +21,7 @@ public class UserMapperImpl implements UserMapper {
             userDTO.setLastName( user.getLastName() );
             userDTO.setCountry( user.getCountry());
             userDTO.setState( user.getState());
+            userDTO.setUsername( user.getUsername());
         }
         return userDTO;
     }

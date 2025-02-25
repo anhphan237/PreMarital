@@ -2,6 +2,7 @@ package com.example.premarital.services.impl;
 
 import com.example.premarital.dtos.UserDTO;
 import com.example.premarital.mappers.UserMapper;
+import com.example.premarital.mappers.UserMapperImpl;
 import com.example.premarital.models.*;
 import com.example.premarital.repositories.RoleRepository;
 import com.example.premarital.repositories.TokenRepository;
@@ -26,7 +27,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             UserRepository userRepository,
             TokenRepository tokenRepository,
             JwtServiceImpl jwtService,
-            UserMapper userMapper,
+            UserMapperImpl userMapper,
             RoleRepository roleRepository,
             PasswordEncoder passwordEncoder,
             AuthenticationManager authenticationManager) {
@@ -70,7 +71,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                         request.getPassword()
                 )
         );
-        User user = userRepository.findByEmail(request.getEmail())
+        User user = userRepository.findByUsername(request.getEmail())
                 .orElseThrow();
         var jwtToken = jwtService.generateToken(user);
         Token token = Token.builder()
