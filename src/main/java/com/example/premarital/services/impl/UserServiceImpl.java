@@ -40,7 +40,6 @@ public class UserServiceImpl implements UserService {
                 dto.setUsername(entity.getUsername());
                 dto.setCity(entity.getCity());
                 dto.setCountry(entity.getCountry());
-                dto.setPassword(entity.getPassword());
                 dto.setPostalCode(entity.getPostalCode());
                 dto.setState(entity.getState());
                 dto.setRoleId(entity.getRole().getId());
@@ -85,7 +84,6 @@ public class UserServiceImpl implements UserService {
             existingUser.setEmail(updatedUserDTO.getEmail());
             existingUser.setRole(roleRepository.findById(updatedUserDTO.getRoleId()).get());
             existingUser.setUsername(updatedUserDTO.getUsername());
-            existingUser.setPassword(updatedUserDTO.getPassword());
 
             userRepository.save(existingUser);
             return true;
