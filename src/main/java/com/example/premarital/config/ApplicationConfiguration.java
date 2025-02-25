@@ -18,11 +18,22 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class ApplicationConfiguration {
     private final UserRepository userRepository;
 
+//    @Bean
+//    public UserDetailsService userDetailsService() {
+//        return username -> userRepository.findByEmail(username)
+//                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+//    }
+
     @Bean
     public UserDetailsService userDetailsService() {
-        return username -> userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        return username -> {
+            System.out.println("Looking for user: " + username );
+            return userRepository.findByEmail(username + "@gmail.com")
+                    .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
+        };
     }
+
+
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();

@@ -71,7 +71,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                         request.getPassword()
                 )
         );
-        User user = userRepository.findByUsername(request.getEmail())
+        User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow();
         var jwtToken = jwtService.generateToken(user);
         Token token = Token.builder()
