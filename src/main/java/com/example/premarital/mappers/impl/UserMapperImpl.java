@@ -3,7 +3,9 @@ package com.example.premarital.mappers.impl;
 import com.example.premarital.dtos.UserDTO;
 import com.example.premarital.mappers.UserMapper;
 import com.example.premarital.models.User;
+import org.springframework.stereotype.Component;
 
+@Component
 public class UserMapperImpl implements UserMapper {
     @Override
     public UserDTO toDTO(User user) {

@@ -2,7 +2,7 @@ package com.example.premarital.services.impl;
 
 import com.example.premarital.dtos.UserDTO;
 import com.example.premarital.mappers.UserMapper;
-import com.example.premarital.mappers.UserMapperImpl;
+import com.example.premarital.mappers.impl.UserMapperImpl;
 import com.example.premarital.models.*;
 import com.example.premarital.repositories.RoleRepository;
 import com.example.premarital.repositories.TokenRepository;
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 public class AuthenticationServiceImpl implements AuthenticationService {
     private final UserRepository userRepository;
     private final TokenRepository tokenRepository; // thêm TokenRepository
-    private final UserMapper userMapper;
+    private final UserMapperImpl userMapper;
     private final JwtServiceImpl jwtService;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
