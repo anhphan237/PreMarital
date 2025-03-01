@@ -58,7 +58,7 @@ jobs:
           
           echo "$SSH_KEY" > private_key.pem
           chmod 600 private_key.pem
-          ssh -i private_key.pem $SERVER_USER@$SERVER_HOST << 'EOF'
+          ssh -o StrictHostKeyChecking=no -i private_key.pem $SERVER_USER@$SERVER_HOST << 'EOF'
             docker stop springboot-container || true
             docker rm springboot-container || true
             docker pull $DOCKER_USERNAME/premarital:latest
