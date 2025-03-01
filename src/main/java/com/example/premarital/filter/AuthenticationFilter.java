@@ -29,6 +29,8 @@ public class AuthenticationFilter extends OncePerRequestFilter {
             @NonNull HttpServletResponse response,
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
+        System.out.println("Authorization Header: " + request.getHeader("Authorization"));
+
         final String authHeader = request.getHeader("Authorization");
         final String token;
         final String username;
