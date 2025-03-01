@@ -51,7 +51,7 @@ jobs:
           SSH_KEY: ${{ secrets.SSH_KEY }}
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         run: |
-          echo "$SSH_KEY" | base64 --decode > private_key.pem
+          echo "$SSH_KEY" > private_key.pem
           chmod 600 private_key.pem
           ssh -i StrictHostKeyChecking=no -i private_key.pem $SERVER_USER@$SERVER_HOST << 'EOF'
             docker stop springboot-container || true
