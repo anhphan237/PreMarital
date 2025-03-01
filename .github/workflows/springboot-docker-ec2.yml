@@ -51,9 +51,14 @@ jobs:
           SSH_KEY: ${{ secrets.SSH_KEY }}
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         run: |
+          echo "SERVER_USER: $SERVER_USER"
+          echo "SERVER_HOST: $SERVER_HOST"
+          echo "DOCKER_USERNAME: $DOCKER_USERNAME"
+          echo "Checking SSH_KEY length: $(echo "$SSH_KEY" | wc -c)"
+          
           echo "$SSH_KEY" > private_key.pem
           chmod 600 private_key.pem
-          ssh -i StrictHostKeyChecking=no -i private_key.pem $SERVER_USER@$SERVER_HOST << 'EOF'
+          ssh -i private_key.pem $SERVER_USER@$SERVER_HOST << 'EOF'
             docker stop springboot-container || true
             docker rm springboot-container || true
             docker pull $DOCKER_USERNAME/premarital:latest
