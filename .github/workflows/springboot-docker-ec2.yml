@@ -51,16 +51,33 @@ jobs:
           SSH_KEY: ${{ secrets.SSH_KEY }}
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         run: |
-          echo "SERVER_USER: $SERVER_USER"
-          echo "SERVER_HOST: $SERVER_HOST"
-          echo "DOCKER_USERNAME: $DOCKER_USERNAME"
-          echo "Checking SSH_KEY length: $(echo "$SSH_KEY" | wc -c)"
-          
+          echo "🔹 SERVER_USER: $SERVER_USER"
+          echo "🔹 SERVER_HOST: $SERVER_HOST"
+          echo "🔹 DOCKER_USERNAME: $DOCKER_USERNAME"
+
+          # Kiểm tra độ dài SSH Key
+          echo "🔍 Checking SSH_KEY length: $(echo "$SSH_KEY" | wc -c)"
+          echo "🔍 SSH Key starts with: $(echo "$SSH_KEY" | cut -c1-5)"
+
+          # Tạo private key file
           echo "$SSH_KEY" > private_key.pem
           chmod 600 private_key.pem
-          ssh -o StrictHostKeyChecking=no -i private_key.pem $SERVER_USER@$SERVER_HOST << 'EOF'
+
+          # 🔥 Kiểm tra kết nối SSH trước khi deploy
+          echo "⚡ Testing SSH connection..."
+          ssh -o StrictHostKeyChecking=no -i private_key.pem $SERVER_USER@$SERVER_HOST "echo '✅ SSH connection successful!'"
+
+          # 🚀 Triển khai ứng dụng trên AWS EC2
+          echo "🔄 Deploying application..."
+          ssh -o StrictHostKeyChecking=no -i private_key.pem $SERVER_USER@$SERVER_HOST << EOF
+            echo "⏳ Stopping old container..."
             docker stop springboot-container || true
             docker rm springboot-container || true
+
+            echo "📥 Pulling latest Docker image..."
             docker pull $DOCKER_USERNAME/premarital:latest
+
+            echo "🚀 Running new container..."
             docker run -d -p 8080:8080 --name springboot-container $DOCKER_USERNAME/premarital:latest
+            echo "✅ Deployment complete!"
           EOF
