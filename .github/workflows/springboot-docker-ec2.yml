@@ -54,7 +54,6 @@ jobs:
 
           # Kiểm tra độ dài SSH Key
           echo "🔍 Checking SSH_KEY length: $(echo "$SSH_KEY" | wc -c)"
-          echo "🔍 SSH Key starts with: $(echo "$SSH_KEY" | cut -c1-5)"
 
           # Tạo private key file
           echo "$SSH_KEY" > private_key.pem
