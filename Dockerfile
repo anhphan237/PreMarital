@@ -5,6 +5,7 @@ WORKDIR /app
 # Chỉ copy file cần thiết trước để tận dụng cache
 COPY .mvn/ .mvn/
 COPY mvnw pom.xml ./
+COPY src/ src/
 
 # Cấp quyền thực thi cho mvnw và build project
 RUN chmod +x mvnw
@@ -25,7 +26,7 @@ FROM eclipse-temurin:17-jre-alpine AS production
 WORKDIR /app
 
 # Chỉ copy file .jar đã build từ builder stage
-COPY --from=builder /app/target/*.jar app.jar
+COPY --from=builder /app/target/premarital-0.0.1-SNAPSHOT.jar app.jar
 
 # Mở cổng 8080 cho ứng dụng
 EXPOSE 8080
