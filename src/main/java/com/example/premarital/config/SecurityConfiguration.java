@@ -35,8 +35,8 @@ public class SecurityConfiguration {
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
-                .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .httpBasic(Customizer.withDefaults());
+                .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                //.httpBasic(Customizer.withDefaults());
         return http.build();
     }
 }
