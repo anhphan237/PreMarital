@@ -24,12 +24,8 @@ public class ApplicationConfiguration {
         return email -> {
             System.out.println("Looking for user: " + email);
 
-            final String processedEmail = request.getRequestURI().contains("/login")
-                    ? email
-                    : email + "@gmail.com";
-
-            return userRepository.findByEmail(processedEmail)
-                    .orElseThrow(() -> new UsernameNotFoundException("Email not found: " + processedEmail));
+            return userRepository.findByEmail(email)
+                    .orElseThrow(() -> new UsernameNotFoundException("Email not found: " + email));
         };
     }
 
