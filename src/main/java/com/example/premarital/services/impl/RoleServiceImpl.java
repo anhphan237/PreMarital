@@ -4,8 +4,10 @@ import com.example.premarital.common.pagination.PaginationRequest;
 import com.example.premarital.common.pagination.PaginationUtils;
 import com.example.premarital.common.pagination.PagingResult;
 import com.example.premarital.dtos.RoleDTO;
+import com.example.premarital.dtos.TherapistDTO;
 import com.example.premarital.mappers.RoleMapper;
 import com.example.premarital.models.Role;
+import com.example.premarital.models.Therapist;
 import com.example.premarital.repositories.RoleRepository;
 import com.example.premarital.services.RoleService;
 import org.springframework.data.domain.Page;
@@ -13,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.function.Function;
 
 @Service
 public class RoleServiceImpl implements RoleService {
@@ -25,18 +28,19 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public PagingResult<RoleDTO> getRoles(PaginationRequest request) {
-        final Pageable pageable = PaginationUtils.getPageable(request);
-        final Page<Role> entities = roleRepository.findAll(pageable);
-        final List<RoleDTO> entitiesDto = entities.stream().map(roleMapper::toDTO).toList();
-        return new PagingResult<>(
-                entitiesDto,
-                entities.getTotalPages(),
-                entities.getTotalElements(),
-                entities.getSize(),
-                entities.getNumber(),
-                entities.isEmpty()
-        );
+    public Page<RoleDTO> getRoles(Pageable pageable) {
+        Page<Role> entities = roleRepository.findAll(pageable);
+        Page<RoleDTO> dtoPage = entities.map(new Function<Role, RoleDTO>() {
+
+            @Override
+            public RoleDTO apply(Role role) {
+                RoleDTO roleDTO = new RoleDTO();
+                roleDTO.setId(role.getId());
+                roleDTO.setName(role.getName());
+                return roleDTO;
+            }
+        });
+        return dtoPage;
     }
 
     @Override

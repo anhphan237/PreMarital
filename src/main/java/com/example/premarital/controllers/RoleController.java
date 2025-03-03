@@ -3,8 +3,12 @@ package com.example.premarital.controllers;
 import com.example.premarital.common.pagination.PaginationRequest;
 import com.example.premarital.common.pagination.PagingResult;
 import com.example.premarital.dtos.RoleDTO;
+import com.example.premarital.dtos.TherapistDTO;
 import com.example.premarital.models.Role;
 import com.example.premarital.services.RoleService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,14 +25,19 @@ public class RoleController {
     }
 
     @GetMapping
-    public ResponseEntity<PagingResult<RoleDTO>> findAll(
+    public ResponseEntity<Page<RoleDTO>> findAll(
             @RequestParam(required = false) Integer page,
             @RequestParam(required = false) Integer size,
-            @RequestParam(required = false) String sortField,
+            @RequestParam(required = false) String sort,
             @RequestParam(required = false) Sort.Direction direction
     ){
-        final PaginationRequest request = new PaginationRequest(page - 1, size, sortField, direction);
-        final PagingResult<RoleDTO> roles = roleService.getRoles(request);
+        Pageable pageable = PageRequest.of(
+                page - 1,
+                size,
+                direction != null ? direction : Sort.Direction.ASC,
+                sort != null ? sort : "id"
+        );
+        Page<RoleDTO> roles = roleService.getRoles(pageable);
         return new ResponseEntity<>(roles, HttpStatus.OK);
     }
 
