@@ -2,6 +2,8 @@ package com.example.premarital.models;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "therapist_majors")
 public class TherapistMajor {
@@ -10,17 +12,16 @@ public class TherapistMajor {
     private Long id;
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "therapist_id", nullable = false)
-    private Therapist therapist;
+    @OneToMany(mappedBy = "therapistMajor")
+    private List<Therapist> therapists;
 
     public TherapistMajor() {
     }
 
-    public TherapistMajor(Long id, String name, Therapist therapist) {
+    public TherapistMajor(Long id, String name, List<Therapist> therapists) {
         this.id = id;
         this.name = name;
-        this.therapist = therapist;
+        this.therapists = therapists;
     }
 
     public Long getId() {
@@ -39,11 +40,11 @@ public class TherapistMajor {
         this.name = name;
     }
 
-    public Therapist getTherapist() {
-        return therapist;
+    public List<Therapist> getTherapists() {
+        return therapists;
     }
 
-    public void setTherapist(Therapist therapist) {
-        this.therapist = therapist;
+    public void setTherapists(List<Therapist> therapists) {
+        this.therapists = therapists;
     }
 }

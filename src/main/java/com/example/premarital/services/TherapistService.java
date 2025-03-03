@@ -4,9 +4,11 @@ import com.example.premarital.common.pagination.PaginationRequest;
 import com.example.premarital.common.pagination.PagingResult;
 import com.example.premarital.dtos.TherapistDTO;
 import com.example.premarital.models.Therapist;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface TherapistService {
-    PagingResult<TherapistDTO> getTherapists(PaginationRequest request);
+    Page<TherapistDTO> getTherapists(Pageable pageable);
     TherapistDTO createTherapist(TherapistDTO dto);
     Therapist getTherapistById(Long id);
     boolean deleteTherapistById(Long id);

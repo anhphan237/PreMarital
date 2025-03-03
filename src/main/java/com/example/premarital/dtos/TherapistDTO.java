@@ -8,11 +8,12 @@ public class TherapistDTO {
     private String certificationIssuedBy;
     private String certificationIssueDate;
     private String certificationExpirationDate;
+    private Long therapistMajorId;
 
     public TherapistDTO() {
     }
 
-    public TherapistDTO(Long id, Long userId, String bio, String therapistCertificationName, String certificationIssuedBy, String certificationIssueDate, String certificationExpirationDate) {
+    public TherapistDTO(Long id, Long userId, String bio, String therapistCertificationName, String certificationIssuedBy, String certificationIssueDate, String certificationExpirationDate, Long therapistMajorId) {
         this.id = id;
         this.userId = userId;
         this.bio = bio;
@@ -20,6 +21,15 @@ public class TherapistDTO {
         this.certificationIssuedBy = certificationIssuedBy;
         this.certificationIssueDate = certificationIssueDate;
         this.certificationExpirationDate = certificationExpirationDate;
+        this.therapistMajorId = therapistMajorId;
+    }
+
+    public Long getTherapistMajorId() {
+        return therapistMajorId;
+    }
+
+    public void setTherapistMajorId(Long therapistMajorId) {
+        this.therapistMajorId = therapistMajorId;
     }
 
     public Long getId() {

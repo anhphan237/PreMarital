@@ -4,8 +4,10 @@ import com.example.premarital.common.pagination.PaginationRequest;
 import com.example.premarital.common.pagination.PaginationUtils;
 import com.example.premarital.common.pagination.PagingResult;
 import com.example.premarital.dtos.TherapistDTO;
+import com.example.premarital.dtos.TherapistMajorDTO;
 import com.example.premarital.mappers.TherapistMapper;
 import com.example.premarital.models.Therapist;
+import com.example.premarital.models.TherapistMajor;
 import com.example.premarital.repositories.TherapistRepository;
 import com.example.premarital.services.TherapistService;
 import org.springframework.data.domain.Page;
@@ -13,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.function.Function;
 
 @Service
 public class TherapistServiceImpl implements TherapistService {
@@ -25,18 +28,23 @@ public class TherapistServiceImpl implements TherapistService {
     }
 
     @Override
-    public PagingResult<TherapistDTO> getTherapists(PaginationRequest request) {
-        final Pageable pageable = PaginationUtils.getPageable(request);
-        final Page<Therapist> entities = therapistRepository.findAll(pageable);
-        final List<TherapistDTO> entitiesDto = entities.stream().map(therapistMapper::toDTO).toList();
-        return new PagingResult<>(
-                entitiesDto,
-                entities.getTotalPages(),
-                entities.getTotalElements(),
-                entities.getSize(),
-                entities.getNumber(),
-                entities.isEmpty()
-        );
+    public Page<TherapistDTO> getTherapists(Pageable pageable) {
+        Page<Therapist> entities = therapistRepository.findAll(pageable);
+        Page<TherapistDTO> dtoPage = entities.map(new Function<Therapist, TherapistDTO>() {
+
+            @Override
+            public TherapistDTO apply(Therapist therapist) {
+                TherapistDTO dto = new TherapistDTO();
+                dto.setId(therapist.getId());
+                dto.setTherapistMajorId(therapist.getTherapistMajor() == null ? null : therapist.getTherapistMajor().getId());
+                dto.setBio(therapist.getBio());
+                dto.setCertificationExpirationDate(therapist.getCertificationExpirationDate());
+                dto.setCertificationIssueDate(therapist.getCertificationIssueDate());
+                dto.setCertificationIssueDate(therapist.getCertificationIssueDate());
+                return dto;
+            }
+        });
+        return dtoPage;
     }
 
     @Override
