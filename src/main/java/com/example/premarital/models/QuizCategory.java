@@ -1,9 +1,15 @@
 package com.example.premarital.models;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "quiz_categories")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class QuizCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,37 +22,4 @@ public class QuizCategory {
     @ManyToOne
     @JoinColumn(name = "quiz_id", nullable = false)
     private Quiz quiz;
-
-    public QuizCategory(Long id, Category category, Quiz quiz) {
-        this.id = id;
-        this.category = category;
-        this.quiz = quiz;
-    }
-
-    public QuizCategory() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
-    public Quiz getQuiz() {
-        return quiz;
-    }
-
-    public void setQuiz(Quiz quiz) {
-        this.quiz = quiz;
-    }
 }

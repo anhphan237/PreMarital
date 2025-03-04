@@ -6,6 +6,8 @@ import com.example.premarital.repositories.QuizQuestionRepository;
 import com.example.premarital.common.pagination.PaginationRequest;
 import com.example.premarital.common.pagination.PagingResult;
 import com.example.premarital.services.QuizQuestionService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,13 +19,13 @@ public class QuizQuestionServiceImpl implements QuizQuestionService {
     }
 
     @Override
-    public PagingResult<QuizQuestionDTO> getQuizQuestions(PaginationRequest request) {
+    public Page<QuizQuestionDTO> getQuizQuestions(Pageable pageable) {
         return null;
     }
 
     @Override
-    public QuizQuestionDTO createQuizQuestion(QuizQuestionDTO dto) {
-        return null;
+    public void createQuizQuestion(QuizQuestionDTO dto) {
+
     }
 
     @Override
