@@ -1,11 +1,17 @@
 package com.example.premarital.models;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Entity
 @Table(name = "user_quiz_histories")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserQuizHistory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,16 +31,4 @@ public class UserQuizHistory {
 
     @OneToMany(mappedBy = "userQuizHistory")
     private List<UserAnswer> userAnswer;
-
-    public UserQuizHistory() {
-    }
-
-    public UserQuizHistory(Long id, User user, List<Quiz> quiz, int quizPoint, QuizUserAdvice quizUserAdvice, List<UserAnswer> userAnswer) {
-        this.id = id;
-        this.user = user;
-        this.quiz = quiz;
-        this.quizPoint = quizPoint;
-        this.quizUserAdvice = quizUserAdvice;
-        this.userAnswer = userAnswer;
-    }
 }

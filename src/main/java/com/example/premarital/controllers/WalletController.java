@@ -21,7 +21,7 @@ public class WalletController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<WalletDTO>> getUsers(
+    public ResponseEntity<Page<WalletDTO>> getWallets(
             @RequestParam(required = false) Integer page,
             @RequestParam(required = false) Integer size,
             @RequestParam(required = false) String sort,
