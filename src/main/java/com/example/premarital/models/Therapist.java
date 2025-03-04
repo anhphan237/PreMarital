@@ -17,8 +17,12 @@ public class Therapist {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "therapist", fetch = FetchType.LAZY)
-    private List<TherapistMajor> therapistMajor;
+    @ManyToOne
+    @JoinColumn(name = "therapist_major_id", nullable = false)
+    private TherapistMajor therapistMajor;
+
+    @OneToMany(mappedBy = "therapist")
+    private List<TherapistSchedule> therapistSchedules;
 
     @OneToMany(mappedBy = "therapist", fetch = FetchType.LAZY)
     private List<Article> articles;
@@ -32,23 +36,41 @@ public class Therapist {
     public Therapist() {
     }
 
-    public Therapist(Long id, User user, List<TherapistMajor> therapistMajor, String bio, String therapistCertificationName, String certificationIssuedBy, String certificationIssueDate, String certificationExpirationDate) {
-        this.id = id;
-        this.user = user;
-        this.therapistMajor = therapistMajor;
-        this.bio = bio;
-        this.therapistCertificationName = therapistCertificationName;
-        this.certificationIssuedBy = certificationIssuedBy;
-        this.certificationIssueDate = certificationIssueDate;
+    public Therapist(String certificationExpirationDate, String certificationIssueDate, String certificationIssuedBy, String therapistCertificationName, String bio, List<Article> articles, List<TherapistSchedule> therapistSchedules, TherapistMajor therapistMajor, User user, Long id) {
         this.certificationExpirationDate = certificationExpirationDate;
+        this.certificationIssueDate = certificationIssueDate;
+        this.certificationIssuedBy = certificationIssuedBy;
+        this.therapistCertificationName = therapistCertificationName;
+        this.bio = bio;
+        this.articles = articles;
+        this.therapistSchedules = therapistSchedules;
+        this.therapistMajor = therapistMajor;
+        this.user = user;
+        this.id = id;
     }
 
-    public List<TherapistMajor> getTherapistMajor() {
+    public List<TherapistSchedule> getTherapistSchedule() {
+        return therapistSchedules;
+    }
+
+    public void setTherapistSchedule(List<TherapistSchedule> therapistSchedule) {
+        this.therapistSchedules = therapistSchedule;
+    }
+
+    public TherapistMajor getTherapistMajor() {
         return therapistMajor;
     }
 
-    public void setTherapistMajor(List<TherapistMajor> therapistMajor) {
+    public void setTherapistMajor(TherapistMajor therapistMajor) {
         this.therapistMajor = therapistMajor;
+    }
+
+    public List<Article> getArticles() {
+        return articles;
+    }
+
+    public void setArticles(List<Article> articles) {
+        this.articles = articles;
     }
 
     public Long getId() {
