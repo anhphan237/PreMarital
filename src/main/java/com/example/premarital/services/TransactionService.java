@@ -4,10 +4,12 @@ import com.example.premarital.common.pagination.PaginationRequest;
 import com.example.premarital.common.pagination.PagingResult;
 import com.example.premarital.dtos.TransactionDTO;
 import com.example.premarital.models.Transaction;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface TransactionService {
-    PagingResult<TransactionDTO> getTransactions(PaginationRequest request);
-    TransactionDTO createTransaction(TransactionDTO dto);
+    Page<TransactionDTO> getTransactions(Pageable pageable);
+    void createTransaction(TransactionDTO dto);
     Transaction getTransactionById(Long id);
     boolean deleteTransactionById(Long id);
     boolean updateTransaction(Long id, TransactionDTO updatedTransactionDTO);
