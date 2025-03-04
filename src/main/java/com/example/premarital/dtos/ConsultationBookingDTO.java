@@ -8,18 +8,28 @@ public class ConsultationBookingDTO {
     private String status;
     private Long amount;
     private String meetUrl;
+    private Long categoryId;
 
     public ConsultationBookingDTO() {
     }
 
-    public ConsultationBookingDTO(Long id, Long therapistScheduleId, Long userId, Long transactionId, String status, Long amount, String meetUrl) {
+    public ConsultationBookingDTO(Long id, Long categoryId, String meetUrl, Long amount, String status, Long transactionId, Long userId, Long therapistScheduleId) {
         this.id = id;
-        this.therapistScheduleId = therapistScheduleId;
-        this.userId = userId;
-        this.transactionId = transactionId;
-        this.status = status;
-        this.amount = amount;
+        this.categoryId = categoryId;
         this.meetUrl = meetUrl;
+        this.amount = amount;
+        this.status = status;
+        this.transactionId = transactionId;
+        this.userId = userId;
+        this.therapistScheduleId = therapistScheduleId;
+    }
+
+    public Long getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
     }
 
     public Long getId() {

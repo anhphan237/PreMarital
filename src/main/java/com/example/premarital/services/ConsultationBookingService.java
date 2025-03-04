@@ -9,7 +9,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface ConsultationBookingService {
     Page<ConsultationBookingDTO> getConsultationBookings(Pageable pageable);
-    ConsultationBookingDTO createConsultationBooking(ConsultationBookingDTO dto);
+    void createConsultationBooking(ConsultationBookingDTO dto);
     ConsultationBooking getConsultationBookingById(Long id);
     boolean deleteConsultationBookingById(Long id);
     boolean updateConsultationBooking(Long id, ConsultationBookingDTO updatedConsultationBookingDTO);
