@@ -33,8 +33,8 @@ public class CategoryController {
                 direction != null ? direction : Sort.Direction.ASC,
                 sort != null ? sort : "id"
         );
-        Page<CategoryDTO> consultationBookingDTOS = categoryService.getCategories(pageable);
-        return new ResponseEntity<>(consultationBookingDTOS, HttpStatus.OK);
+        Page<CategoryDTO> categoryDTOS = categoryService.getCategories(pageable);
+        return new ResponseEntity<>(categoryDTOS, HttpStatus.OK);
     }
 
     @PostMapping
