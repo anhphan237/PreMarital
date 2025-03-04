@@ -1,8 +1,10 @@
 package com.example.premarital.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -17,21 +19,23 @@ public class WithdrawRequest {
     private User user;
 
     private Long requestAmount;
+    @JsonFormat(pattern = "dd/MM/yyyy")
     @DateTimeFormat(pattern = "dd/MM/yyyy")
-    private Date requestDate;
+    private LocalDate requestDate;
     private boolean isApproved;
     private Long approvedBy;
+    @JsonFormat(pattern = "dd/MM/yyyy")
     @DateTimeFormat(pattern = "dd/MM/yyyy")
-    private Date approvedDate;
+    private LocalDate approvedDate;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "transaction_id", nullable = false)
+    @JoinColumn(name = "transaction_id")
     private Transaction transaction;
 
     public WithdrawRequest() {
     }
 
-    public WithdrawRequest(Long id, User user, Long requestAmount, Date requestDate, boolean isApproved, Long approvedBy, Date approvedDate) {
+    public WithdrawRequest(Long id, User user, Long requestAmount, LocalDate requestDate, boolean isApproved, Long approvedBy, LocalDate approvedDate, Transaction transaction) {
         this.id = id;
         this.user = user;
         this.requestAmount = requestAmount;
@@ -39,6 +43,7 @@ public class WithdrawRequest {
         this.isApproved = isApproved;
         this.approvedBy = approvedBy;
         this.approvedDate = approvedDate;
+        this.transaction = transaction;
     }
 
     public Long getId() {
@@ -65,13 +70,6 @@ public class WithdrawRequest {
         this.requestAmount = requestAmount;
     }
 
-    public Date getRequestDate() {
-        return requestDate;
-    }
-
-    public void setRequestDate(Date requestDate) {
-        this.requestDate = requestDate;
-    }
 
     public boolean isApproved() {
         return isApproved;
@@ -89,11 +87,27 @@ public class WithdrawRequest {
         this.approvedBy = approvedBy;
     }
 
-    public Date getApprovedDate() {
+    public LocalDate getRequestDate() {
+        return requestDate;
+    }
+
+    public void setRequestDate(LocalDate requestDate) {
+        this.requestDate = requestDate;
+    }
+
+    public LocalDate getApprovedDate() {
         return approvedDate;
     }
 
-    public void setApprovedDate(Date approvedDate) {
+    public void setApprovedDate(LocalDate approvedDate) {
         this.approvedDate = approvedDate;
+    }
+
+    public Transaction getTransaction() {
+        return transaction;
+    }
+
+    public void setTransaction(Transaction transaction) {
+        this.transaction = transaction;
     }
 }
