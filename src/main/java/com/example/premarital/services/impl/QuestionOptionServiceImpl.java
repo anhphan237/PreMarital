@@ -6,6 +6,8 @@ import com.example.premarital.dtos.QuestionOptionDTO;
 import com.example.premarital.models.QuestionOption;
 import com.example.premarital.repositories.QuestionOptionRepository;
 import com.example.premarital.services.QuestionOptionService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,13 +19,14 @@ public class QuestionOptionServiceImpl implements QuestionOptionService {
     }
 
     @Override
-    public PagingResult<QuestionOptionDTO> getQuestionOptions(PaginationRequest request) {
+    public Page<QuestionOptionDTO> getQuestionOptions(Pageable pageable) {
+
         return null;
     }
 
     @Override
-    public QuestionOptionDTO createQuestionOption(QuestionOptionDTO dto) {
-        return null;
+    public void createQuestionOption(QuestionOptionDTO dto) {
+
     }
 
     @Override

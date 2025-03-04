@@ -46,7 +46,7 @@ public class ArticleMapperImpl implements ArticleMapper {
         }
 
         if (dto.getCategoryId() != null) {
-            Category category = categoryRepository.findById(dto.getCategoryId()).orElse(null);
+            Category category = categoryRepository.getReferenceById(dto.getCategoryId());
             article.setCategory(category);
         }
 
@@ -66,7 +66,8 @@ public class ArticleMapperImpl implements ArticleMapper {
             article.getStatus(),
             (article.getApprovedAdmin() != null) ? article.getApprovedAdmin().getId() : null,
             (article.getTherapist() != null) ? article.getTherapist().getId() : null,
-            (article.getCategory() != null) ? article.getCategory().getId() : null
+            (article.getCategory() != null) ? article.getCategory().getId() : null,
+            (article.getReferenceArticle() != null) ? article.getReferenceArticle().getId() : null
         );
     }
 }

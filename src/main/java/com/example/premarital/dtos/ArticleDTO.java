@@ -15,4 +15,5 @@ public class ArticleDTO {
     private Long approvedUserId;
     private Long therapistId;
     private Long categoryId;
+    private Long referenceArticleId;
 }
