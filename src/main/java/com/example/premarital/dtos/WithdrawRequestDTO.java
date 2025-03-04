@@ -1,24 +1,29 @@
 package com.example.premarital.dtos;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class WithdrawRequestDTO {
     private Long id;
     private Long userId;
     private Long requestAmount;
+    @JsonFormat(pattern = "dd/MM/yyyy")
     @DateTimeFormat(pattern = "dd/MM/yyyy")
-    private Date requestDate;
+    private LocalDate requestDate;
     private boolean isApproved;
     private Long approvedBy;
+    @JsonFormat(pattern = "dd/MM/yyyy")
     @DateTimeFormat(pattern = "dd/MM/yyyy")
-    private Date approvedDate;
+    private LocalDate approvedDate;
+    private Long transactionId;
 
     public WithdrawRequestDTO() {
     }
 
-    public WithdrawRequestDTO(Long id, Long userId, Long requestAmount, Date requestDate, boolean isApproved, Long approvedBy, Date approvedDate) {
+    public WithdrawRequestDTO(Long id, Long userId, Long requestAmount, LocalDate requestDate, boolean isApproved, Long approvedBy, LocalDate approvedDate, Long transactionId) {
         this.id = id;
         this.userId = userId;
         this.requestAmount = requestAmount;
@@ -26,6 +31,15 @@ public class WithdrawRequestDTO {
         this.isApproved = isApproved;
         this.approvedBy = approvedBy;
         this.approvedDate = approvedDate;
+        this.transactionId = transactionId;
+    }
+
+    public Long getTransactionId() {
+        return transactionId;
+    }
+
+    public void setTransactionId(Long transactionId) {
+        this.transactionId = transactionId;
     }
 
     public Long getId() {
@@ -52,13 +66,6 @@ public class WithdrawRequestDTO {
         this.requestAmount = requestAmount;
     }
 
-    public Date getRequestDate() {
-        return requestDate;
-    }
-
-    public void setRequestDate(Date requestDate) {
-        this.requestDate = requestDate;
-    }
 
     public boolean isApproved() {
         return isApproved;
@@ -76,11 +83,19 @@ public class WithdrawRequestDTO {
         this.approvedBy = approvedBy;
     }
 
-    public Date getApprovedDate() {
+    public LocalDate getRequestDate() {
+        return requestDate;
+    }
+
+    public void setRequestDate(LocalDate requestDate) {
+        this.requestDate = requestDate;
+    }
+
+    public LocalDate getApprovedDate() {
         return approvedDate;
     }
 
-    public void setApprovedDate(Date approvedDate) {
+    public void setApprovedDate(LocalDate approvedDate) {
         this.approvedDate = approvedDate;
     }
 }

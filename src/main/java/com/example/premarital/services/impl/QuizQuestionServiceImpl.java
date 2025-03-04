@@ -1,29 +1,48 @@
 package com.example.premarital.services.impl;
 
 import com.example.premarital.dtos.QuizQuestionDTO;
+import com.example.premarital.dtos.WalletDTO;
+import com.example.premarital.mappers.QuizQuestionMapper;
 import com.example.premarital.models.QuizQuestion;
+import com.example.premarital.models.Wallet;
 import com.example.premarital.repositories.QuizQuestionRepository;
 import com.example.premarital.common.pagination.PaginationRequest;
 import com.example.premarital.common.pagination.PagingResult;
 import com.example.premarital.services.QuizQuestionService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.function.Function;
 
 @Service
 public class QuizQuestionServiceImpl implements QuizQuestionService {
     private final QuizQuestionRepository quizQuestionRepository;
+    private final QuizQuestionMapper quizQuestionMapper;
 
-    public QuizQuestionServiceImpl(QuizQuestionRepository quizQuestionRepository) {
+    public QuizQuestionServiceImpl(QuizQuestionRepository quizQuestionRepository, QuizQuestionMapper quizQuestionMapper) {
         this.quizQuestionRepository = quizQuestionRepository;
+        this.quizQuestionMapper = quizQuestionMapper;
     }
 
     @Override
-    public PagingResult<QuizQuestionDTO> getQuizQuestions(PaginationRequest request) {
-        return null;
+    public Page<QuizQuestionDTO> getQuizQuestions(Pageable pageable) {
+        Page<QuizQuestion> entities = quizQuestionRepository.findAll(pageable);
+        Page<QuizQuestionDTO> dtoPage = entities.map(new Function<QuizQuestion, QuizQuestionDTO>() {
+
+            @Override
+            public QuizQuestionDTO apply(QuizQuestion quizQuestion) {
+                QuizQuestionDTO dto = quizQuestionMapper.toDTO(quizQuestion);
+                return dto;
+            }
+        });
+        return dtoPage;
     }
 
     @Override
-    public QuizQuestionDTO createQuizQuestion(QuizQuestionDTO dto) {
-        return null;
+    public void createQuizQuestion(QuizQuestionDTO dto) {
+        QuizQuestion quizQuestion = quizQuestionMapper.toEntity(dto);
+        quizQuestionRepository.save(quizQuestion);
     }
 
     @Override

@@ -1,9 +1,15 @@
 package com.example.premarital.models;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "question_options")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class QuestionOption {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,39 +22,4 @@ public class QuestionOption {
     private String optionText;
 
     private int point;
-
-    public QuestionOption() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Question getQuestion() {
-        return question;
-    }
-
-    public void setQuestion(Question question) {
-        this.question = question;
-    }
-
-    public String getOptionText() {
-        return optionText;
-    }
-
-    public void setOptionText(String optionText) {
-        this.optionText = optionText;
-    }
-
-    public int getPoint() {
-        return point;
-    }
-
-    public void setPoint(int point) {
-        this.point = point;
-    }
 }

@@ -1,9 +1,15 @@
 package com.example.premarital.models;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "user_answers")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserAnswer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,31 +22,4 @@ public class UserAnswer {
     @ManyToOne
     @JoinColumn(name = "quiz_question_id", nullable = false)
     private QuizQuestion quizQuestion;
-
-    public UserAnswer() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public UserQuizHistory getUserQuizHistory() {
-        return userQuizHistory;
-    }
-
-    public void setUserQuizHistory(UserQuizHistory userQuizHistory) {
-        this.userQuizHistory = userQuizHistory;
-    }
-
-    public QuizQuestion getQuizQuestion() {
-        return quizQuestion;
-    }
-
-    public void setQuizQuestion(QuizQuestion quizQuestion) {
-        this.quizQuestion = quizQuestion;
-    }
 }

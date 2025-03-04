@@ -4,10 +4,12 @@ import com.example.premarital.common.pagination.PaginationRequest;
 import com.example.premarital.common.pagination.PagingResult;
 import com.example.premarital.dtos.QuizDTO;
 import com.example.premarital.models.Quiz;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface QuizService {
-    PagingResult<QuizDTO> getQuizzes(PaginationRequest request);
-    QuizDTO createQuiz(QuizDTO dto);
+    Page<QuizDTO> getQuizzes(Pageable pageable);
+    void createQuiz(QuizDTO dto);
     Quiz getQuizById(Long id);
     boolean deleteQuizById(Long id);
     boolean updateQuiz(Long id, QuizDTO updatedQuizDTO);

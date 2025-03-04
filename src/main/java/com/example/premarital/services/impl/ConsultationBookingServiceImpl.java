@@ -2,6 +2,8 @@ package com.example.premarital.services.impl;
 
 import com.example.premarital.common.pagination.PaginationRequest;
 import com.example.premarital.common.pagination.PagingResult;
+import com.example.premarital.mappers.ConsultationBookingMapper;
+import com.example.premarital.repositories.CategoryRepository;
 import com.example.premarital.services.ConsultationBookingService;
 import com.example.premarital.dtos.ConsultationBookingDTO;
 import com.example.premarital.models.ConsultationBooking;
@@ -13,9 +15,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class ConsultationBookingServiceImpl implements ConsultationBookingService {
     private final ConsultationBookingRepository consultationBookingRepository;
+    private final ConsultationBookingMapper consultationBookingMapper;
 
-    public ConsultationBookingServiceImpl(ConsultationBookingRepository consultationBookingRepository) {
+    public ConsultationBookingServiceImpl(ConsultationBookingRepository consultationBookingRepository, ConsultationBookingMapper consultationBookingMapper) {
         this.consultationBookingRepository = consultationBookingRepository;
+        this.consultationBookingMapper = consultationBookingMapper;
     }
 
     @Override
@@ -24,8 +28,9 @@ public class ConsultationBookingServiceImpl implements ConsultationBookingServic
     }
 
     @Override
-    public ConsultationBookingDTO createConsultationBooking(ConsultationBookingDTO dto) {
-        return null;
+    public void createConsultationBooking(ConsultationBookingDTO dto) {
+        ConsultationBooking consultationBooking = consultationBookingMapper.toEntity(dto);
+        consultationBookingRepository.save(consultationBooking);
     }
 
     @Override
