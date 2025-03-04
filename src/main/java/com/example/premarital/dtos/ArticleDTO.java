@@ -1,5 +1,12 @@
 package com.example.premarital.dtos;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ArticleDTO {
     private Long id;
     private String title;
@@ -8,7 +15,4 @@ public class ArticleDTO {
     private Long approvedUserId;
     private Long therapistId;
     private Long categoryId;
-
-    public ArticleDTO() {
-    }
 }
