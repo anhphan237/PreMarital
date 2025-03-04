@@ -41,7 +41,7 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public void createQuestion(QuestionDTO dto) {
-        Question question = new Question();
+        Question question = questionMapper.toEntity(dto);
         questionRepository.save(question);
     }
 
