@@ -33,8 +33,8 @@ public class UserQuizHistoryController {
                 direction != null ? direction : Sort.Direction.ASC,
                 sort != null ? sort : "id"
         );
-        Page<UserQuizHistoryDTO> userQuizHistorys = userQuizHistoryService.getUserQuizHistorys(pageable);
-        return new ResponseEntity<>(userQuizHistorys, HttpStatus.OK);
+        Page<UserQuizHistoryDTO> userQuizHistories = userQuizHistoryService.getUserQuizHistories(pageable);
+        return new ResponseEntity<>(userQuizHistories, HttpStatus.OK);
     }
 
     @PostMapping

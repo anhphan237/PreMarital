@@ -26,7 +26,7 @@ public class UserQuizHistoryServiceImpl implements UserQuizHistoryService {
     }
 
     @Override
-    public Page<UserQuizHistoryDTO> getUserQuizHistorys(Pageable pageable) {
+    public Page<UserQuizHistoryDTO> getUserQuizHistories(Pageable pageable) {
         Page<UserQuizHistory> entities = userQuizHistoryRepository.findAll(pageable);
         Page<UserQuizHistoryDTO> dtoPage = entities.map(new Function<UserQuizHistory, UserQuizHistoryDTO>() {
 
