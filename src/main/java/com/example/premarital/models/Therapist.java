@@ -21,6 +21,9 @@ public class Therapist {
     @JoinColumn(name = "therapist_major_id", nullable = false)
     private TherapistMajor therapistMajor;
 
+    @OneToMany(mappedBy = "therapist")
+    private List<TherapistSchedule> therapistSchedules;
+
     @OneToMany(mappedBy = "therapist", fetch = FetchType.LAZY)
     private List<Article> articles;
 
@@ -33,16 +36,25 @@ public class Therapist {
     public Therapist() {
     }
 
-    public Therapist(Long id, User user, TherapistMajor therapistMajor, List<Article> articles, String bio, String therapistCertificationName, String certificationIssuedBy, String certificationIssueDate, String certificationExpirationDate) {
-        this.id = id;
-        this.user = user;
-        this.therapistMajor = therapistMajor;
-        this.articles = articles;
-        this.bio = bio;
-        this.therapistCertificationName = therapistCertificationName;
-        this.certificationIssuedBy = certificationIssuedBy;
-        this.certificationIssueDate = certificationIssueDate;
+    public Therapist(String certificationExpirationDate, String certificationIssueDate, String certificationIssuedBy, String therapistCertificationName, String bio, List<Article> articles, List<TherapistSchedule> therapistSchedules, TherapistMajor therapistMajor, User user, Long id) {
         this.certificationExpirationDate = certificationExpirationDate;
+        this.certificationIssueDate = certificationIssueDate;
+        this.certificationIssuedBy = certificationIssuedBy;
+        this.therapistCertificationName = therapistCertificationName;
+        this.bio = bio;
+        this.articles = articles;
+        this.therapistSchedules = therapistSchedules;
+        this.therapistMajor = therapistMajor;
+        this.user = user;
+        this.id = id;
+    }
+
+    public List<TherapistSchedule> getTherapistSchedule() {
+        return therapistSchedules;
+    }
+
+    public void setTherapistSchedule(List<TherapistSchedule> therapistSchedule) {
+        this.therapistSchedules = therapistSchedule;
     }
 
     public TherapistMajor getTherapistMajor() {

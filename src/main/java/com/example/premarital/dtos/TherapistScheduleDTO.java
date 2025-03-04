@@ -1,29 +1,39 @@
 package com.example.premarital.dtos;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 
 public class TherapistScheduleDTO {
     private Long id;
     private Long therapistId;
+    @JsonFormat(pattern = "dd/MM/yyyy")
     @DateTimeFormat(pattern = "dd/MM/yyyy")
-    private Date availableDate;
+    private LocalDate availableDate;
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
+    @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm:ss")
     private LocalDateTime startTime;
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
+    @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm:ss")
     private LocalDateTime endTime;
     private boolean isBooked;
 
     public TherapistScheduleDTO() {
     }
 
-    public TherapistScheduleDTO(Long id, Long therapistId, Date availableDate, LocalDateTime startTime, LocalDateTime endTime, boolean isBooked) {
-        this.id = id;
-        this.therapistId = therapistId;
+    public void setAvailableDate(LocalDate availableDate) {
         this.availableDate = availableDate;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
         this.startTime = startTime;
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
-        this.isBooked = isBooked;
     }
 
     public Long getId() {
@@ -42,28 +52,16 @@ public class TherapistScheduleDTO {
         this.therapistId = therapistId;
     }
 
-    public Date getAvailableDate() {
+    public LocalDate getAvailableDate() {
         return availableDate;
-    }
-
-    public void setAvailableDate(Date availableDate) {
-        this.availableDate = availableDate;
     }
 
     public LocalDateTime getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(LocalDateTime startTime) {
-        this.startTime = startTime;
-    }
-
     public LocalDateTime getEndTime() {
         return endTime;
-    }
-
-    public void setEndTime(LocalDateTime endTime) {
-        this.endTime = endTime;
     }
 
     public boolean isBooked() {

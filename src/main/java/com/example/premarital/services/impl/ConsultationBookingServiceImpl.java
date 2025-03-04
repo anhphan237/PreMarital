@@ -6,7 +6,11 @@ import com.example.premarital.services.ConsultationBookingService;
 import com.example.premarital.dtos.ConsultationBookingDTO;
 import com.example.premarital.models.ConsultationBooking;
 import com.example.premarital.repositories.ConsultationBookingRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ConsultationBookingServiceImpl implements ConsultationBookingService {
     private final ConsultationBookingRepository consultationBookingRepository;
 
@@ -15,7 +19,7 @@ public class ConsultationBookingServiceImpl implements ConsultationBookingServic
     }
 
     @Override
-    public PagingResult<ConsultationBookingDTO> getConsultationBookings(PaginationRequest request) {
+    public Page<ConsultationBookingDTO> getConsultationBookings(Pageable pageable) {
         return null;
     }
 

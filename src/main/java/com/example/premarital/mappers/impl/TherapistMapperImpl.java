@@ -59,7 +59,7 @@ public class TherapistMapperImpl implements TherapistMapper {
         therapist.setCertificationIssuedBy( dto.getCertificationIssuedBy() );
         therapist.setCertificationIssueDate( dto.getCertificationIssueDate() );
         therapist.setCertificationExpirationDate( dto.getCertificationExpirationDate() );
-        therapist.setTherapistMajor( therapistMajorRepository.getById( dto.getTherapistMajorId() ) );
+        therapist.setTherapistMajor( therapistMajorRepository.getReferenceById( dto.getTherapistMajorId() ) );
 
         return therapist;
     }

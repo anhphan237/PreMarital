@@ -43,7 +43,7 @@ public class TherapistMajorController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createRole(@RequestBody TherapistMajorDTO therapistMajorDTO){
+    public ResponseEntity<String> createTherapistMajor(@RequestBody TherapistMajorDTO therapistMajorDTO){
         therapistMajorService.createTherapistMajor(therapistMajorDTO);
         return new ResponseEntity<>("Therapist major created successfully",HttpStatus.CREATED);
     }
