@@ -28,6 +28,10 @@ public class ConsultationBooking {
     @JoinColumn(name = "transaction_id", nullable = false)
     private Transaction transaction;
 
+    private String status;
+    private Long amount;
+    private String meetUrl;
+
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
