@@ -19,13 +19,13 @@ import java.util.List;
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //bắt validation, string 255???
     private Long id;
     private String username;
     private String password;
     private String firstName;
     private String lastName;
     private String email;
-
     private String street;
     private String city;
     private String state;

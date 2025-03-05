@@ -1,9 +1,6 @@
 package com.example.premarital.services.impl;
 
-import com.example.premarital.common.pagination.PaginationRequest;
-import com.example.premarital.common.pagination.PagingResult;
 import com.example.premarital.mappers.ConsultationBookingMapper;
-import com.example.premarital.repositories.CategoryRepository;
 import com.example.premarital.services.ConsultationBookingService;
 import com.example.premarital.dtos.ConsultationBookingDTO;
 import com.example.premarital.models.ConsultationBooking;

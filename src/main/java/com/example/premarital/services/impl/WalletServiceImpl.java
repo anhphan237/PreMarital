@@ -1,11 +1,7 @@
 package com.example.premarital.services.impl;
 
-import com.example.premarital.common.pagination.PaginationRequest;
-import com.example.premarital.common.pagination.PagingResult;
-import com.example.premarital.dtos.BankAccountDTO;
 import com.example.premarital.dtos.WalletDTO;
 import com.example.premarital.mappers.WalletMapper;
-import com.example.premarital.models.BankAccount;
 import com.example.premarital.models.Wallet;
 import com.example.premarital.repositories.WalletRepository;
 import com.example.premarital.services.WalletService;

@@ -1,12 +1,8 @@
 package com.example.premarital.services.impl;
 
-import com.example.premarital.common.pagination.PaginationRequest;
-import com.example.premarital.common.pagination.PagingResult;
 import com.example.premarital.dtos.TransactionDTO;
-import com.example.premarital.dtos.WalletDTO;
 import com.example.premarital.mappers.TransactionMapper;
 import com.example.premarital.models.Transaction;
-import com.example.premarital.models.Wallet;
 import com.example.premarital.repositories.TransactionRepository;
 import com.example.premarital.services.TransactionService;
 import org.springframework.data.domain.Page;

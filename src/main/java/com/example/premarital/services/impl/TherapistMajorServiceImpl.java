@@ -1,14 +1,9 @@
 package com.example.premarital.services.impl;
 
-import com.example.premarital.common.pagination.PaginationRequest;
-import com.example.premarital.common.pagination.PagingResult;
 import com.example.premarital.dtos.TherapistDTO;
 import com.example.premarital.dtos.TherapistMajorDTO;
-import com.example.premarital.dtos.UserDTO;
 import com.example.premarital.mappers.TherapistMajorMapper;
-import com.example.premarital.models.Therapist;
 import com.example.premarital.models.TherapistMajor;
-import com.example.premarital.models.User;
 import com.example.premarital.repositories.TherapistMajorRepository;
 import com.example.premarital.services.TherapistMajorService;
 import org.springframework.data.domain.Page;

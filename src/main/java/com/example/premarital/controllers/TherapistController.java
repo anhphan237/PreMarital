@@ -1,9 +1,6 @@
 package com.example.premarital.controllers;
 
-import com.example.premarital.common.pagination.PaginationRequest;
-import com.example.premarital.common.pagination.PagingResult;
 import com.example.premarital.dtos.TherapistDTO;
-import com.example.premarital.dtos.TherapistMajorDTO;
 import com.example.premarital.models.Therapist;
 import com.example.premarital.services.TherapistService;
 import org.springframework.data.domain.Page;

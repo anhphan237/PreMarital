@@ -38,8 +38,8 @@ public class WalletController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createUser(@RequestBody WalletDTO user){
-        walletService.createWallet(user);
+    public ResponseEntity<String> createWallet(@RequestBody WalletDTO wallet){
+        walletService.createWallet(wallet);
         return new ResponseEntity<>("Wallet created successfully",HttpStatus.CREATED);
     }
 }

@@ -1,13 +1,9 @@
 package com.example.premarital.services.impl;
 
-import com.example.premarital.dtos.ArticleDTO;
 import com.example.premarital.dtos.ArticlePartDTO;
 import com.example.premarital.mappers.ArticlePartMapper;
-import com.example.premarital.models.Article;
 import com.example.premarital.models.ArticlePart;
 import com.example.premarital.repositories.ArticlePartRepository;
-import com.example.premarital.common.pagination.PaginationRequest;
-import com.example.premarital.common.pagination.PagingResult;
 import com.example.premarital.services.ArticlePartService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

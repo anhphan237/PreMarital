@@ -1,7 +1,5 @@
 package com.example.premarital.controllers;
 
-import com.example.premarital.common.pagination.PaginationRequest;
-import com.example.premarital.common.pagination.PagingResult;
 import com.example.premarital.dtos.UserDTO;
 import com.example.premarital.services.UserService;
 import com.example.premarital.models.User;
