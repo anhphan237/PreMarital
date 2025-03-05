@@ -1,11 +1,17 @@
 package com.example.premarital.models;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Entity
 @Table(name = "wallets")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Wallet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,38 +27,4 @@ public class Wallet {
 
     @OneToMany(mappedBy = "wallet", fetch = FetchType.LAZY)
     private List<Transaction> transactions;
-    public Wallet() {
-    }
-
-    public Wallet(Long id, User user, Long balance, List<BankAccount> bankAccounts, List<Transaction> transactions) {
-        this.id = id;
-        this.user = user;
-        this.balance = balance;
-        this.bankAccounts = bankAccounts;
-        this.transactions = transactions;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Long getBalance() {
-        return balance;
-    }
-
-    public void setBalance(Long balance) {
-        this.balance = balance;
-    }
 }
