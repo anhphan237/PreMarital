@@ -1,9 +1,6 @@
 package com.example.premarital.controllers;
 
-import com.example.premarital.common.pagination.PaginationRequest;
-import com.example.premarital.common.pagination.PagingResult;
 import com.example.premarital.dtos.RoleDTO;
-import com.example.premarital.dtos.TherapistDTO;
 import com.example.premarital.models.Role;
 import com.example.premarital.services.RoleService;
 import org.springframework.data.domain.Page;
@@ -48,8 +45,8 @@ public class RoleController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Role> findRoleById(@PathVariable Long id){
-        Role role = roleService.getRoleById(id);
+    public ResponseEntity<RoleDTO> findRoleById(@PathVariable Long id){
+        RoleDTO role = roleService.getRoleById(id);
         return new ResponseEntity<>(role, role != null ? HttpStatus.OK : HttpStatus.NOT_FOUND);
     }
 

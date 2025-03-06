@@ -1,12 +1,8 @@
 package com.example.premarital.services.impl;
 
-import com.example.premarital.common.pagination.PaginationRequest;
-import com.example.premarital.common.pagination.PagingResult;
 import com.example.premarital.dtos.QuizCategoryDTO;
-import com.example.premarital.dtos.WalletDTO;
 import com.example.premarital.mappers.QuizCategoryMapper;
 import com.example.premarital.models.QuizCategory;
-import com.example.premarital.models.Wallet;
 import com.example.premarital.repositories.QuizCategoryRepository;
 import com.example.premarital.services.QuizCategoryService;
 import org.springframework.data.domain.Page;

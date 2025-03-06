@@ -1,7 +1,5 @@
 package com.example.premarital.services;
 
-import com.example.premarital.common.pagination.PaginationRequest;
-import com.example.premarital.common.pagination.PagingResult;
 import com.example.premarital.dtos.QuizUserAdviceDTO;
 import com.example.premarital.models.QuizUserAdvice;
 import com.example.premarital.dtos.QuizDTO;

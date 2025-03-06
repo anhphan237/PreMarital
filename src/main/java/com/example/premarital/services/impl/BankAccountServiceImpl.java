@@ -1,14 +1,10 @@
 package com.example.premarital.services.impl;
 
-import com.example.premarital.dtos.CategoryDTO;
 import com.example.premarital.mappers.BankAccountMapper;
-import com.example.premarital.models.Category;
 import com.example.premarital.services.BankAccountService;
 import com.example.premarital.dtos.BankAccountDTO;
 import com.example.premarital.models.BankAccount;
 import com.example.premarital.repositories.BankAccountRepository;
-import com.example.premarital.common.pagination.PaginationRequest;
-import com.example.premarital.common.pagination.PagingResult;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;

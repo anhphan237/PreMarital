@@ -7,6 +7,6 @@ import com.example.premarital.models.Therapist;
 public interface TherapistMapper {
 
     TherapistDTO toDTO(Therapist therapist);
-
     Therapist toEntity(TherapistDTO dto);
+    Therapist toEntityWithId(Long id, TherapistDTO dto);
 }

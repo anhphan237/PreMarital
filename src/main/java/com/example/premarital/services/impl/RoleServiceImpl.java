@@ -1,13 +1,8 @@
 package com.example.premarital.services.impl;
 
-import com.example.premarital.common.pagination.PaginationRequest;
-import com.example.premarital.common.pagination.PaginationUtils;
-import com.example.premarital.common.pagination.PagingResult;
 import com.example.premarital.dtos.RoleDTO;
-import com.example.premarital.dtos.TherapistDTO;
 import com.example.premarital.mappers.RoleMapper;
 import com.example.premarital.models.Role;
-import com.example.premarital.models.Therapist;
 import com.example.premarital.repositories.RoleRepository;
 import com.example.premarital.services.RoleService;
 import org.springframework.data.domain.Page;
@@ -49,8 +44,8 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public Role getRoleById(Long id) {
-        return roleRepository.findById(id).orElse(null);
+    public RoleDTO getRoleById(Long id) {
+        return roleMapper.toDTO(roleRepository.findById(id).orElse(null));
     }
 
     @Override
@@ -59,7 +54,8 @@ public class RoleServiceImpl implements RoleService {
             if(!role.getUsers().isEmpty()){
                 throw new IllegalStateException("Cannot delete role with id " + role.getName() + " as it is in use");
             }
-            roleRepository.delete(role);
+            role.setIsActive(false);
+            roleRepository.save(role);
             return true;
         }).orElse(false);
     }

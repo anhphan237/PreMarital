@@ -1,6 +1,5 @@
 package com.example.premarital.services.impl;
 
-import com.example.premarital.models.Role;
 import com.example.premarital.repositories.RoleRepository;
 import com.example.premarital.dtos.UserDTO;
 import com.example.premarital.mappers.UserMapper;
@@ -30,21 +29,7 @@ public class UserServiceImpl implements UserService {
         Page<UserDTO> dtoPage = entities.map(new Function<User, UserDTO>() {
             @Override
             public UserDTO apply(User entity) {
-                UserDTO dto = new UserDTO();
-                // Conversion logic
-                dto.setId(entity.getId());
-                dto.setFirstName(entity.getFirstName());
-                dto.setLastName(entity.getLastName());
-                dto.setEmail(entity.getEmail());
-                dto.setRoleId(entity.getRole().getId());
-                dto.setUsername(entity.getUsername());
-                dto.setCity(entity.getCity());
-                dto.setCountry(entity.getCountry());
-                dto.setPostalCode(entity.getPostalCode());
-                dto.setState(entity.getState());
-                dto.setRoleId(entity.getRole().getId());
-                dto.setStreet(entity.getStreet());
-
+                UserDTO dto = userMapper.toDTO(entity);
                 return dto;
             }
         });
@@ -52,26 +37,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO createUser(UserDTO dto) {
-        Role role = roleRepository.findById(dto.getRoleId())
-                .orElseThrow(() -> new IllegalArgumentException("Role does not exist!"));
-
+    public void createUser(UserDTO dto) {
         User user = userMapper.toEntity(dto);
-        user.setRole(role);
-        User savedUser = userRepository.save(user);
-
-        return userMapper.toDTO(savedUser);
+        userRepository.save(user);
     }
 
     @Override
-    public User getUserById(Long id) {
-        return userRepository.existsById(id) ? userRepository.findById(id).get() : null;
+    public UserDTO getUserById(Long id) {
+        return userRepository.existsById(id) ? userMapper.toDTO(userRepository.findById(id).get()) : null;
     }
 
     @Override
     public boolean deleteUserById(Long id) {
         return userRepository.findById(id).map(user -> {
-            userRepository.delete(user);
+            user.setIsActive(false);
+            userRepository.save(user);
             return true;
         }).orElse(false);
     }

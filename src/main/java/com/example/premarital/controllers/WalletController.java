@@ -2,7 +2,9 @@ package com.example.premarital.controllers;
 
 import com.example.premarital.dtos.UserDTO;
 import com.example.premarital.dtos.WalletDTO;
+import com.example.premarital.services.UserService;
 import com.example.premarital.services.WalletService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -38,8 +40,8 @@ public class WalletController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createUser(@RequestBody WalletDTO user){
-        walletService.createWallet(user);
+    public ResponseEntity<String> createWallet(@RequestBody WalletDTO wallet){
+        walletService.createWallet(wallet);
         return new ResponseEntity<>("Wallet created successfully",HttpStatus.CREATED);
     }
 }

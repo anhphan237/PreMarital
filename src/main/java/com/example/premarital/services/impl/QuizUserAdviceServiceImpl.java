@@ -1,12 +1,8 @@
 package com.example.premarital.services.impl;
 
-import com.example.premarital.common.pagination.PaginationRequest;
-import com.example.premarital.common.pagination.PagingResult;
 import com.example.premarital.dtos.QuizUserAdviceDTO;
-import com.example.premarital.dtos.UserQuizHistoryDTO;
 import com.example.premarital.mappers.QuizUserAdviceMapper;
 import com.example.premarital.models.QuizUserAdvice;
-import com.example.premarital.models.UserQuizHistory;
 import com.example.premarital.repositories.QuizUserAdviceRepository;
 import com.example.premarital.dtos.QuizDTO;
 import com.example.premarital.services.QuizUserAdviceService;

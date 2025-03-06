@@ -1,9 +1,15 @@
 package com.example.premarital.models;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "bank_accounts")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class BankAccount {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,46 +21,4 @@ public class BankAccount {
 
     private String bankName;
     private String bankNumber;
-
-    public BankAccount() {
-    }
-
-    public BankAccount(Long id, Wallet wallet, String bankName, String bankNumber) {
-        this.id = id;
-        this.wallet = wallet;
-        this.bankName = bankName;
-        this.bankNumber = bankNumber;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Wallet getWallet() {
-        return wallet;
-    }
-
-    public void setWallet(Wallet wallet) {
-        this.wallet = wallet;
-    }
-
-    public String getBankName() {
-        return bankName;
-    }
-
-    public void setBankName(String bankName) {
-        this.bankName = bankName;
-    }
-
-    public String getBankNumber() {
-        return bankNumber;
-    }
-
-    public void setBankNumber(String bankNumber) {
-        this.bankNumber = bankNumber;
-    }
 }

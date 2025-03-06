@@ -1,13 +1,9 @@
 package com.example.premarital.services.impl;
 
 import com.example.premarital.dtos.CategoryDTO;
-import com.example.premarital.dtos.RoleDTO;
 import com.example.premarital.mappers.CategoryMapper;
 import com.example.premarital.models.Category;
-import com.example.premarital.models.Role;
 import com.example.premarital.repositories.CategoryRepository;
-import com.example.premarital.common.pagination.PaginationRequest;
-import com.example.premarital.common.pagination.PagingResult;
 import com.example.premarital.services.CategoryService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

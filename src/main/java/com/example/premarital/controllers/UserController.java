@@ -1,7 +1,5 @@
 package com.example.premarital.controllers;
 
-import com.example.premarital.common.pagination.PaginationRequest;
-import com.example.premarital.common.pagination.PagingResult;
 import com.example.premarital.dtos.UserDTO;
 import com.example.premarital.services.UserService;
 import com.example.premarital.models.User;
@@ -47,8 +45,8 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> findUserById(@PathVariable Long id){
-        User user = userService.getUserById(id);
+    public ResponseEntity<UserDTO> findUserById(@PathVariable Long id){
+        UserDTO user = userService.getUserById(id);
         return new ResponseEntity<>(user, user != null ? org.springframework.http.HttpStatus.OK : org.springframework.http.HttpStatus.NOT_FOUND);
     }
 
