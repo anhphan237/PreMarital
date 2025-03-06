@@ -1,8 +1,8 @@
 package com.example.premarital.services.impl;
 
-import com.example.premarital.dtos.TherapistDTO;
 import com.example.premarital.dtos.TherapistMajorDTO;
 import com.example.premarital.mappers.TherapistMajorMapper;
+import com.example.premarital.models.Therapist;
 import com.example.premarital.models.TherapistMajor;
 import com.example.premarital.repositories.TherapistMajorRepository;
 import com.example.premarital.services.TherapistMajorService;
@@ -43,17 +43,25 @@ public class TherapistMajorServiceImpl implements TherapistMajorService {
     }
 
     @Override
-    public TherapistMajor getTherapistMajorById(Long id) {
-        return null;
+    public TherapistMajorDTO getTherapistMajorById(Long id) {
+        return therapistMajorMapper.toDTO(therapistMajorRepository.findById(id).orElse(null));
     }
 
     @Override
     public boolean deleteTherapistMajorById(Long id) {
-        return false;
+        return therapistMajorRepository.findById(id).map(therapistMajor -> {
+            therapistMajor.setIsActive(false);
+            therapistMajorRepository.save(therapistMajor);
+            return true;
+        }).orElse(false);
     }
 
     @Override
-    public boolean updateTherapistMajor(Long id, TherapistDTO updatedTherapistDTO) {
-        return false;
+    public boolean updateTherapistMajor(Long id, TherapistMajorDTO updatedTherapistDTO) {
+        return therapistMajorRepository.findById(id).map(therapistMajor -> {
+            TherapistMajor updatedTherapistMajor = therapistMajorMapper.toEntityWithId(id, updatedTherapistDTO);
+            therapistMajorRepository.save(updatedTherapistMajor);
+            return true;
+        }).orElse(false);
     }
 }

@@ -7,4 +7,5 @@ public interface TherapistMajorMapper {
     TherapistMajorDTO toDTO(TherapistMajor therapistMajor);
 
     TherapistMajor toEntity(TherapistMajorDTO dto);
+    TherapistMajor toEntityWithId(Long id, TherapistMajorDTO dto);
 }

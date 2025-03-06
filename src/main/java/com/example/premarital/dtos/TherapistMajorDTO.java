@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 public class TherapistMajorDTO {
     private Long id;
     private String name;
+    private Boolean isActive;
 }

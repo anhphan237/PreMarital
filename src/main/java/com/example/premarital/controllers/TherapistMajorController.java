@@ -44,8 +44,8 @@ public class TherapistMajorController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TherapistMajor> findTherapistMajorById(@PathVariable Long id){
-        TherapistMajor therapistMajor = therapistMajorService.getTherapistMajorById(id);
+    public ResponseEntity<TherapistMajorDTO> findTherapistMajorById(@PathVariable Long id){
+        TherapistMajorDTO therapistMajor = therapistMajorService.getTherapistMajorById(id);
         return new ResponseEntity<>(therapistMajor, therapistMajor != null ? HttpStatus.OK : HttpStatus.NOT_FOUND);
     }
 
@@ -57,11 +57,11 @@ public class TherapistMajorController {
                 : ResponseEntity.status(HttpStatus.NOT_FOUND).body("Therapist Major not found");
     }
 
-//    @PutMapping("/{id}")
-//    public ResponseEntity<String> updateRole(@PathVariable Long id, @RequestBody TherapistMajor updatedTherapistMajor) {
-//        boolean updated = therapistMajorService.updateTherapistMajor(id, updatedTherapistMajor);
-//        return updated
-//                ? ResponseEntity.ok("Therapist Major updated successfully")
-//                : ResponseEntity.status(HttpStatus.NOT_FOUND).body("Therapist Major not found");
-//    }
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateTherapistMajor(@PathVariable Long id, @RequestBody TherapistMajorDTO updatedTherapistMajor) {
+        boolean updated = therapistMajorService.updateTherapistMajor(id, updatedTherapistMajor);
+        return updated
+                ? ResponseEntity.ok("Therapist Major updated successfully")
+                : ResponseEntity.status(HttpStatus.NOT_FOUND).body("Therapist Major not found");
+    }
 }

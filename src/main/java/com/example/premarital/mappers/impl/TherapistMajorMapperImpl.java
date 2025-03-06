@@ -3,22 +3,17 @@ package com.example.premarital.mappers.impl;
 import com.example.premarital.dtos.TherapistMajorDTO;
 import com.example.premarital.mappers.TherapistMajorMapper;
 import com.example.premarital.models.TherapistMajor;
-import com.example.premarital.repositories.TherapistRepository;
 import org.springframework.stereotype.Component;
 
 @Component
 public class TherapistMajorMapperImpl implements TherapistMajorMapper {
-    private final TherapistRepository therapistRepository;
-
-    public TherapistMajorMapperImpl(TherapistRepository therapistRepository) {
-        this.therapistRepository = therapistRepository;
-    }
 
     @Override
     public TherapistMajorDTO toDTO(TherapistMajor therapistMajor) {
         TherapistMajorDTO dto = new TherapistMajorDTO();
         dto.setId(therapistMajor.getId());
         dto.setName(therapistMajor.getName());
+        dto.setIsActive(therapistMajor.getIsActive());
         return dto;
     }
 
@@ -27,6 +22,16 @@ public class TherapistMajorMapperImpl implements TherapistMajorMapper {
         TherapistMajor entity = new TherapistMajor();
         entity.setId(dto.getId());
         entity.setName(dto.getName());
+        entity.setIsActive(dto.getIsActive());
+        return entity;
+    }
+
+    @Override
+    public TherapistMajor toEntityWithId(Long id, TherapistMajorDTO dto) {
+        TherapistMajor entity = new TherapistMajor();
+        entity.setId(id);
+        entity.setName(dto.getName());
+        entity.setIsActive(dto.getIsActive());
         return entity;
     }
 }
