@@ -25,6 +25,7 @@ public class UserMapperImpl implements UserMapper {
             userDTO.setCountry( user.getCountry());
             userDTO.setState( user.getState());
             userDTO.setUsername( user.getUsername());
+            userDTO.setIsActive( user.getIsActive());
         }
         return userDTO;
     }
@@ -45,6 +46,7 @@ public class UserMapperImpl implements UserMapper {
         user.setPostalCode(dto.getPostalCode());
         user.setCountry(dto.getCountry());
         user.setState(dto.getState());
+        user.setIsActive(dto.getIsActive());
 
         // Nếu cần ánh xạ Role từ roleId
         if (dto.getRoleId() != null) {

@@ -4,6 +4,7 @@ import com.example.premarital.dtos.TherapistDTO;
 import com.example.premarital.mappers.TherapistMajorMapper;
 import com.example.premarital.mappers.TherapistMapper;
 import com.example.premarital.models.Therapist;
+import com.example.premarital.models.TherapistMajor;
 import com.example.premarital.models.User;
 import com.example.premarital.repositories.TherapistMajorRepository;
 import com.example.premarital.repositories.TherapistRepository;
@@ -13,12 +14,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class TherapistMapperImpl implements TherapistMapper {
     private final UserRepository userRepository;
-    private final TherapistMajorMapper therapistMajorMapper;
     private final TherapistMajorRepository therapistMajorRepository;
 
-    public TherapistMapperImpl(UserRepository userRepository, TherapistMajorMapper therapistMajorMapper, TherapistMajorRepository therapistMajorRepository) {
+    public TherapistMapperImpl(UserRepository userRepository, TherapistMajorRepository therapistMajorRepository) {
         this.userRepository = userRepository;
-        this.therapistMajorMapper = therapistMajorMapper;
         this.therapistMajorRepository = therapistMajorRepository;
     }
 
@@ -30,8 +29,7 @@ public class TherapistMapperImpl implements TherapistMapper {
 
         TherapistDTO therapistDTO = new TherapistDTO();
 
-        therapistDTO.setUserId( therapistUserId( therapist ) );
-        therapistDTO.setId( therapist.getId() );
+        therapistDTO.setUserId( therapist.getUser().getId() );
         therapistDTO.setBio( therapist.getBio() );
         therapistDTO.setTherapistCertificationName( therapist.getTherapistCertificationName() );
         therapistDTO.setCertificationIssuedBy( therapist.getCertificationIssuedBy() );
@@ -45,6 +43,34 @@ public class TherapistMapperImpl implements TherapistMapper {
     }
 
     @Override
+    public Therapist toEntityWithId(Long id, TherapistDTO dto) {
+        if ( dto == null ) {
+            return null;
+        }
+
+        Therapist therapist = new Therapist();
+
+        if ( dto.getUserId() != null ) {
+            User user = new User();
+            user.setId( id );
+            therapist.setUser( user );
+        }
+        therapist.setId(id);
+        therapist.setBio( dto.getBio() );
+        therapist.setTherapistCertificationName( dto.getTherapistCertificationName() );
+        therapist.setCertificationIssuedBy( dto.getCertificationIssuedBy() );
+        therapist.setCertificationIssueDate( dto.getCertificationIssueDate() );
+        therapist.setCertificationExpirationDate( dto.getCertificationExpirationDate() );
+        if(dto.getTherapistMajorId() != null) {
+            TherapistMajor therapistMajor = new TherapistMajor();
+            therapistMajor.setId( dto.getTherapistMajorId() );
+            therapist.setTherapistMajor( therapistMajor );
+        }
+
+        return therapist;
+    }
+
+    @Override
     public Therapist toEntity(TherapistDTO dto) {
         if ( dto == null ) {
             return null;
@@ -52,42 +78,23 @@ public class TherapistMapperImpl implements TherapistMapper {
 
         Therapist therapist = new Therapist();
 
-        therapist.setUser( therapistDTOToUser( dto ) );
-        therapist.setId( dto.getId() );
+        if ( dto.getUserId() != null ) {
+            User user = new User();
+            user.setId( dto.getUserId() );
+            therapist.setUser( user );
+        }
+        therapist.setId( dto.getUserId() );
         therapist.setBio( dto.getBio() );
         therapist.setTherapistCertificationName( dto.getTherapistCertificationName() );
         therapist.setCertificationIssuedBy( dto.getCertificationIssuedBy() );
         therapist.setCertificationIssueDate( dto.getCertificationIssueDate() );
         therapist.setCertificationExpirationDate( dto.getCertificationExpirationDate() );
-        therapist.setTherapistMajor( therapistMajorRepository.getReferenceById( dto.getTherapistMajorId() ) );
+        if(dto.getTherapistMajorId() != null) {
+            TherapistMajor therapistMajor = new TherapistMajor();
+            therapistMajor.setId( dto.getTherapistMajorId() );
+            therapist.setTherapistMajor( therapistMajor );
+        }
 
         return therapist;
-    }
-
-    private Long therapistUserId(Therapist therapist) {
-        if ( therapist == null ) {
-            return null;
-        }
-        User user = therapist.getUser();
-        if ( user == null ) {
-            return null;
-        }
-        Long id = user.getId();
-        if ( id == null ) {
-            return null;
-        }
-        return id;
-    }
-
-    protected User therapistDTOToUser(TherapistDTO therapistDTO) {
-        if ( therapistDTO == null ) {
-            return null;
-        }
-
-        User user = userRepository.findById( therapistDTO.getUserId() ).orElse( null );
-
-        user.setId( therapistDTO.getUserId() );
-
-        return user;
     }
 }

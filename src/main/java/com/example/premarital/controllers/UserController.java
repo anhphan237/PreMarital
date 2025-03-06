@@ -45,8 +45,8 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> findUserById(@PathVariable Long id){
-        User user = userService.getUserById(id);
+    public ResponseEntity<UserDTO> findUserById(@PathVariable Long id){
+        UserDTO user = userService.getUserById(id);
         return new ResponseEntity<>(user, user != null ? org.springframework.http.HttpStatus.OK : org.springframework.http.HttpStatus.NOT_FOUND);
     }
 

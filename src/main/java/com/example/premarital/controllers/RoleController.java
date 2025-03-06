@@ -45,8 +45,8 @@ public class RoleController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Role> findRoleById(@PathVariable Long id){
-        Role role = roleService.getRoleById(id);
+    public ResponseEntity<RoleDTO> findRoleById(@PathVariable Long id){
+        RoleDTO role = roleService.getRoleById(id);
         return new ResponseEntity<>(role, role != null ? HttpStatus.OK : HttpStatus.NOT_FOUND);
     }
 

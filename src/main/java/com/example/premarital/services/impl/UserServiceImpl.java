@@ -43,14 +43,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserById(Long id) {
-        return userRepository.existsById(id) ? userRepository.findById(id).get() : null;
+    public UserDTO getUserById(Long id) {
+        return userRepository.existsById(id) ? userMapper.toDTO(userRepository.findById(id).get()) : null;
     }
 
     @Override
     public boolean deleteUserById(Long id) {
         return userRepository.findById(id).map(user -> {
-            userRepository.delete(user);
+            user.setIsActive(false);
+            userRepository.save(user);
             return true;
         }).orElse(false);
     }

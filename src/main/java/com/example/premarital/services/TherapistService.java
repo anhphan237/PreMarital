@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable;
 public interface TherapistService {
     Page<TherapistDTO> getTherapists(Pageable pageable);
     TherapistDTO createTherapist(TherapistDTO dto);
-    Therapist getTherapistById(Long id);
+    TherapistDTO getTherapistById(Long id);
     boolean deleteTherapistById(Long id);
     boolean updateTherapist(Long id, TherapistDTO updatedTherapistDTO);
 }

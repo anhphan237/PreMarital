@@ -19,4 +19,5 @@ public class UserDTO {
     private String state;
     private String postalCode;
     private String country;
+    private Boolean isActive;
 }

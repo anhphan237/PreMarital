@@ -46,8 +46,8 @@ public class TherapistController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Therapist> findTherapistById(@PathVariable Long id){
-        Therapist therapist = therapistService.getTherapistById(id);
+    public ResponseEntity<TherapistDTO> findTherapistById(@PathVariable Long id){
+        TherapistDTO therapist = therapistService.getTherapistById(id);
         return new ResponseEntity<>(therapist, therapist != null ? org.springframework.http.HttpStatus.OK : org.springframework.http.HttpStatus.NOT_FOUND);
     }
 

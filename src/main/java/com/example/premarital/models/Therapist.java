@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.List;
 
@@ -21,10 +22,12 @@ public class Therapist {
     @OneToOne
     @MapsId
     @JoinColumn(name = "user_id")
+    @ToString.Exclude
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "therapist_major_id", nullable = false)
+    @JoinColumn(name = "therapist_major_id")
+    @ToString.Exclude
     private TherapistMajor therapistMajor;
 
     @OneToMany(mappedBy = "therapist")
@@ -38,5 +41,6 @@ public class Therapist {
     private String certificationIssuedBy;
     private String certificationIssueDate;
     private String certificationExpirationDate;
+    private Boolean isActive;
 }
 

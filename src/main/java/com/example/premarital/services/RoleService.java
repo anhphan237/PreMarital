@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable;
 public interface RoleService {
     Page<RoleDTO> getRoles(Pageable pageable);
     void createRole(Role role);
-    Role getRoleById(Long id);
+    RoleDTO getRoleById(Long id);
     boolean deleteRoleById(Long id);
     boolean updateRole(Long id, Role updatedRole);
 }

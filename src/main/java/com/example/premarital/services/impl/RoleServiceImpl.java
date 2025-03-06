@@ -44,8 +44,8 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public Role getRoleById(Long id) {
-        return roleRepository.findById(id).orElse(null);
+    public RoleDTO getRoleById(Long id) {
+        return roleMapper.toDTO(roleRepository.findById(id).orElse(null));
     }
 
     @Override
@@ -54,7 +54,8 @@ public class RoleServiceImpl implements RoleService {
             if(!role.getUsers().isEmpty()){
                 throw new IllegalStateException("Cannot delete role with id " + role.getName() + " as it is in use");
             }
-            roleRepository.delete(role);
+            role.setIsActive(false);
+            roleRepository.save(role);
             return true;
         }).orElse(false);
     }

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.List;
 
@@ -19,5 +20,6 @@ public class TherapistMajor {
     private String name;
 
     @OneToMany(mappedBy = "therapistMajor")
+    @ToString.Exclude
     private List<Therapist> therapists;
 }
