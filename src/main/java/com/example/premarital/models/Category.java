@@ -33,4 +33,5 @@ public class Category {
     private List<QuizQuestion> quizQuestions;
 
     private String description;
+    private Boolean isActive;
 }
