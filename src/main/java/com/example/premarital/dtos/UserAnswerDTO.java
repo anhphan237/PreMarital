@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 public class UserAnswerDTO {
     private Long id;
     private Long userQuizHistoryId;
-    private Long quizQuestionId;
+    private Long questionOptionId;
     @JsonProperty("isActive")
     private Boolean isActive;
 }

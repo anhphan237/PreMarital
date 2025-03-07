@@ -2,7 +2,7 @@ package com.example.premarital.mappers.impl;
 
 import com.example.premarital.dtos.UserAnswerDTO;
 import com.example.premarital.mappers.UserAnswerMapper;
-import com.example.premarital.models.QuizQuestion;
+import com.example.premarital.models.QuestionOption;
 import com.example.premarital.models.UserAnswer;
 import com.example.premarital.models.UserQuizHistory;
 import org.springframework.stereotype.Component;
@@ -16,7 +16,7 @@ public class UserAnswerMapperImpl implements UserAnswerMapper {
         return new UserAnswerDTO(
                 userAnswer.getId(),
                 userAnswer.getUserQuizHistory() != null ? userAnswer.getUserQuizHistory().getId() : null,
-                userAnswer.getQuizQuestion() != null ? userAnswer.getQuizQuestion().getId() : null,
+                userAnswer.getQuestionOption() != null ? userAnswer.getQuestionOption().getId() : null,
                 userAnswer.getIsActive()
         );
     }
@@ -35,10 +35,10 @@ public class UserAnswerMapperImpl implements UserAnswerMapper {
             userAnswer.setUserQuizHistory(userQuizHistory);
         }
 
-        if (userAnswerDTO.getQuizQuestionId() != null) {
-            QuizQuestion quizQuestion = new QuizQuestion();
-            quizQuestion.setId(userAnswerDTO.getQuizQuestionId());
-            userAnswer.setQuizQuestion(quizQuestion);
+        if (userAnswerDTO.getQuestionOptionId() != null) {
+            QuestionOption questionOption = new QuestionOption();
+            questionOption.setId(userAnswerDTO.getQuestionOptionId());
+            userAnswer.setQuestionOption(questionOption);
         }
 
         return userAnswer;
@@ -58,10 +58,10 @@ public class UserAnswerMapperImpl implements UserAnswerMapper {
             userAnswer.setUserQuizHistory(userQuizHistory);
         }
 
-        if (userAnswerDTO.getQuizQuestionId() != null) {
-            QuizQuestion quizQuestion = new QuizQuestion();
-            quizQuestion.setId(userAnswerDTO.getQuizQuestionId());
-            userAnswer.setQuizQuestion(quizQuestion);
+        if (userAnswerDTO.getQuestionOptionId() != null) {
+            QuestionOption questionOption = new QuestionOption();
+            questionOption.setId(userAnswerDTO.getQuestionOptionId());
+            userAnswer.setQuestionOption(questionOption);
         }
 
         return userAnswer;
