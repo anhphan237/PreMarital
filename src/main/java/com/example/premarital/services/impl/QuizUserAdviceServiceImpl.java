@@ -1,8 +1,10 @@
 package com.example.premarital.services.impl;
 
 import com.example.premarital.dtos.QuizUserAdviceDTO;
+import com.example.premarital.dtos.WalletDTO;
 import com.example.premarital.mappers.QuizUserAdviceMapper;
 import com.example.premarital.models.QuizUserAdvice;
+import com.example.premarital.models.Wallet;
 import com.example.premarital.repositories.QuizUserAdviceRepository;
 import com.example.premarital.dtos.QuizDTO;
 import com.example.premarital.services.QuizUserAdviceService;
@@ -43,17 +45,25 @@ public class QuizUserAdviceServiceImpl implements QuizUserAdviceService {
     }
 
     @Override
-    public QuizUserAdvice getQuizUserAdviceById(Long id) {
-        return null;
+    public QuizUserAdviceDTO getQuizUserAdviceById(Long id) {
+        return quizUserAdviceMapper.toDTO(quizUserAdviceRepository.findById(id).orElse(null));
     }
 
     @Override
     public boolean deleteQuizUserAdviceById(Long id) {
-        return false;
+        return quizUserAdviceRepository.findById(id).map(quizUserAdvice -> {
+            quizUserAdvice.setIsActive(false);
+            quizUserAdviceRepository.save(quizUserAdvice);
+            return true;
+        }).orElse(false);
     }
 
     @Override
-    public boolean updateQuizUserAdvice(Long id, QuizDTO updatedQuizUserAdviceDTO) {
-        return false;
+    public boolean updateQuizUserAdvice(Long id, QuizUserAdviceDTO updatedQuizUserAdviceDTO) {
+        return quizUserAdviceRepository.findById(id).map(quizUserAdvice -> {
+            QuizUserAdvice updatedQuizUserAdvice = quizUserAdviceMapper.toEntityWithId(id, updatedQuizUserAdviceDTO);
+            quizUserAdviceRepository.save(updatedQuizUserAdvice);
+            return true;
+        }).orElse(false);
     }
 }

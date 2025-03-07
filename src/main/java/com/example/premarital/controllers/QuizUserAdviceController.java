@@ -42,4 +42,26 @@ public class QuizUserAdviceController {
         quizUserAdviceService.createQuizUserAdvice(quizUserAdviceDTO);
         return new ResponseEntity<>("Quiz's Advice created successfully",HttpStatus.CREATED);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<QuizUserAdviceDTO> findQuizUserAdviceById(@PathVariable Long id){
+        QuizUserAdviceDTO quizUserAdvice = quizUserAdviceService.getQuizUserAdviceById(id);
+        return new ResponseEntity<>(quizUserAdvice, quizUserAdvice != null ? HttpStatus.OK : HttpStatus.NOT_FOUND);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteQuizUserAdvice(@PathVariable Long id) {
+        boolean deleted = quizUserAdviceService.deleteQuizUserAdviceById(id);
+        return deleted
+                ? ResponseEntity.ok("Quiz's Advice deleted successfully")
+                : ResponseEntity.status(HttpStatus.NOT_FOUND).body("Quiz's Advice not found");
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateQuizUserAdvice(@PathVariable Long id, @RequestBody QuizUserAdviceDTO quizUserAdviceDTO) {
+        boolean updated = quizUserAdviceService.updateQuizUserAdvice(id, quizUserAdviceDTO);
+        return updated
+                ? ResponseEntity.ok("Quiz's Advice updated successfully")
+                : ResponseEntity.status(HttpStatus.NOT_FOUND).body("Quiz's Advice not found");
+    }
 }
