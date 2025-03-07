@@ -21,4 +21,5 @@ public class BankAccount {
 
     private String bankName;
     private String bankNumber;
+    private Boolean isActive;
 }

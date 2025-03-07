@@ -1,6 +1,8 @@
 package com.example.premarital.services.impl;
 
+import com.example.premarital.dtos.TherapistMajorDTO;
 import com.example.premarital.mappers.BankAccountMapper;
+import com.example.premarital.models.TherapistMajor;
 import com.example.premarital.services.BankAccountService;
 import com.example.premarital.dtos.BankAccountDTO;
 import com.example.premarital.models.BankAccount;
@@ -42,17 +44,25 @@ public class BankAccountServiceImpl implements BankAccountService {
     }
 
     @Override
-    public BankAccount getBankAccountById(Long id) {
-        return null;
+    public BankAccountDTO getBankAccountById(Long id) {
+        return bankAccountMapper.toDTO(bankAccountRepository.findById(id).orElse(null));
     }
 
     @Override
     public boolean deleteBankAccountById(Long id) {
-        return false;
+        return bankAccountRepository.findById(id).map(bankAccount -> {
+            bankAccount.setIsActive(false);
+            bankAccountRepository.save(bankAccount);
+            return true;
+        }).orElse(false);
     }
 
     @Override
     public boolean updateBankAccount(Long id, BankAccountDTO updatedBankAccountDTO) {
-        return false;
+        return bankAccountRepository.findById(id).map(therapistMajor -> {
+            BankAccount updatedBankAccount = bankAccountMapper.toEntityWithId(id, updatedBankAccountDTO);
+            bankAccountRepository.save(updatedBankAccount);
+            return true;
+        }).orElse(false);
     }
 }

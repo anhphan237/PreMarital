@@ -23,7 +23,8 @@ public class BankAccountMapperImpl implements BankAccountMapper {
                 bankAccount.getId(),
                 bankAccount.getWallet() != null ? bankAccount.getWallet().getId() : null,
                 bankAccount.getBankName(),
-                bankAccount.getBankNumber()
+                bankAccount.getBankNumber(),
+                bankAccount.getIsActive()
         );
     }
 
@@ -37,6 +38,26 @@ public class BankAccountMapperImpl implements BankAccountMapper {
         bankAccount.setId(dto.getId());
         bankAccount.setBankName(dto.getBankName());
         bankAccount.setBankNumber(dto.getBankNumber());
+        bankAccount.setIsActive(dto.getIsActive());
+
+        if (dto.getWalletId() != null) {
+            bankAccount.setWallet(walletRepository.findById(dto.getWalletId()).orElse(null));
+        }
+
+        return bankAccount;
+    }
+
+    @Override
+    public BankAccount toEntityWithId(Long id, BankAccountDTO dto) {
+        if (dto == null) {
+            return null;
+        }
+
+        BankAccount bankAccount = new BankAccount();
+        bankAccount.setId(id);
+        bankAccount.setBankName(dto.getBankName());
+        bankAccount.setBankNumber(dto.getBankNumber());
+        bankAccount.setIsActive(dto.getIsActive());
 
         if (dto.getWalletId() != null) {
             bankAccount.setWallet(walletRepository.findById(dto.getWalletId()).orElse(null));
