@@ -22,4 +22,6 @@ public class UserAnswer {
     @ManyToOne
     @JoinColumn(name = "quiz_question_id", nullable = false)
     private QuizQuestion quizQuestion;
+
+    private Boolean isActive;
 }

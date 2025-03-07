@@ -1,8 +1,10 @@
 package com.example.premarital.services.impl;
 
 import com.example.premarital.dtos.UserAnswerDTO;
+import com.example.premarital.dtos.WalletDTO;
 import com.example.premarital.mappers.UserAnswerMapper;
 import com.example.premarital.models.UserAnswer;
+import com.example.premarital.models.Wallet;
 import com.example.premarital.repositories.UserAnswerRepository;
 import com.example.premarital.services.UserAnswerService;
 import org.springframework.data.domain.Page;
@@ -42,17 +44,25 @@ public class UserAnswerServiceImpl implements UserAnswerService {
     }
 
     @Override
-    public UserAnswer getUserAnswerById(Long id) {
-        return null;
+    public UserAnswerDTO getUserAnswerById(Long id) {
+        return userAnswerMapper.toDTO(userAnswerRepository.findById(id).orElse(null));
     }
 
     @Override
     public boolean deleteUserAnswerById(Long id) {
-        return false;
+        return userAnswerRepository.findById(id).map(userAnswer -> {
+            userAnswer.setIsActive(false);
+            userAnswerRepository.save(userAnswer);
+            return true;
+        }).orElse(false);
     }
 
     @Override
     public boolean updateUserAnswer(Long id, UserAnswerDTO updatedUserAnswerDTO) {
-        return false;
+        return userAnswerRepository.findById(id).map(userAnswer -> {
+            UserAnswer updatedUserAnswer = userAnswerMapper.toEntityWithId(id, updatedUserAnswerDTO);
+            userAnswerRepository.save(updatedUserAnswer);
+            return true;
+        }).orElse(false);
     }
 }
