@@ -29,11 +29,12 @@ public class Quiz {
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
     private LocalDateTime updatedAt;
     private String status;
+    private Boolean isActive;
 
     @OneToMany(mappedBy = "quiz", fetch = FetchType.LAZY)
     private List<QuizUserAdvice> quizUserAdvice;
 
     @ManyToOne
-    @JoinColumn(name = "user_quiz_history_id", nullable = false)
+    @JoinColumn(name = "user_quiz_history_id")
     private UserQuizHistory userQuizHistory;
 }

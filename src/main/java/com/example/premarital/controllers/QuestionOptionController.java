@@ -2,6 +2,7 @@ package com.example.premarital.controllers;
 
 import com.example.premarital.dtos.ArticlePartDTO;
 import com.example.premarital.dtos.QuestionOptionDTO;
+import com.example.premarital.dtos.WithdrawRequestDTO;
 import com.example.premarital.models.QuestionOption;
 import com.example.premarital.services.QuestionOptionService;
 import org.springframework.data.domain.Page;
@@ -42,5 +43,27 @@ public class QuestionOptionController {
     public ResponseEntity<String> createQuestionOption(@RequestBody QuestionOptionDTO questionOptionDTO){
         questionOptionService.createQuestionOption(questionOptionDTO);
         return new ResponseEntity<>("Question option created successfully",HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<QuestionOptionDTO> findQuestionOptionById(@PathVariable Long id){
+        QuestionOptionDTO questionOption = questionOptionService.getQuestionOptionById(id);
+        return new ResponseEntity<>(questionOption, questionOption != null ? HttpStatus.OK : HttpStatus.NOT_FOUND);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteQuestionOption(@PathVariable Long id) {
+        boolean deleted = questionOptionService.deleteQuestionOptionById(id);
+        return deleted
+                ? ResponseEntity.ok("Question Option deleted successfully")
+                : ResponseEntity.status(HttpStatus.NOT_FOUND).body("Question Option not found");
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateQuestionOption(@PathVariable Long id, @RequestBody QuestionOptionDTO questionOptionDTO) {
+        boolean updated = questionOptionService.updateQuestionOption(id, questionOptionDTO);
+        return updated
+                ? ResponseEntity.ok("Question Option updated successfully")
+                : ResponseEntity.status(HttpStatus.NOT_FOUND).body("Question Option not found");
     }
 }

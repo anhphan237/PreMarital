@@ -22,4 +22,5 @@ public class QuestionOption {
     private String optionText;
 
     private int point;
+    private Boolean isActive;
 }
