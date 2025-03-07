@@ -42,4 +42,26 @@ public class WithdrawRequestController {
         withdrawRequestService.createWithdrawRequest(withdrawRequestDTO);
         return new ResponseEntity<>("Withdraw Request created successfully",HttpStatus.CREATED);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<WithdrawRequestDTO> findWithdrawRequestById(@PathVariable Long id){
+        WithdrawRequestDTO withdrawRequest = withdrawRequestService.getWithdrawRequestById(id);
+        return new ResponseEntity<>(withdrawRequest, withdrawRequest != null ? HttpStatus.OK : HttpStatus.NOT_FOUND);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteWithdrawRequest(@PathVariable Long id) {
+        boolean deleted = withdrawRequestService.deleteWithdrawRequestById(id);
+        return deleted
+                ? ResponseEntity.ok("Withdraw Request deleted successfully")
+                : ResponseEntity.status(HttpStatus.NOT_FOUND).body("Withdraw Request not found");
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateWithdrawRequest(@PathVariable Long id, @RequestBody WithdrawRequestDTO updatedWithdrawRequest) {
+        boolean updated = withdrawRequestService.updateWithdrawRequest(id, updatedWithdrawRequest);
+        return updated
+                ? ResponseEntity.ok("Withdraw Request updated successfully")
+                : ResponseEntity.status(HttpStatus.NOT_FOUND).body("Withdraw Request not found");
+    }
 }

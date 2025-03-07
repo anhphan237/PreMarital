@@ -42,17 +42,25 @@ public class WithdrawRequestServiceImpl implements WithdrawRequestService {
     }
 
     @Override
-    public WithdrawRequest getWithdrawRequestById(Long id) {
-        return null;
+    public WithdrawRequestDTO getWithdrawRequestById(Long id) {
+        return withdrawRequestMapper.toDTO(withdrawRequestRepository.findById(id).orElse(null));
     }
 
     @Override
     public boolean deleteWithdrawRequestById(Long id) {
-        return false;
+        return withdrawRequestRepository.findById(id).map(withdrawRequest -> {
+            withdrawRequest.setIsActive(false);
+            withdrawRequestRepository.save(withdrawRequest);
+            return true;
+        }).orElse(false);
     }
 
     @Override
     public boolean updateWithdrawRequest(Long id, WithdrawRequestDTO updatedWithdrawRequestDTO) {
-        return false;
+        return withdrawRequestRepository.findById(id).map(withdrawRequest -> {
+            WithdrawRequest updatedWithdrawRequest = withdrawRequestMapper.toEntityWithId(id, updatedWithdrawRequestDTO);
+            withdrawRequestRepository.save(updatedWithdrawRequest);
+            return true;
+        }).orElse(false);
     }
 }

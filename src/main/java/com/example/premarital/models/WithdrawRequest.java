@@ -1,6 +1,7 @@
 package com.example.premarital.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -37,4 +38,6 @@ public class WithdrawRequest {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "transaction_id")
     private Transaction transaction;
+    @JsonProperty("isActive")
+    private Boolean isActive;
 }

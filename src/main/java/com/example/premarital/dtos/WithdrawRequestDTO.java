@@ -25,4 +25,5 @@ public class WithdrawRequestDTO {
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDate approvedDate;
     private Long transactionId;
+    private Boolean isActive;
 }
