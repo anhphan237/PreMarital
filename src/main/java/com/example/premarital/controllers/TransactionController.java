@@ -22,7 +22,7 @@ public class TransactionController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<TransactionDTO>> getUsers(
+    public ResponseEntity<Page<TransactionDTO>> getTransactions(
             @RequestParam(required = false) Integer page,
             @RequestParam(required = false) Integer size,
             @RequestParam(required = false) String sort,
@@ -42,5 +42,27 @@ public class TransactionController {
     public ResponseEntity<String> createTransaction(@RequestBody TransactionDTO transactionDTO){
         transactionService.createTransaction(transactionDTO);
         return new ResponseEntity<>("Transaction created successfully",HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<TransactionDTO> findTransactionById(@PathVariable Long id){
+        TransactionDTO transaction = transactionService.getTransactionById(id);
+        return new ResponseEntity<>(transaction, transaction != null ? HttpStatus.OK : HttpStatus.NOT_FOUND);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteTransaction(@PathVariable Long id) {
+        boolean deleted = transactionService.deleteTransactionById(id);
+        return deleted
+                ? ResponseEntity.ok("Transaction deleted successfully")
+                : ResponseEntity.status(HttpStatus.NOT_FOUND).body("Transaction not found");
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateTransaction(@PathVariable Long id, @RequestBody TransactionDTO updatedTransaction) {
+        boolean updated = transactionService.updateTransaction(id, updatedTransaction);
+        return updated
+                ? ResponseEntity.ok("Transaction updated successfully")
+                : ResponseEntity.status(HttpStatus.NOT_FOUND).body("Transaction not found");
     }
 }
