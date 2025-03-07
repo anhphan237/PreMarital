@@ -41,4 +41,6 @@ public class TherapistSchedule {
     private LocalDateTime endTime;
 
     private boolean isBooked;
+
+    private boolean isActive;
 }

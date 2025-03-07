@@ -42,4 +42,26 @@ public class TherapistScheduleController {
         therapistScheduleService.createTherapistSchedule(therapistScheduleDTO);
         return new ResponseEntity<>("Therapist schedule created successfully",HttpStatus.CREATED);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<TherapistScheduleDTO> findTherapistScheduleById(@PathVariable Long id){
+        TherapistScheduleDTO therapistSchedule = therapistScheduleService.getTherapistScheduleById(id);
+        return new ResponseEntity<>(therapistSchedule, therapistSchedule != null ? HttpStatus.OK : HttpStatus.NOT_FOUND);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteTherapistSchedule(@PathVariable Long id) {
+        boolean deleted = therapistScheduleService.deleteTherapistScheduleById(id);
+        return deleted
+                ? ResponseEntity.ok("Therapist Schedule deleted successfully")
+                : ResponseEntity.status(HttpStatus.NOT_FOUND).body("Therapist Schedule not found");
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateTherapistSchedule(@PathVariable Long id, @RequestBody TherapistScheduleDTO updatedTherapistSchedule) {
+        boolean updated = therapistScheduleService.updateTherapistSchedule(id, updatedTherapistSchedule);
+        return updated
+                ? ResponseEntity.ok("Therapist's Schedule updated successfully")
+                : ResponseEntity.status(HttpStatus.NOT_FOUND).body("Therapist's Schedule not found");
+    }
 }

@@ -3,6 +3,7 @@ package com.example.premarital.services.impl;
 import com.example.premarital.dtos.CategoryDTO;
 import com.example.premarital.mappers.CategoryMapper;
 import com.example.premarital.models.Category;
+import com.example.premarital.models.TherapistMajor;
 import com.example.premarital.repositories.CategoryRepository;
 import com.example.premarital.services.CategoryService;
 import org.springframework.data.domain.Page;
@@ -41,17 +42,25 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category getCategoryById(Long id) {
-        return null;
+    public CategoryDTO getCategoryById(Long id) {
+        return categoryMapper.toDTO(categoryRepository.findById(id).orElse(null));
     }
 
     @Override
     public boolean deleteCategoryById(Long id) {
-        return false;
+        return categoryRepository.findById(id).map(category -> {
+            category.setIsActive(false);
+            categoryRepository.save(category);
+            return true;
+        }).orElse(false);
     }
 
     @Override
     public boolean updateCategory(Long id, CategoryDTO updatedCategoryDTO) {
-        return false;
+        return categoryRepository.findById(id).map(category -> {
+            Category updatedCategory = categoryMapper.toEntityWithId(id, updatedCategoryDTO);
+            categoryRepository.save(updatedCategory);
+            return true;
+        }).orElse(false);
     }
 }

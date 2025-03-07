@@ -21,10 +21,11 @@ public class CategoryMapperImpl implements CategoryMapper {
         }
 
         return new CategoryDTO(
-            category.getId(),
-            category.getName(),
-            category.getParentCategory() != null ? category.getParentCategory().getId() : null,
-            category.getDescription()
+                category.getId(),
+                category.getName(),
+                category.getParentCategory() != null ? category.getParentCategory().getId() : null,
+                category.getDescription(),
+                category.getIsActive()
         );
     }
 
@@ -38,6 +39,26 @@ public class CategoryMapperImpl implements CategoryMapper {
         category.setId(dto.getId());
         category.setName(dto.getName());
         category.setDescription(dto.getDescription());
+        category.setIsActive(dto.getIsActive());
+
+        if (dto.getParentCategoryId() != null) {
+            category.setParentCategory(categoryRepository.getReferenceById(dto.getParentCategoryId()));
+        }
+
+        return category;
+    }
+
+    @Override
+    public Category toEntityWithId(Long id, CategoryDTO dto) {
+        if (dto == null) {
+            return null;
+        }
+
+        Category category = new Category();
+        category.setId(id);
+        category.setName(dto.getName());
+        category.setDescription(dto.getDescription());
+        category.setIsActive(dto.getIsActive());
 
         if (dto.getParentCategoryId() != null) {
             category.setParentCategory(categoryRepository.getReferenceById(dto.getParentCategoryId()));

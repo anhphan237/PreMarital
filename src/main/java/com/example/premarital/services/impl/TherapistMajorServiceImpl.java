@@ -2,7 +2,6 @@ package com.example.premarital.services.impl;
 
 import com.example.premarital.dtos.TherapistMajorDTO;
 import com.example.premarital.mappers.TherapistMajorMapper;
-import com.example.premarital.models.Therapist;
 import com.example.premarital.models.TherapistMajor;
 import com.example.premarital.repositories.TherapistMajorRepository;
 import com.example.premarital.services.TherapistMajorService;
