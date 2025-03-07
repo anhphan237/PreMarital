@@ -1,5 +1,6 @@
 package com.example.premarital.controllers;
 
+import com.example.premarital.dtos.TherapistMajorDTO;
 import com.example.premarital.dtos.UserDTO;
 import com.example.premarital.dtos.WalletDTO;
 import com.example.premarital.services.UserService;
@@ -43,5 +44,27 @@ public class WalletController {
     public ResponseEntity<String> createWallet(@RequestBody WalletDTO wallet){
         walletService.createWallet(wallet);
         return new ResponseEntity<>("Wallet created successfully",HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<WalletDTO> findWalletById(@PathVariable Long id){
+        WalletDTO wallet = walletService.getWalletById(id);
+        return new ResponseEntity<>(wallet, wallet != null ? HttpStatus.OK : HttpStatus.NOT_FOUND);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteWallet(@PathVariable Long id) {
+        boolean deleted = walletService.deleteWalletById(id);
+        return deleted
+                ? ResponseEntity.ok("Wallet deleted successfully")
+                : ResponseEntity.status(HttpStatus.NOT_FOUND).body("Wallet not found");
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateWallet(@PathVariable Long id, @RequestBody WalletDTO updatedWallet) {
+        boolean updated = walletService.updateWallet(id, updatedWallet);
+        return updated
+                ? ResponseEntity.ok("Wallet updated successfully")
+                : ResponseEntity.status(HttpStatus.NOT_FOUND).body("Wallet not found");
     }
 }

@@ -1,7 +1,9 @@
 package com.example.premarital.services.impl;
 
+import com.example.premarital.dtos.TherapistMajorDTO;
 import com.example.premarital.dtos.WalletDTO;
 import com.example.premarital.mappers.WalletMapper;
+import com.example.premarital.models.TherapistMajor;
 import com.example.premarital.models.Wallet;
 import com.example.premarital.repositories.WalletRepository;
 import com.example.premarital.services.WalletService;
@@ -37,22 +39,29 @@ public class WalletServiceImpl implements WalletService {
 
     @Override
     public void createWallet(WalletDTO dto) {
-        Wallet wallet = new Wallet();
-        walletRepository.save(wallet);
+        walletRepository.save(walletMapper.toEntity(dto));
     }
 
     @Override
-    public Wallet getWalletById(Long id) {
-        return null;
+    public WalletDTO getWalletById(Long id) {
+        return walletMapper.toDTO(walletRepository.findById(id).orElse(null));
     }
 
     @Override
     public boolean deleteWalletById(Long id) {
-        return false;
+        return walletRepository.findById(id).map(wallet -> {
+            wallet.setIsActive(false);
+            walletRepository.save(wallet);
+            return true;
+        }).orElse(false);
     }
 
     @Override
     public boolean updateWallet(Long id, WalletDTO updatedWalletDTO) {
-        return false;
+        return walletRepository.findById(id).map(wallet -> {
+            Wallet updatedWallet = walletMapper.toEntityWithId(id, updatedWalletDTO);
+            walletRepository.save(updatedWallet);
+            return true;
+        }).orElse(false);
     }
 }

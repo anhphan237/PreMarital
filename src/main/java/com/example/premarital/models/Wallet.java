@@ -21,6 +21,7 @@ public class Wallet {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
     private Long balance;
+    private Boolean isActive;
 
     @OneToMany(mappedBy = "wallet", fetch = FetchType.LAZY)
     private List<BankAccount> bankAccounts;
