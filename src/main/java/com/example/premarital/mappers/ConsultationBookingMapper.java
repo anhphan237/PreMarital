@@ -5,6 +5,6 @@ import com.example.premarital.models.ConsultationBooking;
 
 public interface ConsultationBookingMapper {
     ConsultationBookingDTO toDTO(ConsultationBooking consultationBooking);
-
     ConsultationBooking toEntity(ConsultationBookingDTO dto);
+    ConsultationBooking toEntityWithId(Long id, ConsultationBookingDTO dto);
 }

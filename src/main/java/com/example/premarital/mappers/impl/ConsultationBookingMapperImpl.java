@@ -34,6 +34,7 @@ public class ConsultationBookingMapperImpl implements ConsultationBookingMapper 
         dto.setAmount(consultationBooking.getAmount());
         dto.setStatus(consultationBooking.getStatus());
         dto.setMeetUrl(consultationBooking.getMeetUrl());
+        dto.setIsActive(consultationBooking.getIsActive());
 
         if (consultationBooking.getCategory() != null) {
             dto.setCategoryId(consultationBooking.getCategory().getId());
@@ -65,6 +66,39 @@ public class ConsultationBookingMapperImpl implements ConsultationBookingMapper 
         consultationBooking.setAmount(dto.getAmount());
         consultationBooking.setStatus(dto.getStatus());
         consultationBooking.setMeetUrl(dto.getMeetUrl());
+        consultationBooking.setIsActive(dto.getIsActive());
+
+        if (dto.getCategoryId() != null) {
+            consultationBooking.setCategory(categoryRepository.findById(dto.getCategoryId()).orElse(null));
+        }
+        if (dto.getUserId() != null) {
+            consultationBooking.setUser(userRepository.findById(dto.getUserId()).orElse(null));
+        }
+        if (dto.getTransactionId() != null) {
+            consultationBooking.setTransaction(transactionRepository.findById(dto.getTransactionId()).orElse(null));
+        }
+        if (dto.getTherapistScheduleId() != null) {
+            consultationBooking.setTherapistSchedule(therapistScheduleRepository.findById(dto.getTherapistScheduleId()).orElse(null));
+        }
+
+        return consultationBooking;
+    }
+
+    @Override
+    public ConsultationBooking toEntityWithId(Long id, ConsultationBookingDTO dto) {
+        if (dto == null) {
+            return null;
+        }
+
+        ConsultationBooking consultationBooking = (dto.getId() != null)
+                ? consultationBookingRepository.findById(dto.getId()).orElse(new ConsultationBooking())
+                : new ConsultationBooking();
+
+        consultationBooking.setId(id);
+        consultationBooking.setAmount(dto.getAmount());
+        consultationBooking.setStatus(dto.getStatus());
+        consultationBooking.setMeetUrl(dto.getMeetUrl());
+        consultationBooking.setIsActive(dto.getIsActive());
 
         if (dto.getCategoryId() != null) {
             consultationBooking.setCategory(categoryRepository.findById(dto.getCategoryId()).orElse(null));
