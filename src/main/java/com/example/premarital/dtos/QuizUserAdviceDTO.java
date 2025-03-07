@@ -1,6 +1,7 @@
 package com.example.premarital.dtos;
 
 import com.example.premarital.models.Quiz;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,4 +16,6 @@ public class QuizUserAdviceDTO {
     private int fromPoint;
     private int toPoint;
     private Long userQuizHistoryId;
+    @JsonProperty("isActive")
+    private Boolean isActive;
 }

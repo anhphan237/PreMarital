@@ -42,4 +42,26 @@ public class UserQuizHistoryController {
         userQuizHistoryService.createUserQuizHistory(userQuizHistoryDTO);
         return new ResponseEntity<>("User's Quiz History created successfully",HttpStatus.CREATED);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UserQuizHistoryDTO> findUserQuizHistoryById(@PathVariable Long id){
+        UserQuizHistoryDTO userQuizHistory = userQuizHistoryService.getUserQuizHistoryById(id);
+        return new ResponseEntity<>(userQuizHistory, userQuizHistory != null ? HttpStatus.OK : HttpStatus.NOT_FOUND);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteUserQuizHistory(@PathVariable Long id) {
+        boolean deleted = userQuizHistoryService.deleteUserQuizHistoryById(id);
+        return deleted
+                ? ResponseEntity.ok("User Quiz History deleted successfully")
+                : ResponseEntity.status(HttpStatus.NOT_FOUND).body("User Quiz History not found");
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateUserQuizHistory(@PathVariable Long id, @RequestBody UserQuizHistoryDTO userQuizHistoryDTO) {
+        boolean updated = userQuizHistoryService.updateUserQuizHistory(id, userQuizHistoryDTO);
+        return updated
+                ? ResponseEntity.ok("User Quiz History updated successfully")
+                : ResponseEntity.status(HttpStatus.NOT_FOUND).body("User Quiz History not found");
+    }
 }

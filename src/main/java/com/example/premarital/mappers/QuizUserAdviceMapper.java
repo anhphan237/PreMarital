@@ -6,4 +6,5 @@ import com.example.premarital.models.QuizUserAdvice;
 public interface QuizUserAdviceMapper {
     QuizUserAdviceDTO toDTO(QuizUserAdvice quizUserAdvice);
     QuizUserAdvice toEntity(QuizUserAdviceDTO quizUserAdviceDTO);
+    QuizUserAdvice toEntityWithId(Long id, QuizUserAdviceDTO quizUserAdviceDTO);
 }

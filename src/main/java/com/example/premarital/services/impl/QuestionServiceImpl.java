@@ -1,8 +1,10 @@
 package com.example.premarital.services.impl;
 
 import com.example.premarital.dtos.QuestionDTO;
+import com.example.premarital.dtos.WalletDTO;
 import com.example.premarital.mappers.QuestionMapper;
 import com.example.premarital.models.Question;
+import com.example.premarital.models.Wallet;
 import com.example.premarital.repositories.QuestionRepository;
 import com.example.premarital.services.QuestionService;
 import org.springframework.data.domain.Page;
@@ -42,17 +44,25 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public Question getQuestionById(Long id) {
-        return null;
+    public QuestionDTO getQuestionById(Long id) {
+        return questionMapper.toDTO(questionRepository.findById(id).orElse(null));
     }
 
     @Override
     public boolean deleteQuestionById(Long id) {
-        return false;
+        return questionRepository.findById(id).map(question -> {
+            question.setIsActive(false);
+            questionRepository.save(question);
+            return true;
+        }).orElse(false);
     }
 
     @Override
     public boolean updateQuestion(Long id, QuestionDTO updatedQuestionDTO) {
-        return false;
+        return questionRepository.findById(id).map(question -> {
+            Question updatedQuestion = questionMapper.toEntityWithId(id, updatedQuestionDTO);
+            questionRepository.save(updatedQuestion);
+            return true;
+        }).orElse(false);
     }
 }

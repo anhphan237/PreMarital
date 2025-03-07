@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable;
 public interface UserQuizHistoryService {
     Page<UserQuizHistoryDTO> getUserQuizHistories(Pageable pageable);
     void createUserQuizHistory(UserQuizHistoryDTO dto);
-    UserQuizHistory getUserQuizHistoryById(Long id);
+    UserQuizHistoryDTO getUserQuizHistoryById(Long id);
     boolean deleteUserQuizHistoryById(Long id);
     boolean updateUserQuizHistory(Long id, UserQuizHistoryDTO updatedUserQuizHistoryDTO);
 }

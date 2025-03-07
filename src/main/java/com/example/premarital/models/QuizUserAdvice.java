@@ -23,8 +23,9 @@ public class QuizUserAdvice {
 
     private int fromPoint;
     private int toPoint;
+    private Boolean isActive;
 
     @OneToOne
-    @JoinColumn(name = "user_quiz_history_id", nullable = false)
+    @JoinColumn(name = "user_quiz_history_id")
     private UserQuizHistory userQuizHistory;
 }

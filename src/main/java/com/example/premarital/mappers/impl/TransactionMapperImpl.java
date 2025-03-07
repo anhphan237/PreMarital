@@ -33,7 +33,8 @@ public class TransactionMapperImpl implements TransactionMapper {
                 transaction.getBalanceBefore(),
                 transaction.getTransactionFee(),
                 transaction.getTotalAmount(),
-                transaction.getWithdrawRequest() != null ? transaction.getWithdrawRequest().getId() : null
+                transaction.getWithdrawRequest() != null ? transaction.getWithdrawRequest().getId() : null,
+                transaction.getIsActive()
         );
     }
 
@@ -57,6 +58,36 @@ public class TransactionMapperImpl implements TransactionMapper {
         transaction.setBalanceBefore(dto.getBalanceBefore());
         transaction.setTransactionFee(dto.getTransactionFee());
         transaction.setTotalAmount(dto.getTotalAmount());
+        transaction.setIsActive(dto.getIsActive());
+        // WithdrawRequest handling if needed
+        if (dto.getWithdrawRequestId() != null) {
+            transaction.setWithdrawRequest(withdrawRequestRepository.getReferenceById(dto.getWithdrawRequestId()));
+        }
+
+        return transaction;
+    }
+
+    @Override
+    public Transaction toEntityWithId(Long id, TransactionDTO dto) {
+        if (dto == null) {
+            return null;
+        }
+
+        Transaction transaction = new Transaction();
+        transaction.setId(id);
+
+        // Wallet handling if needed
+        if (dto.getWalletId() != null) {
+            transaction.setWallet(walletRepository.getReferenceById(dto.getWalletId()));
+        }
+        transaction.setAmount(dto.getAmount());
+        transaction.setTransactionType(dto.getTransactionType());
+        transaction.setTransactionTime(dto.getTransactionTime());
+        transaction.setTransactionStatus(dto.getTransactionStatus());
+        transaction.setBalanceBefore(dto.getBalanceBefore());
+        transaction.setTransactionFee(dto.getTransactionFee());
+        transaction.setTotalAmount(dto.getTotalAmount());
+        transaction.setIsActive(dto.getIsActive());
         // WithdrawRequest handling if needed
         if (dto.getWithdrawRequestId() != null) {
             transaction.setWithdrawRequest(withdrawRequestRepository.getReferenceById(dto.getWithdrawRequestId()));

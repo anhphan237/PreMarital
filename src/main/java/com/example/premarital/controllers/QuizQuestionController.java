@@ -2,6 +2,7 @@ package com.example.premarital.controllers;
 
 import com.example.premarital.dtos.QuizCategoryDTO;
 import com.example.premarital.dtos.QuizQuestionDTO;
+import com.example.premarital.dtos.WalletDTO;
 import com.example.premarital.services.QuizQuestionService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -41,5 +42,27 @@ public class QuizQuestionController {
     public ResponseEntity<String> createQuizQuestion(@RequestBody QuizQuestionDTO quizQuestionDTO){
         quizQuestionService.createQuizQuestion(quizQuestionDTO);
         return new ResponseEntity<>("Quiz Question created successfully",HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<QuizQuestionDTO> findQuizQuestionById(@PathVariable Long id){
+        QuizQuestionDTO quizQuestion = quizQuestionService.getQuizQuestionById(id);
+        return new ResponseEntity<>(quizQuestion, quizQuestion != null ? HttpStatus.OK : HttpStatus.NOT_FOUND);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteQuizQuestion(@PathVariable Long id) {
+        boolean deleted = quizQuestionService.deleteQuizQuestionById(id);
+        return deleted
+                ? ResponseEntity.ok("Quiz Question deleted successfully")
+                : ResponseEntity.status(HttpStatus.NOT_FOUND).body("Quiz Question not found");
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateQuizQuestion(@PathVariable Long id, @RequestBody QuizQuestionDTO quizQuestionDTO) {
+        boolean updated = quizQuestionService.updateQuizQuestion(id, quizQuestionDTO);
+        return updated
+                ? ResponseEntity.ok("Quiz Question updated successfully")
+                : ResponseEntity.status(HttpStatus.NOT_FOUND).body("Quiz Question not found");
     }
 }

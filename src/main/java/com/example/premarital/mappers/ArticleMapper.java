@@ -4,7 +4,7 @@ import com.example.premarital.dtos.ArticleDTO;
 import com.example.premarital.models.Article;
 
 public interface ArticleMapper {
+    ArticleDTO toDTO(Article article);
     Article toEntity(ArticleDTO dto);
-
-    ArticleDTO toDto(Article article);
+    Article toEntityWithId(Long id, ArticleDTO dto);
 }

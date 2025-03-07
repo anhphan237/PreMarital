@@ -42,4 +42,26 @@ public class QuizCategoryController {
         quizCategoryService.createQuizCategory(quizCategoryDTO);
         return new ResponseEntity<>("Quiz Category created successfully",HttpStatus.CREATED);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<QuizCategoryDTO> findQuizCategoryById(@PathVariable Long id){
+        QuizCategoryDTO quizCategory = quizCategoryService.getQuizCategoryById(id);
+        return new ResponseEntity<>(quizCategory, quizCategory != null ? HttpStatus.OK : HttpStatus.NOT_FOUND);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteQuizCategory(@PathVariable Long id) {
+        boolean deleted = quizCategoryService.deleteQuizCategoryById(id);
+        return deleted
+                ? ResponseEntity.ok("Quiz Category deleted successfully")
+                : ResponseEntity.status(HttpStatus.NOT_FOUND).body("Quiz Category not found");
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateQuizCategory(@PathVariable Long id, @RequestBody QuizCategoryDTO quizCategoryDTO) {
+        boolean updated = quizCategoryService.updateQuizCategory(id, quizCategoryDTO);
+        return updated
+                ? ResponseEntity.ok("Quiz Category updated successfully")
+                : ResponseEntity.status(HttpStatus.NOT_FOUND).body("Quiz Category not found");
+    }
 }

@@ -6,4 +6,5 @@ import com.example.premarital.models.UserQuizHistory;
 public interface UserQuizHistoryMapper {
     UserQuizHistoryDTO toDTO(UserQuizHistory userQuizHistory);
     UserQuizHistory toEntity(UserQuizHistoryDTO userQuizHistoryDTO);
+    UserQuizHistory toEntityWithId(Long id, UserQuizHistoryDTO userQuizHistoryDTO);
 }

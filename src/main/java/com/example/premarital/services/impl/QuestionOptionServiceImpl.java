@@ -1,8 +1,10 @@
 package com.example.premarital.services.impl;
 
 import com.example.premarital.dtos.QuestionOptionDTO;
+import com.example.premarital.dtos.WalletDTO;
 import com.example.premarital.mappers.QuestionOptionMapper;
 import com.example.premarital.models.QuestionOption;
+import com.example.premarital.models.Wallet;
 import com.example.premarital.repositories.QuestionOptionRepository;
 import com.example.premarital.services.QuestionOptionService;
 import org.springframework.data.domain.Page;
@@ -37,22 +39,29 @@ public class QuestionOptionServiceImpl implements QuestionOptionService {
 
     @Override
     public void createQuestionOption(QuestionOptionDTO dto) {
-        QuestionOption questionOption = questionOptionMapper.toEntity(dto);
-        questionOptionRepository.save(questionOption);
+        questionOptionRepository.save(questionOptionMapper.toEntity(dto));
     }
 
     @Override
-    public QuestionOption getQuestionOptionById(Long id) {
-        return null;
+    public QuestionOptionDTO getQuestionOptionById(Long id) {
+        return questionOptionMapper.toDTO(questionOptionRepository.findById(id).orElse(null));
     }
 
     @Override
     public boolean deleteQuestionOptionById(Long id) {
-        return false;
+        return questionOptionRepository.findById(id).map(questionOption -> {
+            questionOption.setIsActive(false);
+            questionOptionRepository.save(questionOption);
+            return true;
+        }).orElse(false);
     }
 
     @Override
     public boolean updateQuestionOption(Long id, QuestionOptionDTO updatedQuestionOptionDTO) {
-        return false;
+        return questionOptionRepository.findById(id).map(questionOption -> {
+            QuestionOption updatedQuestionOption = questionOptionMapper.toEntityWithId(id, updatedQuestionOptionDTO);
+            questionOptionRepository.save(updatedQuestionOption);
+            return true;
+        }).orElse(false);
     }
 }

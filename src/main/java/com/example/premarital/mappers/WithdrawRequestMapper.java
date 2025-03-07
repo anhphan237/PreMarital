@@ -5,6 +5,6 @@ import com.example.premarital.models.WithdrawRequest;
 
 public interface WithdrawRequestMapper {
     WithdrawRequestDTO toDTO(WithdrawRequest withdrawRequest);
-
     WithdrawRequest toEntity(WithdrawRequestDTO dto);
+    WithdrawRequest toEntityWithId(Long id, WithdrawRequestDTO dto);
 }

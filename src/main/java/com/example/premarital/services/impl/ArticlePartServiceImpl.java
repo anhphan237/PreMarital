@@ -28,7 +28,8 @@ public class ArticlePartServiceImpl implements ArticlePartService {
 
             @Override
             public ArticlePartDTO apply(ArticlePart articlePart) {
-                return null;
+                ArticlePartDTO dto = articlePartMapper.toDTO(articlePart);
+                return dto;
             }
         });
         return dtoPage;
@@ -41,17 +42,25 @@ public class ArticlePartServiceImpl implements ArticlePartService {
     }
 
     @Override
-    public ArticlePart getArticlePartById(Long id) {
-        return null;
+    public ArticlePartDTO getArticlePartById(Long id) {
+        return articlePartMapper.toDTO(articlePartRepository.findById(id).orElse(null));
     }
 
     @Override
     public boolean deleteArticlePartById(Long id) {
-        return false;
+        return articlePartRepository.findById(id).map(articlePart -> {
+            articlePart.setIsActive(false);
+            articlePartRepository.save(articlePart);
+            return true;
+        }).orElse(false);
     }
 
     @Override
     public boolean updateArticlePart(Long id, ArticlePartDTO updatedArticlePartDTO) {
-        return false;
+        return articlePartRepository.findById(id).map(article -> {
+            ArticlePart updatedArticle = articlePartMapper.toEntityWithId(id, updatedArticlePartDTO);
+            articlePartRepository.save(updatedArticle);
+            return true;
+        }).orElse(false);
     }
 }

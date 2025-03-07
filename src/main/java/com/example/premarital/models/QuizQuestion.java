@@ -25,10 +25,9 @@ public class QuizQuestion {
     @JoinColumn(name = "quiz_id", nullable = false)
     private Quiz quiz;
 
-    @OneToMany(mappedBy = "quizQuestion")
-    private List<UserAnswer> userAnswer;
-
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
+
+    private Boolean isActive;
 }

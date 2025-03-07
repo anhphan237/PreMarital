@@ -21,7 +21,8 @@ public class QuizUserAdviceMapperImpl implements QuizUserAdviceMapper {
                 quizUserAdvice.getAdviceText(),
                 quizUserAdvice.getFromPoint(),
                 quizUserAdvice.getToPoint(),
-                quizUserAdvice.getUserQuizHistory() != null ? quizUserAdvice.getUserQuizHistory().getId() : null // Chỉ lấy ID
+                quizUserAdvice.getUserQuizHistory() != null ? quizUserAdvice.getUserQuizHistory().getId() : null,
+                quizUserAdvice.getIsActive()
         );
     }
 
@@ -36,6 +37,35 @@ public class QuizUserAdviceMapperImpl implements QuizUserAdviceMapper {
         quizUserAdvice.setAdviceText(quizUserAdviceDTO.getAdviceText());
         quizUserAdvice.setFromPoint(quizUserAdviceDTO.getFromPoint());
         quizUserAdvice.setToPoint(quizUserAdviceDTO.getToPoint());
+        quizUserAdvice.setIsActive(quizUserAdviceDTO.getIsActive());
+
+        if (quizUserAdviceDTO.getQuizId() != null) {
+            Quiz quiz = new Quiz();
+            quiz.setId(quizUserAdviceDTO.getQuizId()); // Chỉ gán ID
+            quizUserAdvice.setQuiz(quiz);
+        }
+
+        if (quizUserAdviceDTO.getUserQuizHistoryId() != null) {
+            UserQuizHistory userQuizHistory = new UserQuizHistory();
+            userQuizHistory.setId(quizUserAdviceDTO.getUserQuizHistoryId()); // Chỉ gán ID
+            quizUserAdvice.setUserQuizHistory(userQuizHistory);
+        }
+
+        return quizUserAdvice;
+    }
+
+    @Override
+    public QuizUserAdvice toEntityWithId(Long id, QuizUserAdviceDTO quizUserAdviceDTO) {
+        if (quizUserAdviceDTO == null) {
+            return null;
+        }
+
+        QuizUserAdvice quizUserAdvice = new QuizUserAdvice();
+        quizUserAdvice.setId(id);
+        quizUserAdvice.setAdviceText(quizUserAdviceDTO.getAdviceText());
+        quizUserAdvice.setFromPoint(quizUserAdviceDTO.getFromPoint());
+        quizUserAdvice.setToPoint(quizUserAdviceDTO.getToPoint());
+        quizUserAdvice.setIsActive(quizUserAdviceDTO.getIsActive());
 
         if (quizUserAdviceDTO.getQuizId() != null) {
             Quiz quiz = new Quiz();

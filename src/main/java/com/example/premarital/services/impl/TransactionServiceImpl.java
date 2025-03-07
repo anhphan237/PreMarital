@@ -1,8 +1,10 @@
 package com.example.premarital.services.impl;
 
 import com.example.premarital.dtos.TransactionDTO;
+import com.example.premarital.dtos.WithdrawRequestDTO;
 import com.example.premarital.mappers.TransactionMapper;
 import com.example.premarital.models.Transaction;
+import com.example.premarital.models.WithdrawRequest;
 import com.example.premarital.repositories.TransactionRepository;
 import com.example.premarital.services.TransactionService;
 import org.springframework.data.domain.Page;
@@ -42,17 +44,25 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public Transaction getTransactionById(Long id) {
-        return null;
+    public TransactionDTO getTransactionById(Long id) {
+        return transactionMapper.toDTO(transactionRepository.findById(id).orElse(null));
     }
 
     @Override
     public boolean deleteTransactionById(Long id) {
-        return false;
+        return transactionRepository.findById(id).map(transaction -> {
+            transaction.setIsActive(false);
+            transactionRepository.save(transaction);
+            return true;
+        }).orElse(false);
     }
 
     @Override
     public boolean updateTransaction(Long id, TransactionDTO updatedTransactionDTO) {
-        return false;
+        return transactionRepository.findById(id).map(withdrawRequest -> {
+            Transaction updatedTransaction = transactionMapper.toEntityWithId(id, updatedTransactionDTO);
+            transactionRepository.save(updatedTransaction);
+            return true;
+        }).orElse(false);
     }
 }

@@ -20,6 +20,8 @@ public class UserAnswer {
     private UserQuizHistory userQuizHistory;
 
     @ManyToOne
-    @JoinColumn(name = "quiz_question_id", nullable = false)
-    private QuizQuestion quizQuestion;
+    @JoinColumn(name = "question_option_id", nullable = false)
+    private QuestionOption questionOption;
+
+    private Boolean isActive;
 }

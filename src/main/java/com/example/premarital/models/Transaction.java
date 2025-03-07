@@ -28,6 +28,7 @@ public class Transaction {
     private Long balanceBefore;
     private Long transactionFee;
     private Long totalAmount;
+    private Boolean isActive;
 
     @OneToOne(mappedBy = "transaction")
     private WithdrawRequest withdrawRequest;

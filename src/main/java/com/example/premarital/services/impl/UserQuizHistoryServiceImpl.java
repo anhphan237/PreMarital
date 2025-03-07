@@ -1,8 +1,10 @@
 package com.example.premarital.services.impl;
 
 import com.example.premarital.dtos.UserQuizHistoryDTO;
+import com.example.premarital.dtos.WalletDTO;
 import com.example.premarital.mappers.UserQuizHistoryMapper;
 import com.example.premarital.models.UserQuizHistory;
+import com.example.premarital.models.Wallet;
 import com.example.premarital.repositories.UserQuizHistoryRepository;
 import com.example.premarital.services.UserQuizHistoryService;
 import org.springframework.data.domain.Page;
@@ -42,17 +44,25 @@ public class UserQuizHistoryServiceImpl implements UserQuizHistoryService {
     }
 
     @Override
-    public UserQuizHistory getUserQuizHistoryById(Long id) {
-        return null;
+    public UserQuizHistoryDTO getUserQuizHistoryById(Long id) {
+        return userQuizHistoryMapper.toDTO(userQuizHistoryRepository.findById(id).orElse(null));
     }
 
     @Override
     public boolean deleteUserQuizHistoryById(Long id) {
-        return false;
+        return userQuizHistoryRepository.findById(id).map(userQuizHistory -> {
+            userQuizHistory.setIsActive(false);
+            userQuizHistoryRepository.save(userQuizHistory);
+            return true;
+        }).orElse(false);
     }
 
     @Override
     public boolean updateUserQuizHistory(Long id, UserQuizHistoryDTO updatedUserQuizHistoryDTO) {
-        return false;
+        return userQuizHistoryRepository.findById(id).map(userQuizHistory -> {
+            UserQuizHistory updatedUserQuizHistory = userQuizHistoryMapper.toEntityWithId(id, updatedUserQuizHistoryDTO);
+            userQuizHistoryRepository.save(updatedUserQuizHistory);
+            return true;
+        }).orElse(false);
     }
 }

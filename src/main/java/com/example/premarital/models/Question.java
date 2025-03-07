@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -22,9 +24,10 @@ public class Question {
     private List<QuizQuestion> quizQuestion;
 
     private String questionText;
-    private Date createdAt;
-    private Date updatedAt;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
     private String forGender;
+    private Boolean isActive;
 
     @OneToMany(mappedBy = "question", fetch = FetchType.LAZY)
     private List<QuestionOption> questionOption;

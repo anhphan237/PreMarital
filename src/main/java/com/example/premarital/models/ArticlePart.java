@@ -19,6 +19,7 @@ public class ArticlePart {
     private String content;
     private int orderIndex;
     private String imageLink;
+    private Boolean isActive;
 
     @ManyToOne
     @JoinColumn(name = "article_id", nullable = false)

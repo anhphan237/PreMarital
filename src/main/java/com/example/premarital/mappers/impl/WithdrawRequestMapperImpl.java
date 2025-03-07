@@ -30,7 +30,8 @@ public class WithdrawRequestMapperImpl implements WithdrawRequestMapper {
                 withdrawRequest.isApproved(),
                 withdrawRequest.getApprovedBy(),
                 withdrawRequest.getApprovedDate(),
-                withdrawRequest.getTransaction() == null ? 0 : withdrawRequest.getTransaction().getId()
+                withdrawRequest.getTransaction() == null ? 0 : withdrawRequest.getTransaction().getId(),
+                withdrawRequest.getIsActive()
         );
     }
 
@@ -48,7 +49,28 @@ public class WithdrawRequestMapperImpl implements WithdrawRequestMapper {
         withdrawRequest.setApprovedBy(dto.getApprovedBy());
         withdrawRequest.setApprovedDate(dto.getApprovedDate());
         withdrawRequest.setUser(userRepository.getReferenceById(dto.getUserId()));
-        withdrawRequest.setTransaction(null);
+        withdrawRequest.setTransaction(dto.getTransactionId() == null ? null : transactionRepository.getReferenceById(dto.getTransactionId()));
+        withdrawRequest.setIsActive(dto.getIsActive());
+
+        return withdrawRequest;
+    }
+
+    @Override
+    public WithdrawRequest toEntityWithId(Long id, WithdrawRequestDTO dto) {
+        if (dto == null) {
+            return null;
+        }
+
+        WithdrawRequest withdrawRequest = new WithdrawRequest();
+        withdrawRequest.setId(id);
+        withdrawRequest.setRequestAmount(dto.getRequestAmount());
+        withdrawRequest.setRequestDate(dto.getRequestDate());
+        withdrawRequest.setApproved(dto.isApproved());
+        withdrawRequest.setApprovedBy(dto.getApprovedBy());
+        withdrawRequest.setApprovedDate(dto.getApprovedDate());
+        withdrawRequest.setUser(userRepository.getReferenceById(dto.getUserId()));
+        withdrawRequest.setTransaction(dto.getTransactionId() == null ? null : transactionRepository.getReferenceById(dto.getTransactionId()));
+        withdrawRequest.setIsActive(dto.getIsActive());
 
         return withdrawRequest;
     }

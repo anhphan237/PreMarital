@@ -19,7 +19,8 @@ public class UserQuizHistoryMapperImpl implements UserQuizHistoryMapper {
                 userQuizHistory.getId(),
                 userQuizHistory.getUser() != null ? userQuizHistory.getUser().getId() : null,  // Chỉ lấy ID
                 userQuizHistory.getQuizPoint(),
-                userQuizHistory.getQuizUserAdvice() != null ? userQuizHistory.getQuizUserAdvice().getId() : null // Chỉ lấy ID
+                userQuizHistory.getQuizUserAdvice() != null ? userQuizHistory.getQuizUserAdvice().getId() : null,
+                userQuizHistory.getIsActive()
         );
     }
 
@@ -32,6 +33,33 @@ public class UserQuizHistoryMapperImpl implements UserQuizHistoryMapper {
         UserQuizHistory userQuizHistory = new UserQuizHistory();
         userQuizHistory.setId(userQuizHistoryDTO.getId());
         userQuizHistory.setQuizPoint(userQuizHistoryDTO.getQuizPoint());
+        userQuizHistory.setIsActive(userQuizHistoryDTO.getIsActive());
+
+        if (userQuizHistoryDTO.getUserId() != null) {
+            User user = new User();
+            user.setId(userQuizHistoryDTO.getUserId());  // Chỉ gán ID, không fetch toàn bộ object
+            userQuizHistory.setUser(user);
+        }
+
+        if (userQuizHistoryDTO.getQuizUserAdviceId() != null) {
+            QuizUserAdvice quizUserAdvice = new QuizUserAdvice();
+            quizUserAdvice.setId(userQuizHistoryDTO.getQuizUserAdviceId());  // Chỉ gán ID
+            userQuizHistory.setQuizUserAdvice(quizUserAdvice);
+        }
+
+        return userQuizHistory;
+    }
+
+    @Override
+    public UserQuizHistory toEntityWithId(Long id, UserQuizHistoryDTO userQuizHistoryDTO) {
+        if (userQuizHistoryDTO == null) {
+            return null;
+        }
+
+        UserQuizHistory userQuizHistory = new UserQuizHistory();
+        userQuizHistory.setId(id);
+        userQuizHistory.setQuizPoint(userQuizHistoryDTO.getQuizPoint());
+        userQuizHistory.setIsActive(userQuizHistoryDTO.getIsActive());
 
         if (userQuizHistoryDTO.getUserId() != null) {
             User user = new User();

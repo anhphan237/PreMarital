@@ -6,4 +6,5 @@ import com.example.premarital.models.Quiz;
 public interface QuizMapper {
     QuizDTO toDTO(Quiz quiz);
     Quiz toEntity(QuizDTO quizDTO);
+    Quiz toEntityWithId(Long id, QuizDTO quizDTO);
 }

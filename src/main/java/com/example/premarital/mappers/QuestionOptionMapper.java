@@ -6,4 +6,5 @@ import com.example.premarital.models.QuestionOption;
 public interface QuestionOptionMapper {
     QuestionOptionDTO toDTO(QuestionOption questionOption);
     QuestionOption toEntity(QuestionOptionDTO questionOptionDTO);
+    QuestionOption toEntityWithId(Long id, QuestionOptionDTO questionOptionDTO);
 }

@@ -6,4 +6,5 @@ import com.example.premarital.models.ArticlePart;
 public interface ArticlePartMapper {
     ArticlePartDTO toDTO(ArticlePart articlePart);
     ArticlePart toEntity(ArticlePartDTO articlePartDTO);
+    ArticlePart toEntityWithId(Long id, ArticlePartDTO articlePartDTO);
 }

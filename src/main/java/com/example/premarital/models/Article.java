@@ -20,6 +20,7 @@ public class Article {
     private String title;
     private String referencePath;
     private String status;
+    private Boolean isActive;
 
     @ManyToOne
     @JoinColumn(name = "approved_admin_id")

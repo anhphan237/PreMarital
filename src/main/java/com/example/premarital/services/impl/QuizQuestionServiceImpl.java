@@ -1,8 +1,10 @@
 package com.example.premarital.services.impl;
 
 import com.example.premarital.dtos.QuizQuestionDTO;
+import com.example.premarital.dtos.WalletDTO;
 import com.example.premarital.mappers.QuizQuestionMapper;
 import com.example.premarital.models.QuizQuestion;
+import com.example.premarital.models.Wallet;
 import com.example.premarital.repositories.QuizQuestionRepository;
 import com.example.premarital.services.QuizQuestionService;
 import org.springframework.data.domain.Page;
@@ -42,17 +44,25 @@ public class QuizQuestionServiceImpl implements QuizQuestionService {
     }
 
     @Override
-    public QuizQuestion getQuizQuestionById(Long id) {
-        return null;
+    public QuizQuestionDTO getQuizQuestionById(Long id) {
+        return quizQuestionMapper.toDTO(quizQuestionRepository.findById(id).orElse(null));
     }
 
     @Override
     public boolean deleteQuizQuestionById(Long id) {
-        return false;
+        return quizQuestionRepository.findById(id).map(quizQuestion -> {
+            quizQuestion.setIsActive(false);
+            quizQuestionRepository.save(quizQuestion);
+            return true;
+        }).orElse(false);
     }
 
     @Override
     public boolean updateQuizQuestion(Long id, QuizQuestionDTO updatedQuizQuestionDTO) {
-        return false;
+        return quizQuestionRepository.findById(id).map(quizQuestion -> {
+            QuizQuestion updatedQuizQuestion = quizQuestionMapper.toEntityWithId(id, updatedQuizQuestionDTO);
+            quizQuestionRepository.save(updatedQuizQuestion);
+            return true;
+        }).orElse(false);
     }
 }

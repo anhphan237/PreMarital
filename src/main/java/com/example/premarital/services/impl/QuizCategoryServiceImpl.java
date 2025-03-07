@@ -42,17 +42,25 @@ public class QuizCategoryServiceImpl implements QuizCategoryService {
     }
 
     @Override
-    public QuizCategory getQuizCategoryById(Long id) {
-        return null;
+    public QuizCategoryDTO getQuizCategoryById(Long id) {
+        return quizCategoryMapper.toDTO(quizCategoryRepository.findById(id).orElse(null));
     }
 
     @Override
     public boolean deleteQuizCategoryById(Long id) {
-        return false;
+        return quizCategoryRepository.findById(id).map(quizCategory -> {
+            quizCategory.setIsActive(false);
+            quizCategoryRepository.save(quizCategory);
+            return true;
+        }).orElse(false);
     }
 
     @Override
     public boolean updateQuizCategory(Long id, QuizCategoryDTO updatedQuizCategoryDTO) {
-        return false;
+        return quizCategoryRepository.findById(id).map(quizCategory -> {
+            QuizCategory updatedQuizCategory = quizCategoryMapper.toEntityWithId(id, updatedQuizCategoryDTO);
+            quizCategoryRepository.save(updatedQuizCategory);
+            return true;
+        }).orElse(false);
     }
 }

@@ -27,7 +27,8 @@ public class ArticlePartMapperImpl implements ArticlePartMapper {
                 articlePart.getContent(),
                 articlePart.getOrderIndex(),
                 articlePart.getImageLink(),
-                (articlePart.getArticle() != null) ? articlePart.getArticle().getId() : null
+                (articlePart.getArticle() != null) ? articlePart.getArticle().getId() : null,
+                articlePart.getIsActive()
         );
     }
 
@@ -43,6 +44,30 @@ public class ArticlePartMapperImpl implements ArticlePartMapper {
         articlePart.setContent(articlePartDTO.getContent());
         articlePart.setOrderIndex(articlePartDTO.getOrderIndex());
         articlePart.setImageLink(articlePartDTO.getImageLink());
+        articlePart.setIsActive(articlePartDTO.getIsActive());
+
+        // Nếu có articleId, tạo đối tượng Article với ID
+        if (articlePartDTO.getArticleId() != null) {
+            Article article = articleRepository.findById(articlePartDTO.getArticleId()).orElse(null);
+            articlePart.setArticle(article);
+        }
+
+        return articlePart;
+    }
+
+    @Override
+    public ArticlePart toEntityWithId(Long id, ArticlePartDTO articlePartDTO) {
+        if (articlePartDTO == null) {
+            return null;
+        }
+
+        ArticlePart articlePart = new ArticlePart();
+        articlePart.setId(id);
+        articlePart.setTitle(articlePartDTO.getTitle());
+        articlePart.setContent(articlePartDTO.getContent());
+        articlePart.setOrderIndex(articlePartDTO.getOrderIndex());
+        articlePart.setImageLink(articlePartDTO.getImageLink());
+        articlePart.setIsActive(articlePartDTO.getIsActive());
 
         // Nếu có articleId, tạo đối tượng Article với ID
         if (articlePartDTO.getArticleId() != null) {

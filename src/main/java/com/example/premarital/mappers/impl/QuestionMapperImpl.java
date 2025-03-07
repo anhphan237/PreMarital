@@ -17,7 +17,8 @@ public class QuestionMapperImpl implements QuestionMapper {
                 question.getQuestionText(),
                 question.getCreatedAt(),
                 question.getUpdatedAt(),
-                question.getForGender()
+                question.getForGender(),
+                question.getIsActive()
         );
     }
 
@@ -32,6 +33,23 @@ public class QuestionMapperImpl implements QuestionMapper {
         question.setCreatedAt(questionDTO.getCreatedAt());
         question.setUpdatedAt(questionDTO.getUpdatedAt());
         question.setForGender(questionDTO.getForGender());
+        question.setIsActive(questionDTO.getIsActive());
+
+        return question;
+    }
+
+    @Override
+    public Question toEntityWithId(Long id, QuestionDTO questionDTO) {
+        if (questionDTO == null) {
+            return null;
+        }
+        Question question = new Question();
+        question.setId(id);
+        question.setQuestionText(questionDTO.getQuestionText());
+        question.setCreatedAt(questionDTO.getCreatedAt());
+        question.setUpdatedAt(questionDTO.getUpdatedAt());
+        question.setForGender(questionDTO.getForGender());
+        question.setIsActive(questionDTO.getIsActive());
 
         return question;
     }

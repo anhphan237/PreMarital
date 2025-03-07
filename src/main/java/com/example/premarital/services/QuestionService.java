@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable;
 public interface QuestionService {
     Page<QuestionDTO> getQuestions(Pageable pageable);
     void createQuestion(QuestionDTO dto);
-    Question getQuestionById(Long id);
+    QuestionDTO getQuestionById(Long id);
     boolean deleteQuestionById(Long id);
     boolean updateQuestion(Long id, QuestionDTO updatedQuestionDTO);
 }

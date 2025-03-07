@@ -1,8 +1,10 @@
 package com.example.premarital.services.impl;
 
 import com.example.premarital.dtos.ArticleDTO;
+import com.example.premarital.dtos.WalletDTO;
 import com.example.premarital.mappers.ArticleMapper;
 import com.example.premarital.models.Article;
+import com.example.premarital.models.Wallet;
 import com.example.premarital.repositories.ArticleRepository;
 import com.example.premarital.services.ArticleService;
 import org.springframework.data.domain.Page;
@@ -28,7 +30,7 @@ public class ArticleServiceImpl implements ArticleService {
 
             @Override
             public ArticleDTO apply(Article article) {
-                ArticleDTO dto = articleMapper.toDto(article);
+                ArticleDTO dto = articleMapper.toDTO(article);
                 return dto;
             }
         });
@@ -42,17 +44,25 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Article getArticleById(Long id) {
-        return null;
+    public ArticleDTO getArticleById(Long id) {
+        return articleMapper.toDTO(articleRepository.findById(id).orElse(null));
     }
 
     @Override
     public boolean deleteArticleById(Long id) {
-        return false;
+        return articleRepository.findById(id).map(article -> {
+            article.setIsActive(false);
+            articleRepository.save(article);
+            return true;
+        }).orElse(false);
     }
 
     @Override
     public boolean updateArticle(Long id, ArticleDTO updatedArticleDTO) {
-        return false;
+        return articleRepository.findById(id).map(article -> {
+            Article updatedArticle = articleMapper.toEntityWithId(id, updatedArticleDTO);
+            articleRepository.save(updatedArticle);
+            return true;
+        }).orElse(false);
     }
 }
