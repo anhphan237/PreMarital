@@ -1,6 +1,7 @@
 package com.example.premarital.dtos;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,5 +26,8 @@ public class TherapistScheduleDTO {
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
     @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm:ss")
     private LocalDateTime endTime;
+    @JsonProperty("isBooked")
     private boolean isBooked;
+    @JsonProperty("isActive")
+    private boolean isActive;
 }

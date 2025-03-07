@@ -5,6 +5,6 @@ import com.example.premarital.models.TherapistSchedule;
 
 public interface TherapistScheduleMapper {
     TherapistScheduleDTO toDTO(TherapistSchedule entity);
-
     TherapistSchedule toEntity(TherapistScheduleDTO dto);
+    TherapistSchedule toEntityWithId(Long id, TherapistScheduleDTO dto);
 }

@@ -3,26 +3,22 @@ package com.example.premarital.services.impl;
 import com.example.premarital.dtos.TherapistScheduleDTO;
 import com.example.premarital.mappers.TherapistScheduleMapper;
 import com.example.premarital.models.TherapistSchedule;
-import com.example.premarital.repositories.TherapistRepository;
 import com.example.premarital.repositories.TherapistScheduleRepository;
 import com.example.premarital.services.TherapistScheduleService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 import java.util.function.Function;
 
 @Service
 public class TherapistScheduleServiceImpl implements TherapistScheduleService {
     private final TherapistScheduleRepository therapistScheduleRepository;
-    private final TherapistRepository therapistRepository;
     private final TherapistScheduleMapper therapistScheduleMapper;
 
-    public TherapistScheduleServiceImpl(TherapistScheduleRepository therapistScheduleRepository, TherapistScheduleMapper therapistScheduleMapper, TherapistRepository therapistRepository) {
+    public TherapistScheduleServiceImpl(TherapistScheduleRepository therapistScheduleRepository, TherapistScheduleMapper therapistScheduleMapper) {
         this.therapistScheduleRepository = therapistScheduleRepository;
         this.therapistScheduleMapper = therapistScheduleMapper;
-        this.therapistRepository = therapistRepository;
     }
 
     @Override
@@ -32,14 +28,7 @@ public class TherapistScheduleServiceImpl implements TherapistScheduleService {
 
             @Override
             public TherapistScheduleDTO apply(TherapistSchedule therapistSchedule) {
-                TherapistScheduleDTO dto = new TherapistScheduleDTO();
-                dto.setId(therapistSchedule.getId());
-                dto.setEndTime(therapistSchedule.getEndTime());
-                dto.setStartTime(therapistSchedule.getStartTime());
-                dto.setBooked(therapistSchedule.isBooked());
-                dto.setAvailableDate(therapistSchedule.getAvailableDate());
-                dto.setTherapistId(therapistSchedule.getTherapist() == null ? null : therapistSchedule.getTherapist().getId());
-
+                TherapistScheduleDTO dto = therapistScheduleMapper.toDTO(therapistSchedule);
                 return dto;
             }
         });
@@ -52,17 +41,25 @@ public class TherapistScheduleServiceImpl implements TherapistScheduleService {
     }
 
     @Override
-    public TherapistSchedule getTherapistScheduleById(Long id) {
-        return null;
+    public TherapistScheduleDTO getTherapistScheduleById(Long id) {
+        return therapistScheduleMapper.toDTO(therapistScheduleRepository.findById(id).orElse(null));
     }
 
     @Override
     public boolean deleteTherapistScheduleById(Long id) {
-        return false;
+        return therapistScheduleRepository.findById(id).map(therapistSchedule -> {
+            therapistSchedule.setActive(false);
+            therapistScheduleRepository.save(therapistSchedule);
+            return true;
+        }).orElse(false);
     }
 
     @Override
-    public boolean updateTherapistSchedule(Long id, TherapistScheduleDTO updatedTherapistScheduleDTO) {
-        return false;
+    public boolean updateTherapistSchedule(Long id, TherapistScheduleDTO dto) {
+        return therapistScheduleRepository.findById(id).map(therapistMajor -> {
+            TherapistSchedule updatedTherapistSchedule = therapistScheduleMapper.toEntityWithId(id, dto);
+            therapistScheduleRepository.save(updatedTherapistSchedule);
+            return true;
+        }).orElse(false);
     }
 }
