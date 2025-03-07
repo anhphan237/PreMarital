@@ -17,7 +17,8 @@ public class QuizCategoryMapperImpl implements QuizCategoryMapper {
         return new QuizCategoryDTO(
                 quizCategory.getId(),
                 quizCategory.getCategory() != null ? quizCategory.getCategory().getId() : null,
-                quizCategory.getQuiz() != null ? quizCategory.getQuiz().getId() : null
+                quizCategory.getQuiz() != null ? quizCategory.getQuiz().getId() : null,
+                quizCategory.getIsActive()
         );
     }
 
@@ -28,6 +29,31 @@ public class QuizCategoryMapperImpl implements QuizCategoryMapper {
         }
         QuizCategory quizCategory = new QuizCategory();
         quizCategory.setId(dto.getId());
+        quizCategory.setIsActive(dto.getIsActive());
+
+        if (dto.getCategoryId() != null) {
+            Category category = new Category();
+            category.setId(dto.getCategoryId());
+            quizCategory.setCategory(category);
+        }
+
+        if (dto.getQuizId() != null) {
+            Quiz quiz = new Quiz();
+            quiz.setId(dto.getQuizId());
+            quizCategory.setQuiz(quiz);
+        }
+
+        return quizCategory;
+    }
+
+    @Override
+    public QuizCategory toEntityWithId(Long id, QuizCategoryDTO dto) {
+        if (dto == null) {
+            return null;
+        }
+        QuizCategory quizCategory = new QuizCategory();
+        quizCategory.setId(id);
+        quizCategory.setIsActive(dto.getIsActive());
 
         if (dto.getCategoryId() != null) {
             Category category = new Category();
