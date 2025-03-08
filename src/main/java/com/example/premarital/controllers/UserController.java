@@ -2,7 +2,7 @@ package com.example.premarital.controllers;
 
 import com.example.premarital.dtos.UserDTO;
 import com.example.premarital.services.UserService;
-import com.example.premarital.models.User;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -39,7 +39,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createUser(@RequestBody UserDTO user){
+    public ResponseEntity<String> createUser(@Valid @RequestBody UserDTO user){
         userService.createUser(user);
         return new ResponseEntity<>("User created successfully",HttpStatus.CREATED);
     }
@@ -59,7 +59,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateUser(@PathVariable Long id, @RequestBody UserDTO updatedUserDTO) {
+    public ResponseEntity<String> updateUser(@PathVariable Long id, @Valid @RequestBody UserDTO updatedUserDTO) {
         boolean updated = userService.updateUser(id, updatedUserDTO);
         return updated
                 ? ResponseEntity.ok("User updated successfully")
