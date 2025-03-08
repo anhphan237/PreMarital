@@ -39,8 +39,8 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public void createRole(Role role) {
-        roleRepository.save(role);
+    public void createRole(RoleDTO role) {
+        roleRepository.save(roleMapper.toEntity(role));
     }
 
     @Override
@@ -61,7 +61,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public boolean updateRole(Long id, Role updatedRole) {
+    public boolean updateRole(Long id, RoleDTO updatedRole) {
         return roleRepository.findById(id).map(existingRole -> {
             existingRole.setName(updatedRole.getName());
             roleRepository.save(existingRole);
