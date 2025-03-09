@@ -1,8 +1,8 @@
 package com.example.premarital.controllers;
 
 import com.example.premarital.dtos.TherapistMajorDTO;
-import com.example.premarital.models.TherapistMajor;
 import com.example.premarital.services.TherapistMajorService;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -38,7 +38,7 @@ public class TherapistMajorController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createTherapistMajor(@RequestBody TherapistMajorDTO therapistMajorDTO){
+    public ResponseEntity<String> createTherapistMajor(@Valid @RequestBody TherapistMajorDTO therapistMajorDTO){
         therapistMajorService.createTherapistMajor(therapistMajorDTO);
         return new ResponseEntity<>("Therapist major created successfully",HttpStatus.CREATED);
     }
@@ -58,7 +58,7 @@ public class TherapistMajorController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateTherapistMajor(@PathVariable Long id, @RequestBody TherapistMajorDTO updatedTherapistMajor) {
+    public ResponseEntity<String> updateTherapistMajor(@PathVariable Long id, @Valid @RequestBody TherapistMajorDTO updatedTherapistMajor) {
         boolean updated = therapistMajorService.updateTherapistMajor(id, updatedTherapistMajor);
         return updated
                 ? ResponseEntity.ok("Therapist Major updated successfully")
