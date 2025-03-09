@@ -24,4 +24,13 @@ public class RoleMapperImpl implements RoleMapper {
         role.setIsActive(roleDTO.getIsActive());
         return role;
     }
+
+    @Override
+    public Role toEntityWithId(Long id, RoleDTO roleDTO) {
+        Role role = new Role();
+        role.setId(id);
+        role.setName(roleDTO.getName());
+        role.setIsActive(roleDTO.getIsActive());
+        return role;
+    }
 }

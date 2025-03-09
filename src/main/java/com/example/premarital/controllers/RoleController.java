@@ -3,6 +3,7 @@ package com.example.premarital.controllers;
 import com.example.premarital.dtos.RoleDTO;
 import com.example.premarital.models.Role;
 import com.example.premarital.services.RoleService;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -39,7 +40,7 @@ public class RoleController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createRole(@RequestBody Role role){
+    public ResponseEntity<String> createRole(@Valid @RequestBody RoleDTO role){
         roleService.createRole(role);
         return new ResponseEntity<>("Role created successfully",HttpStatus.CREATED);
     }
@@ -59,7 +60,7 @@ public class RoleController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateRole(@PathVariable Long id, @RequestBody Role updatedRole) {
+    public ResponseEntity<String> updateRole(@PathVariable Long id, @Valid @RequestBody RoleDTO updatedRole) {
         boolean updated = roleService.updateRole(id, updatedRole);
         return updated
                 ? ResponseEntity.ok("Role updated successfully")
