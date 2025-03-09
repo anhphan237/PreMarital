@@ -23,13 +23,19 @@ public class SecurityConfiguration {
     private final AuthenticationFilter authenticationFilter;
     private final AuthenticationProvider authenticationProvider;
 
+    private static final String[] PUBLIC_WHITELIST = {
+            "/v3/api-docs/**",
+            "/swagger-ui/**",
+            "/api/auth/**",
+    };
+
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers(PUBLIC_WHITELIST).permitAll()
                         .anyRequest()
                         .authenticated())
                 .sessionManagement(session ->

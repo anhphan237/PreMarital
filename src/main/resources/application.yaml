@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: premarital
+  datasource:
+    url: jdbc:postgresql://113.173.53.171:5432/premarital
+    username: norman
+    password: Thomas1910@
+  jpa:
+    hibernate:
+      ddl-auto: update
+  devtools:
+    restart:
+      enabled: true
+
+logging:
+  level:
+    org:
+      apache:
+        coyote:
+          http11: DEBUG
