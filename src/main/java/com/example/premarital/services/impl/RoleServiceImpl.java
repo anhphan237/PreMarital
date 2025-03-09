@@ -9,7 +9,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.function.Function;
 
 @Service
@@ -61,10 +60,10 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public boolean updateRole(Long id, RoleDTO updatedRole) {
+    public boolean updateRole(Long id, RoleDTO updatedRoleDTO) {
         return roleRepository.findById(id).map(existingRole -> {
-            existingRole.setName(updatedRole.getName());
-            roleRepository.save(existingRole);
+            Role updatedRole = roleMapper.toEntityWithId(id, updatedRoleDTO);
+            roleRepository.save(updatedRole);
             return true;
         }).orElse(false);
     }
