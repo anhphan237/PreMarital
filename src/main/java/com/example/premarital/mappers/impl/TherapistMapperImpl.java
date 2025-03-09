@@ -50,11 +50,10 @@ public class TherapistMapperImpl implements TherapistMapper {
 
         Therapist therapist = new Therapist();
 
-        if ( dto.getUserId() != null ) {
-            User user = new User();
-            user.setId( id );
-            therapist.setUser( user );
-        }
+        User user = new User();
+        user.setId( id );
+        therapist.setUser( user );
+
         therapist.setId(id);
         therapist.setBio( dto.getBio() );
         therapist.setTherapistCertificationName( dto.getTherapistCertificationName() );
@@ -79,8 +78,7 @@ public class TherapistMapperImpl implements TherapistMapper {
         Therapist therapist = new Therapist();
 
         if ( dto.getUserId() != null ) {
-            User user = new User();
-            user.setId( dto.getUserId() );
+            User user = userRepository.findById(dto.getUserId()).orElse(null);
             therapist.setUser( user );
         }
         therapist.setId( dto.getUserId() );
