@@ -3,7 +3,9 @@ package com.example.premarital.services.impl;
 import com.example.premarital.dtos.TherapistDTO;
 import com.example.premarital.mappers.TherapistMapper;
 import com.example.premarital.models.Therapist;
+import com.example.premarital.repositories.TherapistMajorRepository;
 import com.example.premarital.repositories.TherapistRepository;
+import com.example.premarital.repositories.UserRepository;
 import com.example.premarital.services.TherapistService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,10 +17,14 @@ import java.util.function.Function;
 public class TherapistServiceImpl implements TherapistService {
     private final TherapistRepository therapistRepository;
     private final TherapistMapper therapistMapper;
+    private final UserRepository userRepository;
+    private final TherapistMajorRepository therapistMajorRepository;
 
-    public TherapistServiceImpl(TherapistRepository therapistRepository, TherapistMapper therapistMapper) {
+    public TherapistServiceImpl(TherapistRepository therapistRepository, TherapistMapper therapistMapper, UserRepository userRepository, TherapistMajorRepository therapistMajorRepository) {
         this.therapistRepository = therapistRepository;
         this.therapistMapper = therapistMapper;
+        this.userRepository = userRepository;
+        this.therapistMajorRepository = therapistMajorRepository;
     }
 
     @Override
@@ -43,6 +49,11 @@ public class TherapistServiceImpl implements TherapistService {
     @Override
     public TherapistDTO createTherapist(TherapistDTO dto) {
         Therapist therapist = therapistMapper.toEntity(dto);
+
+        // Debug xem giá trị ngày tháng trước khi lưu
+        System.out.println("certificationIssueDate: " + therapist.getCertificationIssueDate());
+        System.out.println("certificationExpirationDate: " + therapist.getCertificationExpirationDate());
+
         therapistRepository.save(therapist);
         return therapistMapper.toDTO(therapist);
     }
@@ -63,10 +74,20 @@ public class TherapistServiceImpl implements TherapistService {
 
     @Override
     public boolean updateTherapist(Long id, TherapistDTO updatedTherapistDTO) {
-        return therapistRepository.findById(id).map(therapist -> {
-            Therapist updatedTherapist = therapistMapper.toEntityWithId(id, updatedTherapistDTO);
-            therapistRepository.save(updatedTherapist);
+        Therapist existingTherapist = therapistRepository.findById(id).orElse(null);
+        if (existingTherapist != null) {
+            existingTherapist.setId(id);
+            existingTherapist.setBio(updatedTherapistDTO.getBio());
+            existingTherapist.setUser(userRepository.findById(id).orElse(null));
+            existingTherapist.setTherapistMajor(therapistMajorRepository.findById(updatedTherapistDTO.getTherapistMajorId()).orElse(null));
+            existingTherapist.setIsActive(updatedTherapistDTO.getIsActive());
+            existingTherapist.setCertificationExpirationDate(updatedTherapistDTO.getCertificationExpirationDate());
+            existingTherapist.setCertificationIssueDate(updatedTherapistDTO.getCertificationIssueDate());
+            existingTherapist.setCertificationIssueDate(updatedTherapistDTO.getCertificationIssueDate());
+            therapistRepository.save(existingTherapist);
             return true;
-        }).orElse(false);
+        }else {
+            return false;
+        }
     }
 }

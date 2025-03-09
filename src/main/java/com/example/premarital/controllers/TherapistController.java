@@ -3,6 +3,7 @@ package com.example.premarital.controllers;
 import com.example.premarital.dtos.TherapistDTO;
 import com.example.premarital.models.Therapist;
 import com.example.premarital.services.TherapistService;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -38,7 +39,7 @@ public class TherapistController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createTherapist(@RequestBody TherapistDTO therapist){
+    public ResponseEntity<String> createTherapist(@Valid @RequestBody TherapistDTO therapist){
         TherapistDTO newTherapist = therapistService.createTherapist(therapist);
         if(newTherapist == null)
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Therapist already exists");
@@ -60,7 +61,7 @@ public class TherapistController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateTherapist(@PathVariable Long id, @RequestBody TherapistDTO updatedTherapistDTO) {
+    public ResponseEntity<String> updateTherapist(@PathVariable Long id, @Valid @RequestBody TherapistDTO updatedTherapistDTO) {
         boolean updated = therapistService.updateTherapist(id, updatedTherapistDTO);
         return updated
                 ? ResponseEntity.ok("Therapist updated successfully")

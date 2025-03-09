@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -39,8 +40,11 @@ public class Therapist {
     private String bio;
     private String therapistCertificationName;
     private String certificationIssuedBy;
-    private String certificationIssueDate;
-    private String certificationExpirationDate;
+    private LocalDate certificationIssueDate;
+    private LocalDate certificationExpirationDate;
     private Boolean isActive;
+
+    @Version
+    private Long version;
 }
 
