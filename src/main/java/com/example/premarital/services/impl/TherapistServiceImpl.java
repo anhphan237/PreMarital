@@ -34,12 +34,7 @@ public class TherapistServiceImpl implements TherapistService {
 
             @Override
             public TherapistDTO apply(Therapist therapist) {
-                TherapistDTO dto = new TherapistDTO();
-                dto.setTherapistMajorId(therapist.getTherapistMajor() == null ? null : therapist.getTherapistMajor().getId());
-                dto.setBio(therapist.getBio());
-                dto.setCertificationExpirationDate(therapist.getCertificationExpirationDate());
-                dto.setCertificationIssueDate(therapist.getCertificationIssueDate());
-                dto.setCertificationIssueDate(therapist.getCertificationIssueDate());
+                TherapistDTO dto = therapistMapper.toDTO(therapist);
                 return dto;
             }
         });
@@ -49,11 +44,6 @@ public class TherapistServiceImpl implements TherapistService {
     @Override
     public TherapistDTO createTherapist(TherapistDTO dto) {
         Therapist therapist = therapistMapper.toEntity(dto);
-
-        // Debug xem giá trị ngày tháng trước khi lưu
-        System.out.println("certificationIssueDate: " + therapist.getCertificationIssueDate());
-        System.out.println("certificationExpirationDate: " + therapist.getCertificationExpirationDate());
-
         therapistRepository.save(therapist);
         return therapistMapper.toDTO(therapist);
     }
