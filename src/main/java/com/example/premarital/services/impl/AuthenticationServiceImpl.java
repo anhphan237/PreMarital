@@ -46,7 +46,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         newUser.setUsername(request.getName());
         newUser.setPassword(passwordEncoder.encode(request.getPassword()));
         newUser.setEmail(request.getEmail());
-        newUser.setRole(roleRepository.getReferenceById(1L));
+        newUser.setRole(roleRepository.getReferenceById(request.getRoleId()));
         User createdUser = userRepository.save(newUser);
         String jwtToken = jwtService.generateToken(createdUser);
         // lưu token vào database

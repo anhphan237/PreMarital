@@ -58,8 +58,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean updateUser(Long id, UserDTO updatedUserDTO) {
+        User user = userRepository.findById(id).get();
         return userRepository.findById(id).map(existingUser -> {
             User updatedUser = userMapper.toEntityWithId(id, updatedUserDTO);
+            updatedUser.setPassword(existingUser.getPassword());
             userRepository.save(updatedUser);
             return true;
         }).orElse(false);
