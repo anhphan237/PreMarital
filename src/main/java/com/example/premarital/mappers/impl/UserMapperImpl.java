@@ -4,15 +4,18 @@ import com.example.premarital.dtos.UserDTO;
 import com.example.premarital.mappers.UserMapper;
 import com.example.premarital.models.Role;
 import com.example.premarital.models.User;
+import com.example.premarital.repositories.RoleRepository;
 import com.example.premarital.repositories.UserRepository;
 import org.springframework.stereotype.Component;
 
 @Component
 public class UserMapperImpl implements UserMapper {
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
 
-    public UserMapperImpl(UserRepository userRepository) {
+    public UserMapperImpl(UserRepository userRepository, RoleRepository roleRepository) {
         this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
     }
 
     @Override
@@ -85,8 +88,7 @@ public class UserMapperImpl implements UserMapper {
 
         // Nếu cần ánh xạ Role từ roleId
         if (dto.getRoleId() != null) {
-            Role role = new Role();
-            role.setId(dto.getRoleId());
+            Role role = roleRepository.getReferenceById(dto.getRoleId());
             user.setRole(role);
         }
 

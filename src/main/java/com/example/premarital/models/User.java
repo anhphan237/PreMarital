@@ -20,7 +20,6 @@ import java.util.List;
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    //bắt validation, string 255???
     private Long id;
     private String username;
     private String password;
@@ -35,6 +34,7 @@ public class User implements UserDetails {
     private Boolean isActive;
     @ManyToOne
     @JoinColumn(name = "role_id", nullable = false)
+    @ToString.Exclude
     private Role role;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
@@ -46,12 +46,15 @@ public class User implements UserDetails {
     private Wallet wallet;
 
     @OneToMany(mappedBy = "user")
+    @ToString.Exclude
     private List<WithdrawRequest> withdrawRequest;
 
     @OneToMany(mappedBy = "user")
+    @ToString.Exclude
     private List<UserQuizHistory> userQuizHistory;
 
     @OneToMany(mappedBy = "approvedAdmin")
+    @ToString.Exclude
     private List<Article> articles;
 
 
@@ -78,5 +81,10 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
     }
 }
