@@ -5,9 +5,11 @@ import com.example.premarital.mappers.UserMapper;
 import com.example.premarital.mappers.impl.UserMapperImpl;
 import com.example.premarital.models.*;
 import com.example.premarital.repositories.RoleRepository;
+import com.example.premarital.repositories.TherapistRepository;
 import com.example.premarital.repositories.TokenRepository;
 import com.example.premarital.repositories.UserRepository;
 import com.example.premarital.services.AuthenticationService;
+import jakarta.transaction.Transactional;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,6 +24,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
+    private final TherapistRepository therapistRepository;
 
     public AuthenticationServiceImpl(
             UserRepository userRepository,
@@ -30,7 +33,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             UserMapperImpl userMapper,
             RoleRepository roleRepository,
             PasswordEncoder passwordEncoder,
-            AuthenticationManager authenticationManager) {
+            AuthenticationManager authenticationManager, TherapistRepository therapistRepository) {
         this.userRepository = userRepository;
         this.tokenRepository = tokenRepository;
         this.jwtService = jwtService;
@@ -38,9 +41,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
+        this.therapistRepository = therapistRepository;
     }
 
     @Override
+    @Transactional
     public AuthenticationResponse register(RegisterRequest request) {
         User newUser = new User();
         newUser.setUsername(request.getName());
@@ -48,6 +53,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         newUser.setEmail(request.getEmail());
         newUser.setRole(roleRepository.getReferenceById(request.getRoleId()));
         User createdUser = userRepository.save(newUser);
+        if(request.getRoleId() == 2){
+            Therapist therapist = new Therapist();
+            therapist.setUser(createdUser);
+            System.out.println("Therapist User ID: " + therapist.getUser().getId()); // Debug
+            therapistRepository.save(therapist);
+        }
         String jwtToken = jwtService.generateToken(createdUser);
         // lưu token vào database
         Token token = Token.builder()

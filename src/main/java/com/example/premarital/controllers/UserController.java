@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -19,6 +20,11 @@ public class UserController {
 
     public UserController(UserService userService) {
         this.userService = userService;
+    }
+
+    @GetMapping("/whoami")
+    public ResponseEntity<String> whoAmI(Authentication authentication) {
+        return ResponseEntity.ok("Logged in as: " + authentication.getName() + " with roles: " + authentication.getAuthorities());
     }
 
     @GetMapping

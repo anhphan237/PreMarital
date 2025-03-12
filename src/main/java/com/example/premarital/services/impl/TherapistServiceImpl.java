@@ -73,7 +73,9 @@ public class TherapistServiceImpl implements TherapistService {
             existingTherapist.setIsActive(updatedTherapistDTO.getIsActive());
             existingTherapist.setCertificationExpirationDate(updatedTherapistDTO.getCertificationExpirationDate());
             existingTherapist.setCertificationIssueDate(updatedTherapistDTO.getCertificationIssueDate());
-            existingTherapist.setCertificationIssueDate(updatedTherapistDTO.getCertificationIssueDate());
+            existingTherapist.setCertificationIssuedBy(updatedTherapistDTO.getCertificationIssuedBy());
+            existingTherapist.setTherapistCertificationName(updatedTherapistDTO.getTherapistCertificationName());
+            existingTherapist.setIsActive(updatedTherapistDTO.getIsActive());
             therapistRepository.save(existingTherapist);
             return true;
         }else {
