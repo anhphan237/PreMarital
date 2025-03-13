@@ -37,20 +37,33 @@ public class SecurityConfiguration {
             "/api/auth/**",
     };
 
+    private static final String[] THERAPIST_ACCESS_LIST = {
+            ""
+    };
+
+    private static final String[] CUSTOMER_ACCESS_LIST = {
+            ""
+    };
+
+    private static final String[] ADMIN_ACCESS_LIST = {
+            ""
+    };
+
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
-                //.cors(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers(PUBLIC_WHITELIST).permitAll()
+//                        .requestMatchers(THERAPIST_ACCESS_LIST).hasAnyRole("ADMIN", "THERAPIST")
+//                        .requestMatchers(CUSTOMER_ACCESS_LIST).hasRole("CUSTOMER")
+//                        .requestMatchers(ADMIN_ACCESS_LIST).hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
-                //.httpBasic(Customizer.withDefaults());
         return http.build();
     }
 
@@ -58,7 +71,7 @@ public class SecurityConfiguration {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of("http://localhost:5173"));
-        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
         configuration.setExposedHeaders(List.of("Authorization"));
         configuration.setAllowCredentials(true);
