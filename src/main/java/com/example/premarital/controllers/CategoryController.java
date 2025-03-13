@@ -4,6 +4,7 @@ import com.example.premarital.dtos.CategoryDTO;
 import com.example.premarital.dtos.ConsultationBookingDTO;
 import com.example.premarital.dtos.TherapistScheduleDTO;
 import com.example.premarital.services.CategoryService;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -22,24 +23,32 @@ public class CategoryController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<CategoryDTO>> findAll(
-            @RequestParam(required = false) Integer page,
-            @RequestParam(required = false) Integer size,
-            @RequestParam(required = false) String sort,
-            @RequestParam(required = false) Sort.Direction direction
+    public ResponseEntity<?> findAll(
+            @RequestParam(defaultValue = "1") Integer page,
+            @RequestParam(defaultValue = "5") Integer size,
+            @RequestParam(defaultValue = "id") String sort,
+            @RequestParam(defaultValue = "ASC") Sort.Direction direction
     ){
+        if (page < 1 || size <= 1) {
+            return ResponseEntity.badRequest().body("Page number must be >= 1 and size must be > 1");
+        }
+
         Pageable pageable = PageRequest.of(
                 page - 1,
                 size,
                 direction != null ? direction : Sort.Direction.ASC,
                 sort != null ? sort : "id"
         );
-        Page<CategoryDTO> categoryDTOS = categoryService.getCategories(pageable);
-        return new ResponseEntity<>(categoryDTOS, HttpStatus.OK);
+
+        Page<CategoryDTO> categorys = categoryService.getCategories(pageable);
+        if (categorys.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return new ResponseEntity<>(categorys, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<String> createCategory(@RequestBody CategoryDTO categoryDTO){
+    public ResponseEntity<String> createCategory(@Valid @RequestBody CategoryDTO categoryDTO){
         categoryService.createCategory(categoryDTO);
         return new ResponseEntity<>("Category created successfully",HttpStatus.CREATED);
     }
@@ -59,7 +68,7 @@ public class CategoryController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateCategory(@PathVariable Long id, @RequestBody CategoryDTO updatedCategory) {
+    public ResponseEntity<String> updateCategory(@PathVariable Long id, @Valid @RequestBody CategoryDTO updatedCategory) {
         boolean updated = categoryService.updateCategory(id, updatedCategory);
         return updated
                 ? ResponseEntity.ok("Category updated successfully")

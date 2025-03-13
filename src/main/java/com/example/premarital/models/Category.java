@@ -33,5 +33,7 @@ public class Category {
     private List<QuizQuestion> quizQuestions;
 
     private String description;
+
+    @Column(name = "is_active")
     private Boolean isActive;
 }

@@ -3,6 +3,7 @@ package com.example.premarital.controllers;
 import com.example.premarital.dtos.TherapistMajorDTO;
 import com.example.premarital.dtos.TherapistScheduleDTO;
 import com.example.premarital.services.TherapistScheduleService;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -47,7 +48,7 @@ public class TherapistScheduleController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createTherapistSchedule(@RequestBody TherapistScheduleDTO therapistScheduleDTO){
+    public ResponseEntity<String> createTherapistSchedule(@Valid @RequestBody TherapistScheduleDTO therapistScheduleDTO){
         therapistScheduleService.createTherapistSchedule(therapistScheduleDTO);
         return new ResponseEntity<>("Therapist schedule created successfully",HttpStatus.CREATED);
     }
@@ -67,7 +68,7 @@ public class TherapistScheduleController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateTherapistSchedule(@PathVariable Long id, @RequestBody TherapistScheduleDTO updatedTherapistSchedule) {
+    public ResponseEntity<String> updateTherapistSchedule(@PathVariable Long id, @Valid @RequestBody TherapistScheduleDTO updatedTherapistSchedule) {
         boolean updated = therapistScheduleService.updateTherapistSchedule(id, updatedTherapistSchedule);
         return updated
                 ? ResponseEntity.ok("Therapist's Schedule updated successfully")
