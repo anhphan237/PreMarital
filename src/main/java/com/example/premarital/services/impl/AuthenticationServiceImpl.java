@@ -1,7 +1,9 @@
 package com.example.premarital.services.impl;
 
 import com.example.premarital.dtos.UserDTO;
-import com.example.premarital.mappers.UserMapper;
+import com.example.premarital.exceptions.DuplicateUserException;
+import com.example.premarital.exceptions.InvalidDataException;
+import com.example.premarital.exceptions.UserNotFoundException;
 import com.example.premarital.mappers.impl.UserMapperImpl;
 import com.example.premarital.models.*;
 import com.example.premarital.repositories.RoleRepository;
@@ -10,12 +12,20 @@ import com.example.premarital.repositories.TokenRepository;
 import com.example.premarital.repositories.UserRepository;
 import com.example.premarital.services.AuthenticationService;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
+@RequiredArgsConstructor
+@Transactional
 public class AuthenticationServiceImpl implements AuthenticationService {
     private final UserRepository userRepository;
     private final TokenRepository tokenRepository; // thêm TokenRepository
@@ -25,55 +35,62 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final TherapistRepository therapistRepository;
+    private final Logger logger = LoggerFactory.getLogger(AuthenticationServiceImpl.class);
 
-    public AuthenticationServiceImpl(
-            UserRepository userRepository,
-            TokenRepository tokenRepository,
-            JwtServiceImpl jwtService,
-            UserMapperImpl userMapper,
-            RoleRepository roleRepository,
-            PasswordEncoder passwordEncoder,
-            AuthenticationManager authenticationManager, TherapistRepository therapistRepository) {
-        this.userRepository = userRepository;
-        this.tokenRepository = tokenRepository;
-        this.jwtService = jwtService;
-        this.userMapper = userMapper;
-        this.roleRepository = roleRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.authenticationManager = authenticationManager;
-        this.therapistRepository = therapistRepository;
+
+    public AuthenticationResponse register(RegisterRequest request) {
+        if (userRepository.existsByEmail(request.getEmail())) {
+            throw new DuplicateUserException("Email " + request.getEmail() + " is already registered.");
+        }
+
+        Role role = roleRepository.findById(request.getRoleId())
+                .orElseThrow(() -> new InvalidDataException("Invalid role ID: " + request.getRoleId()));
+
+        User createdUser = createUser(request, role);
+
+        if (request.getRoleId() == 2) {
+            createTherapist(createdUser);
+        }
+
+        String jwtToken = jwtService.generateToken(createdUser);
+        saveToken(createdUser, jwtToken);
+
+        return AuthenticationResponse.builder()
+                .userDto(userMapper.toDTO(createdUser))
+                .token(jwtToken)
+                .build();
     }
 
-    @Override
-    @Transactional
-    public AuthenticationResponse register(RegisterRequest request) {
+    private User createUser(RegisterRequest request, Role role) {
         User newUser = new User();
         newUser.setUsername(request.getName());
         newUser.setPassword(passwordEncoder.encode(request.getPassword()));
         newUser.setEmail(request.getEmail());
-        newUser.setRole(roleRepository.getReferenceById(request.getRoleId()));
+        newUser.setRole(role);
         newUser.setIsActive(true);
-        User createdUser = userRepository.save(newUser);
-        if(request.getRoleId() == 2){
-            Therapist therapist = new Therapist();
-            therapist.setUser(createdUser);
-            therapist.setIsActive(true);
-            System.out.println("Therapist User ID: " + therapist.getUser().getId()); // Debug
-            therapistRepository.save(therapist);
-        }
-        String jwtToken = jwtService.generateToken(createdUser);
-        // lưu token vào database
+
+        User savedUser = userRepository.save(newUser);
+        logger.info("User with ID {} registered successfully.", savedUser.getId());
+        return savedUser;
+    }
+
+    private void createTherapist(User user) {
+        Therapist therapist = new Therapist();
+        therapist.setUser(user);
+        therapist.setIsActive(true);
+        therapistRepository.save(therapist);
+        logger.info("Therapist profile created for User ID: {}", user.getId());
+    }
+
+    private void saveToken(User user, String jwtToken) {
         Token token = Token.builder()
-                .userId(createdUser.getId())
+                .userId(user.getId())
                 .token(jwtToken)
                 .expired(false)
                 .revoked(false)
                 .build();
         tokenRepository.save(token);
-        return AuthenticationResponse.builder()
-                .userDto(userMapper.toDTO(createdUser))
-                .token(jwtToken)
-                .build();
+        logger.info("JWT token saved for User ID: {}", user.getId());
     }
 
     @Override
@@ -100,5 +117,4 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .token(jwtToken)
                 .build();
     }
-
 }

@@ -75,7 +75,6 @@ public class UserMapperImpl implements UserMapper {
         }
         User user = new User();
         user.setId(id);
-        user.setEmail(dto.getEmail());
         user.setFirstName(dto.getFirstName());
         user.setLastName(dto.getLastName());
         user.setUsername(dto.getUsername());
