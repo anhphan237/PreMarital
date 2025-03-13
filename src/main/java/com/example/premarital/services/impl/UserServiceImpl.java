@@ -9,6 +9,8 @@ import com.example.premarital.mappers.UserMapper;
 import com.example.premarital.models.User;
 import com.example.premarital.repositories.UserRepository;
 import com.example.premarital.services.UserService;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
@@ -19,15 +21,11 @@ import org.springframework.stereotype.Service;
 import java.util.function.Function;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
-
-    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper) {
-        this.userRepository = userRepository;
-        this.userMapper = userMapper;
-    }
 
     @Override
     public Page<UserDTO> getUsers(Pageable pageable) {
@@ -39,6 +37,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void createUser(UserDTO dto) {
         if (dto.getEmail() == null || dto.getEmail().trim().isEmpty()) {
             throw new InvalidDataException("Email cannot be empty");
@@ -69,6 +68,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public boolean deleteUserById(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User with ID " + id + " not found"));
@@ -90,6 +90,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public boolean updateUser(Long id, UserDTO updatedUserDTO) {
         User existingUser = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User with ID " + id + " not found"));
