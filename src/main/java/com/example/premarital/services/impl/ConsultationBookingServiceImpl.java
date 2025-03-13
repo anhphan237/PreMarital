@@ -29,9 +29,9 @@ public class ConsultationBookingServiceImpl implements ConsultationBookingServic
 
     @Override
     public Page<ConsultationBookingDTO> getConsultationBookings(Pageable pageable) {
-        Page<ConsultationBooking> bookings = consultationBookingRepository.findAll(pageable);
+        Page<ConsultationBooking> bookings = consultationBookingRepository.findBookingsByIsActiveTrue(pageable);
         if (bookings.isEmpty()) {
-            logger.warn("No bookings found in the system");
+            logger.warn("No bookings actively found in the system");
         }
         return bookings.map(consultationBookingMapper::toDTO);
     }
