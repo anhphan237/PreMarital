@@ -42,5 +42,6 @@ public class TherapistSchedule {
 
     private boolean isBooked;
 
+    @Column(name = "is_active")
     private boolean isActive;
 }
