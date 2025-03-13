@@ -52,10 +52,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         newUser.setPassword(passwordEncoder.encode(request.getPassword()));
         newUser.setEmail(request.getEmail());
         newUser.setRole(roleRepository.getReferenceById(request.getRoleId()));
+        newUser.setIsActive(true);
         User createdUser = userRepository.save(newUser);
         if(request.getRoleId() == 2){
             Therapist therapist = new Therapist();
             therapist.setUser(createdUser);
+            therapist.setIsActive(true);
             System.out.println("Therapist User ID: " + therapist.getUser().getId()); // Debug
             therapistRepository.save(therapist);
         }
