@@ -2,7 +2,7 @@ package com.example.premarital.config;
 
 import com.example.premarital.exceptions.DuplicateUserException;
 import com.example.premarital.exceptions.InvalidDataException;
-import com.example.premarital.exceptions.UserNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -28,14 +28,16 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST); // Explicitly setting 400 Bad Request
     }
 
-    @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<Map<String, Object>> handleUserNotFoundException(UserNotFoundException ex) {
-        logger.error("User not found: {}", ex.getMessage());
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<Map<String, Object>> handleEntityNotFoundException(EntityNotFoundException ex) {
+        logger.error("Entity not found: {}", ex.getMessage(), ex);
+
         Map<String, Object> response = new HashMap<>();
         response.put("timestamp", LocalDateTime.now());
         response.put("status", HttpStatus.NOT_FOUND.value());
         response.put("error", "Not Found");
         response.put("message", ex.getMessage());
+
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
