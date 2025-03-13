@@ -28,6 +28,7 @@ public class Transaction {
     private Long balanceBefore;
     private Long transactionFee;
     private Long totalAmount;
+    @Column(name = "is_active")
     private Boolean isActive;
 
     @OneToOne(mappedBy = "transaction")
