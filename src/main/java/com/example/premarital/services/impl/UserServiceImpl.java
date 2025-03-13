@@ -26,9 +26,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Page<UserDTO> getUsers(Pageable pageable) {
-        Page<User> users = userRepository.findAll(pageable);
+        Page<User> users = userRepository.findUsersByIsActiveTrue(pageable);
         if (users.isEmpty()) {
-            logger.warn("No users found in the system");
+            logger.warn("No users actively found in the system");
         }
         return users.map(userMapper::toDTO);
     }

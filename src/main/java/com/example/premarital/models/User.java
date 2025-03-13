@@ -31,6 +31,7 @@ public class User implements UserDetails {
     private String state;
     private String postalCode;
     private String country;
+    @Column(name = "is_active")
     private Boolean isActive;
     @ManyToOne
     @JoinColumn(name = "role_id", nullable = false)
