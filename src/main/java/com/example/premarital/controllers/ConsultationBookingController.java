@@ -6,6 +6,9 @@ import com.example.premarital.dtos.TherapistScheduleDTO;
 import com.example.premarital.models.ConsultationBooking;
 import com.example.premarital.models.Role;
 import com.example.premarital.services.ConsultationBookingService;
+import jakarta.validation.Valid;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -15,21 +18,22 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/consultationBookings")
 public class ConsultationBookingController {
     private final ConsultationBookingService consultationBookingService;
 
-    public ConsultationBookingController(ConsultationBookingService consultationBookingService) {
-        this.consultationBookingService = consultationBookingService;
-    }
-
     @GetMapping
-    public ResponseEntity<Page<ConsultationBookingDTO>> findAll(
-            @RequestParam(required = false) Integer page,
-            @RequestParam(required = false) Integer size,
-            @RequestParam(required = false) String sort,
-            @RequestParam(required = false) Sort.Direction direction
+    public ResponseEntity<?> findAll(
+            @RequestParam(defaultValue = "1") Integer page,
+            @RequestParam(defaultValue = "5") Integer size,
+            @RequestParam(defaultValue = "id") String sort,
+            @RequestParam(defaultValue = "ASC") Sort.Direction direction
     ){
+        if (page < 1 || size <= 1) {
+            return ResponseEntity.badRequest().body("Page number must be >= 1 and size must be > 1");
+        }
+
         Pageable pageable = PageRequest.of(
                 page - 1,
                 size,
@@ -37,11 +41,14 @@ public class ConsultationBookingController {
                 sort != null ? sort : "id"
         );
         Page<ConsultationBookingDTO> consultationBookingDTOS = consultationBookingService.getConsultationBookings(pageable);
+        if (consultationBookingDTOS.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
         return new ResponseEntity<>(consultationBookingDTOS, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<String> createConsultationBooking(@RequestBody ConsultationBookingDTO consultationBookingDTO){
+    public ResponseEntity<String> createConsultationBooking(@Valid @RequestBody ConsultationBookingDTO consultationBookingDTO){
         consultationBookingService.createConsultationBooking(consultationBookingDTO);
         return new ResponseEntity<>("Consultation Booking created successfully",HttpStatus.CREATED);
     }
@@ -61,7 +68,7 @@ public class ConsultationBookingController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateConsultationBooking(@PathVariable Long id, @RequestBody ConsultationBookingDTO consultationBookingDTO) {
+    public ResponseEntity<String> updateConsultationBooking(@PathVariable Long id, @Valid @RequestBody ConsultationBookingDTO consultationBookingDTO) {
         boolean updated = consultationBookingService.updateConsultationBooking(id, consultationBookingDTO);
         return updated
                 ? ResponseEntity.ok("Booking updated successfully")

@@ -2,23 +2,20 @@ package com.example.premarital.services.impl;
 
 import com.example.premarital.exceptions.DuplicateUserException;
 import com.example.premarital.exceptions.InvalidDataException;
-import com.example.premarital.exceptions.UserNotFoundException;
-import com.example.premarital.repositories.RoleRepository;
 import com.example.premarital.dtos.UserDTO;
 import com.example.premarital.mappers.UserMapper;
 import com.example.premarital.models.User;
 import com.example.premarital.repositories.UserRepository;
 import com.example.premarital.services.UserService;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import java.util.function.Function;
 
 @Service
 @RequiredArgsConstructor
@@ -64,14 +61,14 @@ public class UserServiceImpl implements UserService {
     public UserDTO getUserById(Long id) {
         return userRepository.findById(id)
                 .map(userMapper::toDTO)
-                .orElseThrow(() -> new UserNotFoundException("User with ID " + id + " not found"));
+                .orElseThrow(() -> new EntityNotFoundException("User with ID " + id + " not found"));
     }
 
     @Override
     @Transactional
     public boolean deleteUserById(Long id) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException("User with ID " + id + " not found"));
+                .orElseThrow(() -> new EntityNotFoundException("User with ID " + id + " not found"));
 
         if (!user.getIsActive()) {
             logger.warn("User with ID {} is already inactive", id);
@@ -93,7 +90,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public boolean updateUser(Long id, UserDTO updatedUserDTO) {
         User existingUser = userRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException("User with ID " + id + " not found"));
+                .orElseThrow(() -> new EntityNotFoundException("User with ID " + id + " not found"));
 
         if (!existingUser.getEmail().equals(updatedUserDTO.getEmail()) && userRepository.existsByEmail(updatedUserDTO.getEmail())) {
             throw new DuplicateUserException("Email " + updatedUserDTO.getEmail() + " is already in use");

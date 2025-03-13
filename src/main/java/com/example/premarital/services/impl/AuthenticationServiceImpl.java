@@ -3,7 +3,6 @@ package com.example.premarital.services.impl;
 import com.example.premarital.dtos.UserDTO;
 import com.example.premarital.exceptions.DuplicateUserException;
 import com.example.premarital.exceptions.InvalidDataException;
-import com.example.premarital.exceptions.UserNotFoundException;
 import com.example.premarital.mappers.impl.UserMapperImpl;
 import com.example.premarital.models.*;
 import com.example.premarital.repositories.RoleRepository;
@@ -17,11 +16,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
