@@ -28,20 +28,28 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<UserDTO>> getUsers(
-            @RequestParam(required = false) Integer page,
-            @RequestParam(required = false) Integer size,
-            @RequestParam(required = false) String sort,
-            @RequestParam(required = false) Sort.Direction direction
+    public ResponseEntity<?> getUsers(
+            @RequestParam(defaultValue = "1") Integer page,
+            @RequestParam(defaultValue = "5") Integer size,
+            @RequestParam(defaultValue = "id") String sort,
+            @RequestParam(defaultValue = "ASC") Sort.Direction direction
     ) {
+        if (page < 1 || size <= 1) {
+            return ResponseEntity.badRequest().body("Page number must be >= 1 and size must be > 1");
+        }
+
         Pageable pageable = PageRequest.of(
                 page - 1,
                 size,
                 direction != null ? direction : Sort.Direction.ASC,
                 sort != null ? sort : "id"
         );
+
         Page<UserDTO> users = userService.getUsers(pageable);
-        return new ResponseEntity<>(users, HttpStatus.OK);
+        if (users.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(users);
     }
 
     @PostMapping
@@ -53,7 +61,7 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<UserDTO> findUserById(@PathVariable Long id){
         UserDTO user = userService.getUserById(id);
-        return new ResponseEntity<>(user, user != null ? org.springframework.http.HttpStatus.OK : org.springframework.http.HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(user, user != null ? HttpStatus.OK : HttpStatus.NOT_FOUND);
     }
 
     @DeleteMapping("/{id}")
