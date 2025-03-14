@@ -9,6 +9,8 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,16 +24,28 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class QuizDTO {
-    private Long id;
+    private Long id; // Nullable (used for updates)
+
+    @NotNull(message = "Creator ID cannot be null")
     private Long creatorId;
+
+    @NotBlank(message = "Title cannot be empty")
     private String title;
-    private String description;
+
+    private String description; // Optional
+
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
     private LocalDateTime createdAt;
+
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
     private LocalDateTime updatedAt;
+
+    @NotBlank(message = "Status cannot be empty")
     private String status;
+
     @JsonProperty("isActive")
-    private Boolean isActive;
+    private Boolean isActive = true; // Default to true
+
+    @NotNull(message = "User quiz history ID cannot be null")
     private Long userQuizHistoryId;
 }

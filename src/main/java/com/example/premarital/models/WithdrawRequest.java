@@ -38,6 +38,8 @@ public class WithdrawRequest {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "transaction_id")
     private Transaction transaction;
+
     @JsonProperty("isActive")
+    @Column(name = "is_active")
     private Boolean isActive;
 }
