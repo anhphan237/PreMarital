@@ -21,12 +21,16 @@ public class UserAnswerController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<UserAnswerDTO>> getUserAnswers(
-            @RequestParam(required = false) Integer page,
-            @RequestParam(required = false) Integer size,
-            @RequestParam(required = false) String sort,
-            @RequestParam(required = false) Sort.Direction direction
+    public ResponseEntity<?> getUserAnswers(
+            @RequestParam(defaultValue = "1") Integer page,
+            @RequestParam(defaultValue = "5") Integer size,
+            @RequestParam(defaultValue = "id") String sort,
+            @RequestParam(defaultValue = "ASC") Sort.Direction direction
     ) {
+        if (page < 1 || size <= 1) {
+            return ResponseEntity.badRequest().body("Page number must be >= 1 and size must be > 1");
+        }
+
         Pageable pageable = PageRequest.of(
                 page - 1,
                 size,
