@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class QuizQuestionDTO {
-    private Long id; // Nullable (for updates)
+    private Long id;
 
     @NotNull(message = "Question ID cannot be null")
     private Long questionId;

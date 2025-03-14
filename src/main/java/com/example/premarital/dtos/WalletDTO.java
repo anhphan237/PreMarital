@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class WalletDTO {
-    private Long id; // Nullable (for updates)
+    private Long id;
 
     @NotNull(message = "User ID cannot be null")
     private Long userId;

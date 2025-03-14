@@ -1,6 +1,5 @@
 package com.example.premarital.dtos;
 
-import com.example.premarital.models.Quiz;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
