@@ -40,6 +40,10 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     @Transactional
     public void createTransaction(TransactionDTO dto) {
+        if (dto.getId() != null) {
+            throw new InvalidDataException("ID must be null when create");
+        }
+
         if (dto.getWalletId() == null || !walletRepository.existsById(dto.getWalletId())) {
             throw new InvalidDataException("Invalid wallet ID: " + dto.getWalletId());
         }

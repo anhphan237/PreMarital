@@ -41,6 +41,10 @@ public class TherapistScheduleServiceImpl implements TherapistScheduleService {
     @Override
     @Transactional
     public void createTherapistSchedule(TherapistScheduleDTO dto) {
+        if (dto.getId() != null) {
+            throw new InvalidDataException("ID must be null when create");
+        }
+
         if (dto == null) {
             throw new InvalidDataException("Therapist schedule data cannot be null.");
         }

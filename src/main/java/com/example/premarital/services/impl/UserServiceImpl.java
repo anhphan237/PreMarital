@@ -36,6 +36,10 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void createUser(UserDTO dto) {
+        if (dto.getId() != null) {
+            throw new InvalidDataException("ID must be null when create");
+        }
+
         if (dto.getEmail() == null || dto.getEmail().trim().isEmpty()) {
             throw new InvalidDataException("Email cannot be empty");
         }
