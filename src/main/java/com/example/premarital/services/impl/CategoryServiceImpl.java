@@ -38,6 +38,10 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     @Transactional
     public void createCategory(CategoryDTO dto) {
+        if (dto.getId() != null) {
+            throw new InvalidDataException("ID must be null when create");
+        }
+
         if (dto.getParentCategoryId() != null && !categoryRepository.existsById(dto.getParentCategoryId())) {
             throw new InvalidDataException("Invalid parent category ID: " + dto.getParentCategoryId());
         }
