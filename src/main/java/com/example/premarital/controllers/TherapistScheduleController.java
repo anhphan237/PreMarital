@@ -44,7 +44,7 @@ public class TherapistScheduleController {
             return ResponseEntity.noContent().build();
         }
 
-        return new ResponseEntity<>(therapistSchedules, HttpStatus.OK);
+        return ResponseEntity.ok(therapistSchedules);
     }
 
     @PostMapping

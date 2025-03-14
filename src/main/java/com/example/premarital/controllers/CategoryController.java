@@ -40,11 +40,11 @@ public class CategoryController {
                 sort != null ? sort : "id"
         );
 
-        Page<CategoryDTO> categorys = categoryService.getCategories(pageable);
-        if (categorys.isEmpty()) {
+        Page<CategoryDTO> categories = categoryService.getCategories(pageable);
+        if (categories.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
-        return new ResponseEntity<>(categorys, HttpStatus.OK);
+        return ResponseEntity.ok(categories);
     }
 
     @PostMapping
