@@ -3,6 +3,7 @@ package com.example.premarital.controllers;
 import com.example.premarital.dtos.QuizUserAdviceDTO;
 import com.example.premarital.dtos.WalletDTO;
 import com.example.premarital.services.QuizUserAdviceService;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -12,13 +13,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/quizUserAdvices")
 public class QuizUserAdviceController {
     private final QuizUserAdviceService quizUserAdviceService;
-
-    public QuizUserAdviceController(QuizUserAdviceService quizUserAdviceService) {
-        this.quizUserAdviceService = quizUserAdviceService;
-    }
 
     @GetMapping
     public ResponseEntity<?> getQuizUserAdviceDTOs(

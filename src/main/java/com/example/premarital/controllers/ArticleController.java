@@ -4,6 +4,7 @@ import com.example.premarital.dtos.ArticleDTO;
 import com.example.premarital.dtos.WalletDTO;
 import com.example.premarital.dtos.WithdrawRequestDTO;
 import com.example.premarital.services.ArticleService;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -13,13 +14,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/articles")
 public class ArticleController {
     private final ArticleService articleService;
-
-    public ArticleController(ArticleService articleService) {
-        this.articleService = articleService;
-    }
 
     @GetMapping
     public ResponseEntity<?> getArticles(

@@ -4,6 +4,7 @@ import com.example.premarital.dtos.ArticleDTO;
 import com.example.premarital.dtos.ArticlePartDTO;
 import com.example.premarital.models.ArticlePart;
 import com.example.premarital.services.ArticlePartService;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -13,13 +14,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/articleParts")
 public class ArticlePartController {
     private final ArticlePartService articlePartService;
-
-    public ArticlePartController(ArticlePartService articlePartService) {
-        this.articlePartService = articlePartService;
-    }
 
     @GetMapping
     public ResponseEntity<?> findAll(

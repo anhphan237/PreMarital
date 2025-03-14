@@ -4,6 +4,7 @@ import com.example.premarital.dtos.BankAccountDTO;
 import com.example.premarital.dtos.CategoryDTO;
 import com.example.premarital.dtos.TherapistMajorDTO;
 import com.example.premarital.services.BankAccountService;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -13,13 +14,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/bankAccounts")
 public class BankAccountController {
     private final BankAccountService bankAccountService;
-
-    public BankAccountController(BankAccountService bankAccountService) {
-        this.bankAccountService = bankAccountService;
-    }
 
     @GetMapping
     public ResponseEntity<?> findAll(

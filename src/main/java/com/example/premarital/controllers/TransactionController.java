@@ -4,6 +4,7 @@ import com.example.premarital.dtos.TransactionDTO;
 import com.example.premarital.dtos.WalletDTO;
 import com.example.premarital.models.Transaction;
 import com.example.premarital.services.TransactionService;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -13,13 +14,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/transactions")
 public class TransactionController {
     private final TransactionService transactionService;
-
-    public TransactionController(TransactionService transactionService) {
-        this.transactionService = transactionService;
-    }
 
     @GetMapping
     public ResponseEntity<?> getTransactions(
