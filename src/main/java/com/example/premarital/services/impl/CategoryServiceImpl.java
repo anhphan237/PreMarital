@@ -48,6 +48,7 @@ public class CategoryServiceImpl implements CategoryService {
 
         try {
             Category category = categoryMapper.toEntity(dto);
+            category.setIsActive(true);
             categoryRepository.save(category);
             logger.info("Category created successfully with ID: {}", category.getId());
         } catch (DataIntegrityViolationException e) {

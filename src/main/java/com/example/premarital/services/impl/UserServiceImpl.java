@@ -50,6 +50,7 @@ public class UserServiceImpl implements UserService {
 
         try {
             User user = userMapper.toEntity(dto);
+            user.setIsActive(true);
             userRepository.save(user);
             logger.info("User created successfully with ID: {}", user.getId());
         } catch (DataIntegrityViolationException e) {

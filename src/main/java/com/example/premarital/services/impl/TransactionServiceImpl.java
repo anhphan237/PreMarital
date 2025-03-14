@@ -50,6 +50,7 @@ public class TransactionServiceImpl implements TransactionService {
 
         try {
             Transaction transaction = transactionMapper.toEntity(dto);
+            transaction.setIsActive(true);
             transactionRepository.save(transaction);
             logger.info("Transaction created successfully with ID: {}", transaction.getId());
         } catch (DataIntegrityViolationException e) {
