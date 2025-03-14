@@ -1,7 +1,6 @@
 package com.example.premarital.services;
 
 import com.example.premarital.dtos.QuizCategoryDTO;
-import com.example.premarital.models.QuizCategory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
