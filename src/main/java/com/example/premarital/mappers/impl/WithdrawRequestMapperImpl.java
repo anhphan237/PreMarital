@@ -45,7 +45,7 @@ public class WithdrawRequestMapperImpl implements WithdrawRequestMapper {
         withdrawRequest.setId(dto.getId());
         withdrawRequest.setRequestAmount(dto.getRequestAmount());
         withdrawRequest.setRequestDate(dto.getRequestDate());
-        withdrawRequest.setApproved(dto.isApproved());
+        withdrawRequest.setApproved(dto.getIsApproved());
         withdrawRequest.setApprovedBy(dto.getApprovedBy());
         withdrawRequest.setApprovedDate(dto.getApprovedDate());
         withdrawRequest.setUser(userRepository.getReferenceById(dto.getUserId()));
@@ -65,7 +65,7 @@ public class WithdrawRequestMapperImpl implements WithdrawRequestMapper {
         withdrawRequest.setId(id);
         withdrawRequest.setRequestAmount(dto.getRequestAmount());
         withdrawRequest.setRequestDate(dto.getRequestDate());
-        withdrawRequest.setApproved(dto.isApproved());
+        withdrawRequest.setApproved(dto.getIsApproved());
         withdrawRequest.setApprovedBy(dto.getApprovedBy());
         withdrawRequest.setApprovedDate(dto.getApprovedDate());
         withdrawRequest.setUser(userRepository.getReferenceById(dto.getUserId()));
