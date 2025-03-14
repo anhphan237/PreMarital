@@ -19,7 +19,7 @@ public class UserQuizHistoryDTO {
     @Min(value = 0, message = "Quiz points cannot be negative")
     private int quizPoint;
 
-    private Long quizUserAdviceId; // Nullable if advice is not always given
+    private Long quizUserAdviceId;
 
     @JsonProperty("isActive")
     private Boolean isActive = true;

@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BankAccountDTO {
-    private Long id; // Nullable (only required for updates)
+    private Long id;
 
     @NotNull(message = "Wallet ID cannot be null")
     private Long walletId;

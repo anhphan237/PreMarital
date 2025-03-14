@@ -1,6 +1,5 @@
 package com.example.premarital.models;
 
-import com.example.premarital.models.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

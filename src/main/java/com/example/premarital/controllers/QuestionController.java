@@ -4,6 +4,7 @@ import com.example.premarital.dtos.QuestionDTO;
 import com.example.premarital.dtos.QuestionOptionDTO;
 import com.example.premarital.dtos.WalletDTO;
 import com.example.premarital.services.QuestionService;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -13,13 +14,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/questions")
 public class QuestionController {
     private final QuestionService questionService;
-
-    public QuestionController(QuestionService questionService) {
-        this.questionService = questionService;
-    }
 
     @GetMapping
     public ResponseEntity<?> findAll(

@@ -3,6 +3,7 @@ package com.example.premarital.controllers;
 import com.example.premarital.dtos.UserDTO;
 import com.example.premarital.services.UserService;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -14,13 +15,10 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/users")
 public class UserController {
     private final UserService userService;
-
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
 
     @GetMapping("/whoami")
     public ResponseEntity<String> whoAmI(Authentication authentication) {

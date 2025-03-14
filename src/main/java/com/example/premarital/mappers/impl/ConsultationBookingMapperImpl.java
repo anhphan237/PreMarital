@@ -3,7 +3,6 @@ package com.example.premarital.mappers.impl;
 import com.example.premarital.dtos.ConsultationBookingDTO;
 import com.example.premarital.mappers.ConsultationBookingMapper;
 import com.example.premarital.models.ConsultationBooking;
-import com.example.premarital.models.TherapistSchedule;
 import com.example.premarital.repositories.*;
 import org.springframework.stereotype.Component;
 

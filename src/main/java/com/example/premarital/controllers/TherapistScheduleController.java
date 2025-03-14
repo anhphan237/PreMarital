@@ -4,6 +4,7 @@ import com.example.premarital.dtos.TherapistMajorDTO;
 import com.example.premarital.dtos.TherapistScheduleDTO;
 import com.example.premarital.services.TherapistScheduleService;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -13,13 +14,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/therapistSchedules")
 public class TherapistScheduleController {
     private final TherapistScheduleService therapistScheduleService;
-
-    public TherapistScheduleController(TherapistScheduleService therapistScheduleService) {
-        this.therapistScheduleService = therapistScheduleService;
-    }
 
     @GetMapping
     public ResponseEntity<?> findAll(
