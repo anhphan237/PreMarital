@@ -45,10 +45,6 @@ public class TherapistScheduleServiceImpl implements TherapistScheduleService {
             throw new InvalidDataException("ID must be null when create");
         }
 
-        if (dto == null) {
-            throw new InvalidDataException("Therapist schedule data cannot be null.");
-        }
-
         therapistRepository.findById(dto.getTherapistId())
                 .orElseThrow(() -> new InvalidDataException("Invalid therapistId: " + dto.getTherapistId()));
 

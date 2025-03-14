@@ -24,15 +24,13 @@ public class WithdrawRequestServiceImpl implements WithdrawRequestService {
     @Override
     public Page<WithdrawRequestDTO> getWithdrawRequests(Pageable pageable) {
         Page<WithdrawRequest> entities = withdrawRequestRepository.findAll(pageable);
-        Page<WithdrawRequestDTO> dtoPage = entities.map(new Function<WithdrawRequest, WithdrawRequestDTO>() {
+        return entities.map(new Function<WithdrawRequest, WithdrawRequestDTO>() {
 
             @Override
             public WithdrawRequestDTO apply(WithdrawRequest withdrawRequest) {
-                WithdrawRequestDTO dto = withdrawRequestMapper.toDTO(withdrawRequest);
-                return dto;
+                return withdrawRequestMapper.toDTO(withdrawRequest);
             }
         });
-        return dtoPage;
     }
 
     @Override
