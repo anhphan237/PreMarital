@@ -54,6 +54,10 @@ public class ArticleMapperImpl implements ArticleMapper {
         article.setReferencePath(dto.getReferencePath());
         article.setStatus(dto.getStatus());
 
+        return getArticle(dto, article);
+    }
+
+    private Article getArticle(ArticleDTO dto, Article article) {
         if (dto.getApprovedUserId() != null) {
             User user = userRepository.findById(dto.getApprovedUserId()).orElse(null);
             article.setApprovedAdmin(user);
@@ -85,21 +89,6 @@ public class ArticleMapperImpl implements ArticleMapper {
         article.setStatus(dto.getStatus());
         article.setIsActive(dto.getIsActive());
 
-        if (dto.getApprovedUserId() != null) {
-            User user = userRepository.findById(dto.getApprovedUserId()).orElse(null);
-            article.setApprovedAdmin(user);
-        }
-
-        if (dto.getTherapistId() != null) {
-            Therapist therapist = therapistRepository.findById(dto.getTherapistId()).orElse(null);
-            article.setTherapist(therapist);
-        }
-
-        if (dto.getCategoryId() != null) {
-            Category category = categoryRepository.getReferenceById(dto.getCategoryId());
-            article.setCategory(category);
-        }
-
-        return article;
+        return getArticle(dto, article);
     }
 }

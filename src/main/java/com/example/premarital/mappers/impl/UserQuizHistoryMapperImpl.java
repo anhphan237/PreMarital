@@ -37,7 +37,7 @@ public class UserQuizHistoryMapperImpl implements UserQuizHistoryMapper {
 
         if (userQuizHistoryDTO.getUserId() != null) {
             User user = new User();
-            user.setId(userQuizHistoryDTO.getUserId());  // Chỉ gán ID, không fetch toàn bộ object
+            user.setId(userQuizHistoryDTO.getUserId());
             userQuizHistory.setUser(user);
         }
 
@@ -63,13 +63,13 @@ public class UserQuizHistoryMapperImpl implements UserQuizHistoryMapper {
 
         if (userQuizHistoryDTO.getUserId() != null) {
             User user = new User();
-            user.setId(userQuizHistoryDTO.getUserId());  // Chỉ gán ID, không fetch toàn bộ object
+            user.setId(userQuizHistoryDTO.getUserId());
             userQuizHistory.setUser(user);
         }
 
         if (userQuizHistoryDTO.getQuizUserAdviceId() != null) {
             QuizUserAdvice quizUserAdvice = new QuizUserAdvice();
-            quizUserAdvice.setId(userQuizHistoryDTO.getQuizUserAdviceId());  // Chỉ gán ID
+            quizUserAdvice.setId(userQuizHistoryDTO.getQuizUserAdviceId());
             userQuizHistory.setQuizUserAdvice(quizUserAdvice);
         }
 
