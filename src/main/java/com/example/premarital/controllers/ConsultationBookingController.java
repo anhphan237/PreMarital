@@ -40,11 +40,11 @@ public class ConsultationBookingController {
                 direction != null ? direction : Sort.Direction.ASC,
                 sort != null ? sort : "id"
         );
-        Page<ConsultationBookingDTO> consultationBookingDTOS = consultationBookingService.getConsultationBookings(pageable);
-        if (consultationBookingDTOS.isEmpty()) {
+        Page<ConsultationBookingDTO> consultationBookings = consultationBookingService.getConsultationBookings(pageable);
+        if (consultationBookings.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
-        return new ResponseEntity<>(consultationBookingDTOS, HttpStatus.OK);
+        return ResponseEntity.ok(consultationBookings);
     }
 
     @PostMapping

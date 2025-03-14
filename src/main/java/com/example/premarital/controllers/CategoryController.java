@@ -28,7 +28,7 @@ public class CategoryController {
             @RequestParam(defaultValue = "5") Integer size,
             @RequestParam(defaultValue = "id") String sort,
             @RequestParam(defaultValue = "ASC") Sort.Direction direction
-    ){
+    ) {
         if (page < 1 || size <= 1) {
             return ResponseEntity.badRequest().body("Page number must be >= 1 and size must be > 1");
         }
@@ -44,7 +44,7 @@ public class CategoryController {
         if (categories.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
-        return new ResponseEntity<>(categories, HttpStatus.OK);
+        return ResponseEntity.ok(categories);
     }
 
     @PostMapping

@@ -43,7 +43,7 @@ public class TransactionController {
         if (transactions.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
-        return new ResponseEntity<>(transactions, HttpStatus.OK);
+        return ResponseEntity.ok(transactions);
     }
 
     @PostMapping
