@@ -19,6 +19,7 @@ public class Article {
     private String title;
     private String referencePath;
     private String status;
+    @Column(name = "is_active")
     private Boolean isActive;
 
     @ManyToOne

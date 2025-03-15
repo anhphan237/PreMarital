@@ -29,6 +29,7 @@ public class Quiz {
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
     private LocalDateTime updatedAt;
     private String status;
+    @Column(name = "is_active")
     private Boolean isActive;
 
     @OneToMany(mappedBy = "quiz", fetch = FetchType.LAZY)

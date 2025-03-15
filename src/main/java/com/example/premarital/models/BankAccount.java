@@ -21,5 +21,6 @@ public class BankAccount {
 
     private String bankName;
     private String bankNumber;
+    @Column(name = "is_active")
     private Boolean isActive;
 }

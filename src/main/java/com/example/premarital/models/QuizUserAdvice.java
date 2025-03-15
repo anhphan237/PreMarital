@@ -23,6 +23,7 @@ public class QuizUserAdvice {
 
     private int fromPoint;
     private int toPoint;
+    @Column(name = "is_active")
     private Boolean isActive;
 
     @OneToOne

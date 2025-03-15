@@ -23,5 +23,6 @@ public class UserAnswer {
     @JoinColumn(name = "question_option_id", nullable = false)
     private QuestionOption questionOption;
 
+    @Column(name = "is_active")
     private Boolean isActive;
 }
