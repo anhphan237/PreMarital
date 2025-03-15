@@ -23,5 +23,6 @@ public class QuizCategory {
     @JoinColumn(name = "quiz_id", nullable = false)
     private Quiz quiz;
 
+    @Column(name = "is_active")
     private Boolean isActive;
 }

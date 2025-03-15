@@ -32,5 +32,6 @@ public class UserQuizHistory {
     @OneToMany(mappedBy = "userQuizHistory")
     private List<UserAnswer> userAnswer;
 
+    @Column(name = "is_active")
     private Boolean isActive;
 }

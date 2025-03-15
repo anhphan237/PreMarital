@@ -25,6 +25,7 @@ public class Question {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private String forGender;
+    @Column(name = "is_active")
     private Boolean isActive;
 
     @OneToMany(mappedBy = "question", fetch = FetchType.LAZY)

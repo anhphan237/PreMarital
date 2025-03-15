@@ -18,6 +18,7 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    @Column(name = "is_active")
     private Boolean isActive;
     @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
     @ToString.Exclude

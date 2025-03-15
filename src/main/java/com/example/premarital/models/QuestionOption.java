@@ -27,5 +27,6 @@ public class QuestionOption {
     private String optionText;
 
     private int point;
+    @Column(name = "is_active")
     private Boolean isActive;
 }

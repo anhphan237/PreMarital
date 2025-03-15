@@ -19,6 +19,7 @@ public class ArticlePart {
     private String content;
     private int orderIndex;
     private String imageLink;
+    @Column(name = "is_active")
     private Boolean isActive;
 
     @ManyToOne
