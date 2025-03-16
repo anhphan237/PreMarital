@@ -1,10 +1,8 @@
 package com.example.premarital.services.impl;
 
 import com.example.premarital.dtos.QuizDTO;
-import com.example.premarital.dtos.WalletDTO;
 import com.example.premarital.mappers.QuizMapper;
 import com.example.premarital.models.Quiz;
-import com.example.premarital.models.Wallet;
 import com.example.premarital.services.QuizService;
 import com.example.premarital.repositories.QuizRepository;
 import org.springframework.data.domain.Page;
