@@ -5,6 +5,7 @@ import com.example.premarital.mappers.WithdrawRequestMapper;
 import com.example.premarital.models.WithdrawRequest;
 import com.example.premarital.repositories.WithdrawRequestRepository;
 import com.example.premarital.services.WithdrawRequestService;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -12,14 +13,10 @@ import org.springframework.stereotype.Service;
 import java.util.function.Function;
 
 @Service
+@AllArgsConstructor
 public class WithdrawRequestServiceImpl implements WithdrawRequestService {
     private final WithdrawRequestRepository withdrawRequestRepository;
     private final WithdrawRequestMapper withdrawRequestMapper;
-
-    public WithdrawRequestServiceImpl(WithdrawRequestRepository withdrawRequestRepository, WithdrawRequestMapper withdrawRequestMapper) {
-        this.withdrawRequestRepository = withdrawRequestRepository;
-        this.withdrawRequestMapper = withdrawRequestMapper;
-    }
 
     @Override
     public Page<WithdrawRequestDTO> getWithdrawRequests(Pageable pageable) {

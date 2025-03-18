@@ -5,6 +5,7 @@ import com.example.premarital.mappers.QuizCategoryMapper;
 import com.example.premarital.models.QuizCategory;
 import com.example.premarital.repositories.QuizCategoryRepository;
 import com.example.premarital.services.QuizCategoryService;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -12,14 +13,10 @@ import org.springframework.stereotype.Service;
 import java.util.function.Function;
 
 @Service
+@AllArgsConstructor
 public class QuizCategoryServiceImpl implements QuizCategoryService {
     private final QuizCategoryRepository quizCategoryRepository;
     private final QuizCategoryMapper quizCategoryMapper;
-
-    public QuizCategoryServiceImpl(QuizCategoryRepository quizCategoryRepository, QuizCategoryMapper quizCategoryMapper) {
-        this.quizCategoryRepository = quizCategoryRepository;
-        this.quizCategoryMapper = quizCategoryMapper;
-    }
 
     @Override
     public Page<QuizCategoryDTO> getQuizCategories(Pageable pageable) {

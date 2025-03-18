@@ -5,6 +5,7 @@ import com.example.premarital.mappers.QuizQuestionMapper;
 import com.example.premarital.models.QuizQuestion;
 import com.example.premarital.repositories.QuizQuestionRepository;
 import com.example.premarital.services.QuizQuestionService;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -12,14 +13,10 @@ import org.springframework.stereotype.Service;
 import java.util.function.Function;
 
 @Service
+@AllArgsConstructor
 public class QuizQuestionServiceImpl implements QuizQuestionService {
     private final QuizQuestionRepository quizQuestionRepository;
     private final QuizQuestionMapper quizQuestionMapper;
-
-    public QuizQuestionServiceImpl(QuizQuestionRepository quizQuestionRepository, QuizQuestionMapper quizQuestionMapper) {
-        this.quizQuestionRepository = quizQuestionRepository;
-        this.quizQuestionMapper = quizQuestionMapper;
-    }
 
     @Override
     public Page<QuizQuestionDTO> getQuizQuestions(Pageable pageable) {

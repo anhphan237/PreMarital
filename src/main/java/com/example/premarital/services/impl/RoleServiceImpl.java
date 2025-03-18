@@ -5,6 +5,7 @@ import com.example.premarital.mappers.RoleMapper;
 import com.example.premarital.models.Role;
 import com.example.premarital.repositories.RoleRepository;
 import com.example.premarital.services.RoleService;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -12,14 +13,10 @@ import org.springframework.stereotype.Service;
 import java.util.function.Function;
 
 @Service
+@AllArgsConstructor
 public class RoleServiceImpl implements RoleService {
     private final RoleRepository roleRepository;
     private final RoleMapper roleMapper;
-
-    public RoleServiceImpl(RoleRepository roleRepository, RoleMapper roleMapper) {
-        this.roleRepository = roleRepository;
-        this.roleMapper = roleMapper;
-    }
 
     @Override
     public Page<RoleDTO> getRoles(Pageable pageable) {

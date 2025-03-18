@@ -1,12 +1,11 @@
 package com.example.premarital.services.impl;
 
 import com.example.premarital.dtos.UserAnswerDTO;
-import com.example.premarital.dtos.WalletDTO;
 import com.example.premarital.mappers.UserAnswerMapper;
 import com.example.premarital.models.UserAnswer;
-import com.example.premarital.models.Wallet;
 import com.example.premarital.repositories.UserAnswerRepository;
 import com.example.premarital.services.UserAnswerService;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -14,14 +13,10 @@ import org.springframework.stereotype.Service;
 import java.util.function.Function;
 
 @Service
+@AllArgsConstructor
 public class UserAnswerServiceImpl implements UserAnswerService {
     private final UserAnswerRepository userAnswerRepository;
     private final UserAnswerMapper userAnswerMapper;
-
-    public UserAnswerServiceImpl(UserAnswerRepository userAnswerRepository, UserAnswerMapper userAnswerMapper) {
-        this.userAnswerRepository = userAnswerRepository;
-        this.userAnswerMapper = userAnswerMapper;
-    }
 
     @Override
     public Page<UserAnswerDTO> getUserAnswers(Pageable pageable) {
