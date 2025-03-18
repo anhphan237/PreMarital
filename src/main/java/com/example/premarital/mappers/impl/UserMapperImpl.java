@@ -45,7 +45,7 @@ public class UserMapperImpl implements UserMapper {
         if (dto == null) {
             return null;
         }
-        User user = userRepository.getReferenceById(dto.getId());
+        User user = new User();
         user.setId(dto.getId());
         user.setEmail(dto.getEmail());
         user.setFirstName(dto.getFirstName());
