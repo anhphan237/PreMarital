@@ -7,6 +7,7 @@ import com.example.premarital.models.Article;
 import com.example.premarital.models.Wallet;
 import com.example.premarital.repositories.ArticleRepository;
 import com.example.premarital.services.ArticleService;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -14,14 +15,10 @@ import org.springframework.stereotype.Service;
 import java.util.function.Function;
 
 @Service
+@AllArgsConstructor
 public class ArticleServiceImpl implements ArticleService {
     private final ArticleRepository articleRepository;
     private final ArticleMapper articleMapper;
-
-    public ArticleServiceImpl(ArticleRepository articleRepository, ArticleMapper articleMapper) {
-        this.articleRepository = articleRepository;
-        this.articleMapper = articleMapper;
-    }
 
     @Override
     public Page<ArticleDTO> getArticles(Pageable pageable) {

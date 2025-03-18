@@ -7,6 +7,7 @@ import com.example.premarital.services.BankAccountService;
 import com.example.premarital.dtos.BankAccountDTO;
 import com.example.premarital.models.BankAccount;
 import com.example.premarital.repositories.BankAccountRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -14,14 +15,10 @@ import org.springframework.stereotype.Service;
 import java.util.function.Function;
 
 @Service
+@AllArgsConstructor
 public class BankAccountServiceImpl implements BankAccountService {
     private final BankAccountRepository bankAccountRepository;
     private final BankAccountMapper bankAccountMapper;
-
-    public BankAccountServiceImpl(BankAccountRepository bankAccountRepository, BankAccountMapper bankAccountMapper) {
-        this.bankAccountRepository = bankAccountRepository;
-        this.bankAccountMapper = bankAccountMapper;
-    }
 
     @Override
     public Page<BankAccountDTO> getBankAccounts(Pageable pageable) {
