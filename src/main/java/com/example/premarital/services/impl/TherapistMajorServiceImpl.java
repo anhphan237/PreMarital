@@ -5,6 +5,7 @@ import com.example.premarital.mappers.TherapistMajorMapper;
 import com.example.premarital.models.TherapistMajor;
 import com.example.premarital.repositories.TherapistMajorRepository;
 import com.example.premarital.services.TherapistMajorService;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -12,14 +13,10 @@ import org.springframework.stereotype.Service;
 import java.util.function.Function;
 
 @Service
+@AllArgsConstructor
 public class TherapistMajorServiceImpl implements TherapistMajorService {
     private final TherapistMajorRepository therapistMajorRepository;
     private final TherapistMajorMapper therapistMajorMapper;
-
-    public TherapistMajorServiceImpl(TherapistMajorRepository therapistMajorRepository, TherapistMajorMapper therapistMajorMapper) {
-        this.therapistMajorRepository = therapistMajorRepository;
-        this.therapistMajorMapper = therapistMajorMapper;
-    }
 
     @Override
     public Page<TherapistMajorDTO> getTherapistMajors(Pageable pageable) {

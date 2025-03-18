@@ -1,12 +1,11 @@
 package com.example.premarital.services.impl;
 
 import com.example.premarital.dtos.QuestionDTO;
-import com.example.premarital.dtos.WalletDTO;
 import com.example.premarital.mappers.QuestionMapper;
 import com.example.premarital.models.Question;
-import com.example.premarital.models.Wallet;
 import com.example.premarital.repositories.QuestionRepository;
 import com.example.premarital.services.QuestionService;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -14,14 +13,10 @@ import org.springframework.stereotype.Service;
 import java.util.function.Function;
 
 @Service
+@AllArgsConstructor
 public class QuestionServiceImpl implements QuestionService {
     private final QuestionRepository questionRepository;
     private final QuestionMapper questionMapper;
-
-    public QuestionServiceImpl(QuestionRepository questionRepository, QuestionMapper questionMapper) {
-        this.questionRepository = questionRepository;
-        this.questionMapper = questionMapper;
-    }
 
     @Override
     public Page<QuestionDTO> getQuestions(Pageable pageable) {

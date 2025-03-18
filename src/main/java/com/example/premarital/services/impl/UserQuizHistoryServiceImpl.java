@@ -1,12 +1,11 @@
 package com.example.premarital.services.impl;
 
 import com.example.premarital.dtos.UserQuizHistoryDTO;
-import com.example.premarital.dtos.WalletDTO;
 import com.example.premarital.mappers.UserQuizHistoryMapper;
 import com.example.premarital.models.UserQuizHistory;
-import com.example.premarital.models.Wallet;
 import com.example.premarital.repositories.UserQuizHistoryRepository;
 import com.example.premarital.services.UserQuizHistoryService;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -14,14 +13,10 @@ import org.springframework.stereotype.Service;
 import java.util.function.Function;
 
 @Service
+@AllArgsConstructor
 public class UserQuizHistoryServiceImpl implements UserQuizHistoryService {
     private final UserQuizHistoryRepository userQuizHistoryRepository;
     private final UserQuizHistoryMapper userQuizHistoryMapper;
-
-    public UserQuizHistoryServiceImpl(UserQuizHistoryRepository userQuizHistoryRepository, UserQuizHistoryMapper userQuizHistoryMapper) {
-        this.userQuizHistoryRepository = userQuizHistoryRepository;
-        this.userQuizHistoryMapper = userQuizHistoryMapper;
-    }
 
     @Override
     public Page<UserQuizHistoryDTO> getUserQuizHistories(Pageable pageable) {

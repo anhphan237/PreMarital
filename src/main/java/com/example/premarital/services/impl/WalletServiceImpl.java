@@ -7,6 +7,7 @@ import com.example.premarital.models.TherapistMajor;
 import com.example.premarital.models.Wallet;
 import com.example.premarital.repositories.WalletRepository;
 import com.example.premarital.services.WalletService;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -14,14 +15,10 @@ import org.springframework.stereotype.Service;
 import java.util.function.Function;
 
 @Service
+@AllArgsConstructor
 public class WalletServiceImpl implements WalletService {
     private final WalletRepository walletRepository;
     private final WalletMapper walletMapper;
-
-    public WalletServiceImpl(WalletRepository walletRepository, WalletMapper walletMapper) {
-        this.walletRepository = walletRepository;
-        this.walletMapper = walletMapper;
-    }
 
     @Override
     public Page<WalletDTO> getWallets(Pageable pageable) {
