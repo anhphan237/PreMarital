@@ -5,6 +5,7 @@ import com.example.premarital.mappers.ArticlePartMapper;
 import com.example.premarital.models.ArticlePart;
 import com.example.premarital.repositories.ArticlePartRepository;
 import com.example.premarital.services.ArticlePartService;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -12,14 +13,10 @@ import org.springframework.stereotype.Service;
 import java.util.function.Function;
 
 @Service
+@AllArgsConstructor
 public class ArticlePartServiceImpl implements ArticlePartService {
     private final ArticlePartRepository articlePartRepository;
     private final ArticlePartMapper articlePartMapper;
-
-    public ArticlePartServiceImpl(ArticlePartRepository articlePartRepository, ArticlePartMapper articlePartMapper) {
-        this.articlePartRepository = articlePartRepository;
-        this.articlePartMapper = articlePartMapper;
-    }
 
     @Override
     public Page<ArticlePartDTO> getArticleParts(Pageable pageable) {
