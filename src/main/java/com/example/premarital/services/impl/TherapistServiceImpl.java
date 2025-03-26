@@ -4,7 +4,9 @@ import com.example.premarital.dtos.TherapistDTO;
 import com.example.premarital.exceptions.InvalidDataException;
 import com.example.premarital.mappers.TherapistMapper;
 import com.example.premarital.models.Therapist;
+import com.example.premarital.repositories.TherapistMajorRepository;
 import com.example.premarital.repositories.TherapistRepository;
+import com.example.premarital.repositories.UserRepository;
 import com.example.premarital.services.TherapistService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -23,6 +25,8 @@ import java.util.function.Function;
 public class TherapistServiceImpl implements TherapistService {
     private final TherapistRepository therapistRepository;
     private final TherapistMapper therapistMapper;
+    private final UserRepository userRepository;
+    private final TherapistMajorRepository therapistMajorRepository;
     private static final Logger logger = LoggerFactory.getLogger(TherapistServiceImpl.class);
 
     @Override
@@ -66,25 +70,22 @@ public class TherapistServiceImpl implements TherapistService {
     @Override
     @Transactional
     public boolean updateTherapist(Long id, TherapistDTO updatedTherapistDTO) {
-        if (updatedTherapistDTO.getUserId() != null) {
-            throw new InvalidDataException("ID must be null when updating therapist");
-        }
-
-        if (!therapistRepository.existsById(id)) {
-            throw new EntityNotFoundException("Therapist ID " + id + " not found");
-        }
-
-        try {
-            Therapist updatedTherapist = therapistMapper.toEntityWithId(id, updatedTherapistDTO);
-            therapistRepository.save(updatedTherapist);
-            logger.info("Therapist with ID {} updated successfully", id);
+        Therapist existingTherapist = therapistRepository.findById(id).orElse(null);
+        if (existingTherapist != null) {
+            existingTherapist.setId(id);
+            existingTherapist.setBio(updatedTherapistDTO.getBio());
+            existingTherapist.setUser(userRepository.findById(id).orElse(null));
+            existingTherapist.setTherapistMajor(therapistMajorRepository.findById(updatedTherapistDTO.getTherapistMajorId()).orElse(null));
+            existingTherapist.setIsActive(updatedTherapistDTO.getIsActive());
+            existingTherapist.setCertificationExpirationDate(updatedTherapistDTO.getCertificationExpirationDate());
+            existingTherapist.setCertificationIssueDate(updatedTherapistDTO.getCertificationIssueDate());
+            existingTherapist.setCertificationIssuedBy(updatedTherapistDTO.getCertificationIssuedBy());
+            existingTherapist.setTherapistCertificationName(updatedTherapistDTO.getTherapistCertificationName());
+            existingTherapist.setIsActive(updatedTherapistDTO.getIsActive());
+            therapistRepository.save(existingTherapist);
             return true;
-        } catch (DataIntegrityViolationException e) {
-            logger.error("Database constraint violation while updating therapist with ID {}: {}", id, e.getMessage(), e);
-            throw new InvalidDataException("Invalid update data: " + e.getMessage());
-        } catch (Exception e) {
-            logger.error("Unexpected error while updating therapist with ID {}: {}", id, e.getMessage(), e);
-            throw new RuntimeException("Failed to update therapist", e);
+        }else {
+            return false;
         }
     }
 }
