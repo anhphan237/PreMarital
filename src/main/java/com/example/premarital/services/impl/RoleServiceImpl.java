@@ -25,7 +25,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Page<RoleDTO> getRoles(Pageable pageable) {
-        Page<Role> roles = roleRepository.findAll(pageable);
+        Page<Role> roles = roleRepository.findRolesByIsActiveTrue(pageable);
         if (roles.isEmpty()) {
             logger.warn("No roles found in the system");
         }
