@@ -8,6 +8,7 @@ import com.example.premarital.models.Article;
 import com.example.premarital.models.Wallet;
 import com.example.premarital.repositories.ArticleRepository;
 import com.example.premarital.repositories.CategoryRepository;
+import com.example.premarital.repositories.TherapistRepository;
 import com.example.premarital.repositories.UserRepository;
 import com.example.premarital.services.ArticleService;
 import com.example.premarital.services.CategoryService;
@@ -31,6 +32,7 @@ public class ArticleServiceImpl implements ArticleService {
     private static final Logger logger = LoggerFactory.getLogger(ArticleServiceImpl.class);
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
+    private final TherapistRepository therapistRepository;
 
     @Override
     public Page<ArticleDTO> getArticles(Pageable pageable) {
@@ -44,12 +46,18 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     @Transactional
     public void createArticle(ArticleDTO dto) {
+        Article article = new Article();
+
         if (dto.getId() != null) {
             throw new InvalidDataException("ID must be null when creating an article");
         }
 
         if (dto.getApprovedUserId() == null || dto.getApprovedUserId() <= 0 || !userRepository.existsById(dto.getApprovedUserId())) {
             throw new InvalidDataException("Approved user ID " + dto.getApprovedUserId() + " is invalid or not found");
+        }
+
+        if (dto.getTherapistId() == null || dto.getTherapistId() <= 0 || !therapistRepository.existsById(dto.getTherapistId())) {
+            throw new InvalidDataException("Therapist ID " + dto.getTherapistId() + " is invalid or not found");
         }
 
         if (dto.getReferenceArticleId() == null || dto.getReferenceArticleId() <= 0 || !articleRepository.existsById(dto.getReferenceArticleId())) {
@@ -61,7 +69,8 @@ public class ArticleServiceImpl implements ArticleService {
         }
 
         try {
-            Article article = articleMapper.toEntity(dto);
+            article = articleMapper.toEntity(dto);
+            article.setIsActive(true);
             articleRepository.save(article);
             logger.info("Article created successfully with ID: {}", article.getId());
         } catch (DataIntegrityViolationException e) {
@@ -115,6 +124,10 @@ public class ArticleServiceImpl implements ArticleService {
 
         if (updatedArticleDTO.getApprovedUserId() == null || updatedArticleDTO.getApprovedUserId() <= 0 || !userRepository.existsById(updatedArticleDTO.getApprovedUserId())) {
             throw new InvalidDataException("Approved user ID " + updatedArticleDTO.getApprovedUserId() + " is invalid or not found");
+        }
+
+        if (updatedArticleDTO.getTherapistId() == null || updatedArticleDTO.getTherapistId() <= 0 || !therapistRepository.existsById(updatedArticleDTO.getTherapistId())) {
+            throw new InvalidDataException("Therapist ID " + updatedArticleDTO.getTherapistId() + " is invalid or not found");
         }
 
         if (updatedArticleDTO.getReferenceArticleId() == null || updatedArticleDTO.getReferenceArticleId() <= 0 || !articleRepository.existsById(updatedArticleDTO.getReferenceArticleId())) {

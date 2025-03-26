@@ -36,6 +36,8 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void createUser(UserDTO dto) {
+        User newUser = new User();
+
         if (dto.getId() != null) {
             throw new InvalidDataException("ID must be null when create");
         }
@@ -49,10 +51,10 @@ public class UserServiceImpl implements UserService {
         }
 
         try {
-            User user = userMapper.toEntity(dto);
-            user.setIsActive(true);
-            userRepository.save(user);
-            logger.info("User created successfully with ID: {}", user.getId());
+            newUser = userMapper.toEntity(dto);
+            newUser.setIsActive(true);
+            userRepository.save(newUser);
+            logger.info("User created successfully with ID: {}", newUser.getId());
         } catch (DataIntegrityViolationException e) {
             logger.error("Database constraint violation while creating user: {}", e.getMessage(), e);
             throw new InvalidDataException("Invalid user data: " + e.getMessage());

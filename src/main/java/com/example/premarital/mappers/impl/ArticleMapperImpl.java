@@ -6,6 +6,7 @@ import com.example.premarital.models.Article;
 import com.example.premarital.models.Category;
 import com.example.premarital.models.Therapist;
 import com.example.premarital.models.User;
+import com.example.premarital.repositories.ArticleRepository;
 import com.example.premarital.repositories.CategoryRepository;
 import com.example.premarital.repositories.TherapistRepository;
 import com.example.premarital.repositories.UserRepository;
@@ -16,11 +17,13 @@ public class ArticleMapperImpl implements ArticleMapper {
     private final UserRepository userRepository;
     private final TherapistRepository therapistRepository;
     private final CategoryRepository categoryRepository;
+    private final ArticleRepository articleRepository;
 
-    public ArticleMapperImpl(UserRepository userRepository, TherapistRepository therapistRepository, CategoryRepository categoryRepository) {
+    public ArticleMapperImpl(UserRepository userRepository, TherapistRepository therapistRepository, CategoryRepository categoryRepository, ArticleRepository articleRepository) {
         this.userRepository = userRepository;
         this.therapistRepository = therapistRepository;
         this.categoryRepository = categoryRepository;
+        this.articleRepository = articleRepository;
     }
 
     @Override
@@ -48,11 +51,25 @@ public class ArticleMapperImpl implements ArticleMapper {
             return null;
         }
 
+        Article ref = new Article();
+        ref.setId(dto.getReferenceArticleId());
+        Category category = new Category();
+        category.setId(dto.getCategoryId());
+        Therapist therapist = new Therapist();
+        therapist.setId(dto.getTherapistId());
+        User approvedAdmin = new User();
+        approvedAdmin.setId(dto.getApprovedUserId());
+
         Article article = new Article();
         article.setId(dto.getId());
         article.setTitle(dto.getTitle());
         article.setReferencePath(dto.getReferencePath());
         article.setStatus(dto.getStatus());
+        article.setIsActive(dto.getIsActive());
+        article.setReferenceArticle(ref);
+        article.setCategory(category);
+        article.setApprovedAdmin(approvedAdmin);
+        article.setTherapist(therapist);
 
         return getArticle(dto, article);
     }
