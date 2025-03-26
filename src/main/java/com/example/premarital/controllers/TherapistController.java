@@ -40,14 +40,6 @@ public class TherapistController {
         return new ResponseEntity<>(therapists, HttpStatus.OK);
     }
 
-    @PostMapping
-    public ResponseEntity<String> createTherapist(@Valid @RequestBody TherapistDTO therapist){
-        TherapistDTO newTherapist = therapistService.createTherapist(therapist);
-        if(newTherapist == null)
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Therapist already exists");
-        return new ResponseEntity<>("Therapist created successfully",HttpStatus.CREATED);
-    }
-
     @GetMapping("/{id}")
     public ResponseEntity<TherapistDTO> findTherapistById(@PathVariable Long id){
         TherapistDTO therapist = therapistService.getTherapistById(id);
