@@ -29,10 +29,10 @@ import java.util.function.Function;
 public class ArticleServiceImpl implements ArticleService {
     private final ArticleRepository articleRepository;
     private final ArticleMapper articleMapper;
-    private static final Logger logger = LoggerFactory.getLogger(ArticleServiceImpl.class);
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
     private final TherapistRepository therapistRepository;
+    private static final Logger logger = LoggerFactory.getLogger(ArticleServiceImpl.class);
 
     @Override
     public Page<ArticleDTO> getArticles(Pageable pageable) {
