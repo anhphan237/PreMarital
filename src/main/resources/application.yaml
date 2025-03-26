@@ -2,7 +2,8 @@ spring:
   application:
     name: premarital
   datasource:
-    url: jdbc:postgresql://14.187.50.100:5432/premarital
+#    url: jdbc:postgresql://14.187.50.100:5432/premarital
+    url: jdbc:postgresql://minetsbd.fun:5432/premarital
     username: norman
     password: Thomas1910@
   jpa:
