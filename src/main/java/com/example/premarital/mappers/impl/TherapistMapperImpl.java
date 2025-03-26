@@ -44,31 +44,25 @@ public class TherapistMapperImpl implements TherapistMapper {
     }
 
     @Override
-    public Therapist toEntityWithId(Long id, TherapistDTO dto) {
-        if ( dto == null ) {
+    public Therapist toEntityWithId(Long id, TherapistDTO updatedTherapistDTO) {
+        if ( updatedTherapistDTO == null ) {
             return null;
         }
 
-        Therapist therapist = new Therapist();
+        Therapist existingTherapist = new Therapist();
 
-        User user = new User();
-        user.setId( id );
-        therapist.setUser( user );
+        existingTherapist.setId(id);
+        existingTherapist.setBio(updatedTherapistDTO.getBio());
+        existingTherapist.setUser(userRepository.findById(id).orElse(null));
+        existingTherapist.setTherapistMajor(therapistMajorRepository.findById(updatedTherapistDTO.getTherapistMajorId()).orElse(null));
+        existingTherapist.setIsActive(updatedTherapistDTO.getIsActive());
+        existingTherapist.setCertificationExpirationDate(updatedTherapistDTO.getCertificationExpirationDate());
+        existingTherapist.setCertificationIssueDate(updatedTherapistDTO.getCertificationIssueDate());
+        existingTherapist.setCertificationIssuedBy(updatedTherapistDTO.getCertificationIssuedBy());
+        existingTherapist.setTherapistCertificationName(updatedTherapistDTO.getTherapistCertificationName());
+        existingTherapist.setIsActive(updatedTherapistDTO.getIsActive());
 
-        therapist.setId(id);
-        therapist.setBio( dto.getBio() );
-        therapist.setTherapistCertificationName( dto.getTherapistCertificationName() );
-        therapist.setCertificationIssuedBy( dto.getCertificationIssuedBy() );
-        therapist.setCertificationIssueDate( dto.getCertificationIssueDate() );
-        therapist.setCertificationExpirationDate( dto.getCertificationExpirationDate() );
-        therapist.setIsActive( dto.getIsActive() );
-        if(dto.getTherapistMajorId() != null) {
-            TherapistMajor therapistMajor = new TherapistMajor();
-            therapistMajor.setId( dto.getTherapistMajorId() );
-            therapist.setTherapistMajor( therapistMajor );
-        }
-
-        return therapist;
+        return existingTherapist;
     }
 
     @Override
