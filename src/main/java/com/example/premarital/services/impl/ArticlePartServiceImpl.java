@@ -69,7 +69,7 @@ public class ArticlePartServiceImpl implements ArticlePartService {
     @Transactional
     public boolean deleteArticlePartById(Long id) {
         ArticlePart articlePart = articlePartRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("User with ID " + id + " not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Article Part with ID " + id + " not found"));
 
         if (!articlePart.getIsActive()) {
             logger.warn("Article Part with ID {} is already inactive", id);
@@ -90,6 +90,10 @@ public class ArticlePartServiceImpl implements ArticlePartService {
     @Override
     @Transactional
     public boolean updateArticlePart(Long id, ArticlePartDTO updatedArticlePartDTO) {
+        if (updatedArticlePartDTO.getId() != null) {
+            throw new InvalidDataException("ID must be null when create");
+        }
+
         if (!articlePartRepository.existsById(id)) {
             throw new EntityNotFoundException("Article part ID " + id + " not found");
         }
