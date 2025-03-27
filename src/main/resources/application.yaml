@@ -12,6 +12,15 @@ spring:
     restart:
       enabled: true
 
+momo:
+  endpoint: https://test-payment.momo.vn/v2/gateway/api/create
+  access-key: F8BBA842ECF85
+  secret-key: K951B6PE1waDMi640xX08PD3vg6EkVlz
+  partnerCode: MOMO
+  return-url: http://localhost:5173/
+  ipn-url: http://localhost:8080/api/momo/ipn-handler
+  request-type: captureWallet
+
 logging:
   level:
     org:
