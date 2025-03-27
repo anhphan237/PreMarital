@@ -45,6 +45,33 @@ public class TherapistScheduleController {
         return ResponseEntity.ok(therapistSchedules);
     }
 
+    @GetMapping("/{therapistId}/Details")
+    public ResponseEntity<?> findByTherapistScheduleId(
+            @PathVariable Long therapistId,
+            @RequestParam(defaultValue = "1") Integer page,
+            @RequestParam(defaultValue = "5") Integer size,
+            @RequestParam(defaultValue = "id") String sort,
+            @RequestParam(defaultValue = "ASC") Sort.Direction direction
+    ){
+        if (page < 1 || size <= 1) {
+            return ResponseEntity.badRequest().body("Page number must be >= 1 and size must be > 1");
+        }
+
+        Pageable pageable = PageRequest.of(
+                page - 1,
+                size,
+                direction != null ? direction : Sort.Direction.ASC,
+                sort != null ? sort : "id"
+        );
+
+        Page<TherapistScheduleDTO> therapistSchedules = therapistScheduleService.getTherapistScheduleByTherapistId(therapistId, pageable);
+        if (therapistSchedules.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.ok(therapistSchedules);
+    }
+
     @PostMapping
     public ResponseEntity<String> createTherapistSchedule(@Valid @RequestBody TherapistScheduleDTO therapistScheduleDTO){
         therapistScheduleService.createTherapistSchedule(therapistScheduleDTO);

@@ -78,6 +78,15 @@ public class TherapistScheduleServiceImpl implements TherapistScheduleService {
     }
 
     @Override
+    public Page<TherapistScheduleDTO> getTherapistScheduleByTherapistId(Long therapistId, Pageable pageable) {
+        Page<TherapistSchedule> schedules = therapistScheduleRepository.findSchedulesByTherapistId(therapistId, pageable);
+        if (schedules.isEmpty()) {
+            logger.warn("No schedules actively found in the system");
+        }
+        return schedules.map(therapistScheduleMapper::toDTO);
+    }
+
+    @Override
     @Transactional
     public boolean deleteTherapistScheduleById(Long id) {
         TherapistSchedule therapistSchedule = therapistScheduleRepository.findById(id)
