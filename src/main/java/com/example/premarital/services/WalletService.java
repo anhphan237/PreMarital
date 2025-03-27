@@ -8,6 +8,7 @@ public interface WalletService {
     Page<WalletDTO> getWallets(Pageable pageable);
     void createWallet(WalletDTO dto);
     WalletDTO getWalletById(Long id);
+    WalletDTO getWalletByUserId(Long userId);
     boolean deleteWalletById(Long id);
     boolean updateWallet(Long id, WalletDTO updatedWalletDTO);
 }
