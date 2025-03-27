@@ -7,5 +7,4 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserQuizHistoryRepository extends JpaRepository<UserQuizHistory, Long> {
-    Page<UserQuizHistory> findUserQuizHistoriesByIsActiveTrue(Pageable pageable);
 }

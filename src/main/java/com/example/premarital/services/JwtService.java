@@ -5,5 +5,6 @@ import com.example.premarital.models.User;
 public interface JwtService {
     String extractUsername(String token);
     String generateToken(User user);
+    String getUserEmail(String token);
 }
 

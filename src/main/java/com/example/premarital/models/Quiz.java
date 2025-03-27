@@ -3,9 +3,15 @@ package com.example.premarital.models;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
+import java.util.List;
+
+import jakarta.persistence.*;
+import lombok.*;
+
 import java.util.List;
 
 @Entity
@@ -13,29 +19,42 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Quiz {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long quizId;
 
     @ManyToOne
-    @JoinColumn(name = "creator_id", nullable = false)
-    private Therapist creator;
+    @JoinColumn(name = "user_id", nullable = false)
+    private Therapist therapist;
 
     private String title;
     private String description;
+
+    @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL)
+    private List<QuizQuestion> quizQuestions;
+
+    @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL)
+    private List<QuizUserAdvice> advices;
+
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
     private LocalDateTime createdAt;
+
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
     private LocalDateTime updatedAt;
-    private String status;
-    @Column(name = "is_active")
-    private Boolean isActive;
 
-    @OneToMany(mappedBy = "quiz", fetch = FetchType.LAZY)
-    private List<QuizUserAdvice> quizUserAdvice;
+    private boolean isActive;
 
-    @ManyToOne
-    @JoinColumn(name = "user_quiz_history_id")
-    private UserQuizHistory userQuizHistory;
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+        this.isActive = true;
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        this.updatedAt = LocalDateTime.now();
+    }
 }

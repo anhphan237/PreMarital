@@ -13,20 +13,14 @@ import lombok.NoArgsConstructor;
 public class QuizUserAdvice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @ManyToOne
-    @JoinColumn(name = "quiz_id", nullable = false)
-    private Quiz quiz;
+    private Long quizUserAdviceId;
 
     private String adviceText;
 
     private int fromPoint;
     private int toPoint;
-    @Column(name = "is_active")
-    private Boolean isActive;
 
-    @OneToOne
-    @JoinColumn(name = "user_quiz_history_id")
-    private UserQuizHistory userQuizHistory;
+    @ManyToOne
+    @JoinColumn(name = "quiz_id", nullable = false)
+    private Quiz quiz;
 }

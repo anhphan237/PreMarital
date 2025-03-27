@@ -8,4 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TherapistRepository extends JpaRepository<Therapist, Long> {
     Page<Therapist> findTherapistsByIsActiveTrue(Pageable pageable);
+    Therapist getByUser_Email(String email);
 }

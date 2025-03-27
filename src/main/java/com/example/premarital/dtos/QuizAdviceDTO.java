@@ -9,7 +9,10 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class QuestionOptionDTO {
-    private String optionText;
-    private int point;
+public class QuizAdviceDTO {
+    private String adviceText;
+
+    private int fromPoint;
+
+    private int toPoint;
 }

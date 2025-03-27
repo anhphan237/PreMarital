@@ -21,12 +21,7 @@ public class QuestionOption {
     @JoinColumn(name = "question_id", nullable = false)
     private Question question;
 
-    @OneToMany(mappedBy = "questionOption", fetch = FetchType.LAZY)
-    private List<UserAnswer> userAnswers;
-
     private String optionText;
 
     private int point;
-    @Column(name = "is_active")
-    private Boolean isActive;
 }

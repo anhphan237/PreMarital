@@ -88,4 +88,9 @@ public class TherapistServiceImpl implements TherapistService {
             return false;
         }
     }
+
+    @Override
+    public Therapist getTherapistByEmail(String email) {
+        return therapistRepository.getByUser_Email(email);
+    }
 }

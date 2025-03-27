@@ -18,6 +18,15 @@ public class JwtServiceImpl implements JwtService {
     private static final String SECRET_KEY =
             "404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970";
 
+    public String getUserEmail(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(getSignInKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .getSubject();
+    }
+
     @Override
     public String extractUsername(String token) {
         Claims claims = extractAllClaims(token);
