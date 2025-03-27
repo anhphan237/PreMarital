@@ -36,6 +36,7 @@ public class TherapistMapperImpl implements TherapistMapper {
         therapistDTO.setCertificationIssueDate( therapist.getCertificationIssueDate() );
         therapistDTO.setCertificationExpirationDate( therapist.getCertificationExpirationDate() );
         therapistDTO.setIsActive( therapist.getIsActive() );
+        therapistDTO.setTreatmentCost( therapist.getTreatmentCost() );
         therapistDTO.setTherapistMajorId(
                 therapist.getTherapistMajor() != null ? therapist.getTherapistMajor().getId() : null
         );
@@ -60,6 +61,7 @@ public class TherapistMapperImpl implements TherapistMapper {
         existingTherapist.setCertificationIssueDate(updatedTherapistDTO.getCertificationIssueDate());
         existingTherapist.setCertificationIssuedBy(updatedTherapistDTO.getCertificationIssuedBy());
         existingTherapist.setTherapistCertificationName(updatedTherapistDTO.getTherapistCertificationName());
+        existingTherapist.setTreatmentCost(updatedTherapistDTO.getTreatmentCost());
         existingTherapist.setIsActive(updatedTherapistDTO.getIsActive());
 
         return existingTherapist;
@@ -83,6 +85,7 @@ public class TherapistMapperImpl implements TherapistMapper {
         therapist.setCertificationIssuedBy( dto.getCertificationIssuedBy() );
         therapist.setCertificationIssueDate( dto.getCertificationIssueDate() );
         therapist.setCertificationExpirationDate( dto.getCertificationExpirationDate() );
+        therapist.setTreatmentCost( dto.getTreatmentCost() );
         therapist.setIsActive( dto.getIsActive() );
         if(dto.getTherapistMajorId() != null) {
             TherapistMajor therapistMajor = new TherapistMajor();
