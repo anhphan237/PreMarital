@@ -42,6 +42,8 @@ public class TherapistDTO {
     @NotNull(message = "Therapist Major ID cannot be null")
     private Long therapistMajorId;
 
+    private Long treatmentCost;
+
     private Boolean isActive;
 
     private Long version;

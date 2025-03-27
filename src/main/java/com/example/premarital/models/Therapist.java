@@ -41,6 +41,9 @@ public class Therapist {
     private String certificationIssuedBy;
     private LocalDate certificationIssueDate;
     private LocalDate certificationExpirationDate;
+
+    private Long treatmentCost;
+
     @Column(name = "is_active")
     private Boolean isActive;
 
