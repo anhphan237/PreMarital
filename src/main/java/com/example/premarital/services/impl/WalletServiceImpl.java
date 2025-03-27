@@ -45,6 +45,11 @@ public class WalletServiceImpl implements WalletService {
     }
 
     @Override
+    public WalletDTO getWalletByUserId(Long userId) {
+        return walletMapper.toDTO(walletRepository.getWalletByUserId(userId));
+    }
+
+    @Override
     public boolean deleteWalletById(Long id) {
         return walletRepository.findById(id).map(wallet -> {
             wallet.setIsActive(false);

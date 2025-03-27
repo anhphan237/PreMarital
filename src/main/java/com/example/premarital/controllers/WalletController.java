@@ -50,6 +50,12 @@ public class WalletController {
         return new ResponseEntity<>(wallet, wallet != null ? HttpStatus.OK : HttpStatus.NOT_FOUND);
     }
 
+    @GetMapping("/User/{id}")
+    public ResponseEntity<WalletDTO> findWalletByUserId(@PathVariable Long id){
+        WalletDTO wallet = walletService.getWalletByUserId(id);
+        return new ResponseEntity<>(wallet, wallet != null ? HttpStatus.OK : HttpStatus.NOT_FOUND);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteWallet(@PathVariable Long id) {
         boolean deleted = walletService.deleteWalletById(id);

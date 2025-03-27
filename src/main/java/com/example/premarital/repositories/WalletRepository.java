@@ -8,4 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface WalletRepository extends JpaRepository<Wallet, Long> {
     Page<Wallet> findWalletsByIsActiveTrue(Pageable pageable);
+    Wallet getWalletByUserId(Long userId);
 }
