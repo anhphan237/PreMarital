@@ -55,35 +55,6 @@ public class ConsultationBookingController {
         return new ResponseEntity<>("Consultation Booking created successfully",HttpStatus.CREATED);
     }
 
-    @PostMapping("/payment")
-    public ResponseEntity<String> processBookingPayment(@RequestBody BookingPaymentDTO bookingPaymentDTO) {
-        try {
-            boolean success = consultationBookingService.processBookingPayment(
-                    bookingPaymentDTO.getCustomerId(),
-                    bookingPaymentDTO.getTherapistId(),
-                    bookingPaymentDTO.getBookingId(),
-                    bookingPaymentDTO.getAmount()
-            );
-
-            if (success) {
-                return ResponseEntity.status(HttpStatus.CREATED)
-                        .body("Payment processed successfully.");
-            } else {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                        .body("Failed to process payment.");
-            }
-        } catch (EntityNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("Wallet not found: " + e.getMessage());
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("Transaction failed: " + e.getMessage());
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("An unexpected error occurred: " + e.getMessage());
-        }
-    }
-
     @GetMapping("/{id}")
     public ResponseEntity<ConsultationBookingDTO> findConsultationBookingById(@PathVariable Long id){
         ConsultationBookingDTO consultationBookingDTO = consultationBookingService.getConsultationBookingById(id);

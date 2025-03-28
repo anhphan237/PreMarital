@@ -10,5 +10,4 @@ public interface ConsultationBookingService {
     ConsultationBookingDTO getConsultationBookingById(Long id);
     boolean deleteConsultationBookingById(Long id);
     boolean updateConsultationBooking(Long id, ConsultationBookingDTO updatedConsultationBookingDTO);
-    boolean processBookingPayment(Long customerId, Long therapistId, Long bookingId, Long amount);
 }

@@ -35,7 +35,7 @@ public class Transaction {
     @OneToOne(mappedBy = "transaction")
     private WithdrawRequest withdrawRequest;
 
-    @OneToOne
-    @JoinColumn(name = "booking_id", nullable = true)
+    @ManyToOne
+    @JoinColumn(name = "booking_id", nullable = false)  // Bắt buộc mỗi transaction phải thuộc về một booking
     private ConsultationBooking consultationBooking;
 }
