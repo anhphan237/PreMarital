@@ -1,5 +1,6 @@
 package com.example.premarital.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,14 +20,10 @@ public class QuestionOption {
 
     @ManyToOne
     @JoinColumn(name = "question_id", nullable = false)
+    @JsonIgnore
     private Question question;
-
-    @OneToMany(mappedBy = "questionOption", fetch = FetchType.LAZY)
-    private List<UserAnswer> userAnswers;
 
     private String optionText;
 
     private int point;
-    @Column(name = "is_active")
-    private Boolean isActive;
 }

@@ -16,18 +16,34 @@ import java.util.List;
 public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @OneToMany(mappedBy = "question", fetch = FetchType.LAZY)
-    private List<QuizQuestion> quizQuestion;
+    private Long questionId;
 
     private String questionText;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-    private String forGender;
-    @Column(name = "is_active")
-    private Boolean isActive;
 
-    @OneToMany(mappedBy = "question", fetch = FetchType.LAZY)
+    private LocalDateTime createdAt;
+
+    private LocalDateTime updatedAt;
+
+    @Enumerated(EnumType.STRING)
+    private QuestionGender forGender;
+
+    @OneToMany(mappedBy = "question", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<QuestionOption> questionOption;
+
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    public enum QuestionGender{
+        MALE,
+        FEMALE,
+        BOTH,
+    }
 }

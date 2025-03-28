@@ -1,24 +1,26 @@
 package com.example.premarital.dtos;
 
+import com.example.premarital.models.Quiz;
+import com.example.premarital.models.QuizQuestion;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import java.time.LocalDateTime;
+import lombok.Setter;
 
-@Data
+import java.time.LocalDateTime;
+import java.util.List;
+
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class QuizDTO {
+
     private Long id;
 
-    @NotNull(message = "Creator ID cannot be null")
-    private Long creatorId;
-
-    @NotBlank(message = "Title cannot be empty")
     private String title;
 
     private String description;
@@ -29,12 +31,19 @@ public class QuizDTO {
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
     private LocalDateTime updatedAt;
 
-    @NotBlank(message = "Status cannot be empty")
-    private String status;
+    private List<QuestionDTO> questions;
 
-    @JsonProperty("isActive")
-    private Boolean isActive = true;
+    private List<QuizAdviceDTO> advices;
 
-    @NotNull(message = "User quiz history ID cannot be null")
-    private Long userQuizHistoryId;
+    public static QuizDTO of(Quiz quiz) {
+        return QuizDTO.builder()
+                .id(quiz.getQuizId())
+                .title(quiz.getTitle())
+                .description(quiz.getDescription())
+                .createdAt(quiz.getCreatedAt())
+                .updatedAt(quiz.getUpdatedAt())
+                .questions(quiz.getQuizQuestions().stream().map(QuizQuestion::getQuestion).map(QuestionDTO::of).toList())
+                .advices(quiz.getAdvices().stream().map(QuizAdviceDTO::of).toList())
+                .build();
+    }
 }

@@ -7,5 +7,4 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserAnswerRepository extends JpaRepository<UserAnswer, Long> {
-    Page<UserAnswer> findUserAnswersByIsActiveTrue(Pageable pageable);
 }
