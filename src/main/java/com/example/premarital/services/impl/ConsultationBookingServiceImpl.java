@@ -56,9 +56,9 @@ public class ConsultationBookingServiceImpl implements ConsultationBookingServic
             throw new InvalidDataException("Invalid userId: " + dto.getUserId());
         }
 
-        if (!categoryRepository.existsById(dto.getCategoryId())) {
-            throw new InvalidDataException("Invalid categoryId: " + dto.getCategoryId());
-        }
+//        if (!categoryRepository.existsById(dto.getCategoryId())) {
+//            throw new InvalidDataException("Invalid categoryId: " + dto.getCategoryId());
+//        }
 
         try {
             TherapistSchedule therapistSchedule = therapistScheduleRepository.getReferenceById(dto.getTherapistScheduleId());
