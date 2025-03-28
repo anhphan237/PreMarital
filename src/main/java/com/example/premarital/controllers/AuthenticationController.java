@@ -4,6 +4,7 @@ import com.example.premarital.models.AuthenticationRequest;
 import com.example.premarital.models.AuthenticationResponse;
 import com.example.premarital.models.RegisterRequest;
 import com.example.premarital.services.impl.AuthenticationServiceImpl;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/auth")
+@Tag(name = "Authentication", description = "Authentication Endpoints")
 public class AuthenticationController {
     private final AuthenticationServiceImpl authenticationService;
 

@@ -4,6 +4,7 @@ import com.example.premarital.dtos.QuizSubmissionDTO;
 import com.example.premarital.services.JwtService;
 import com.example.premarital.services.QuizService;
 import com.example.premarital.services.UserQuizService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/quiz-svc/v1")
 @RequiredArgsConstructor
+@Tag(name = "Quiz", description = "Quiz for user Endpoints")
 public class QuizServiceController {
 
     private final QuizService quizService;

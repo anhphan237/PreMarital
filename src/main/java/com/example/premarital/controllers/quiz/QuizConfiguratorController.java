@@ -5,6 +5,7 @@ import com.example.premarital.models.Therapist;
 import com.example.premarital.services.JwtService;
 import com.example.premarital.services.QuizService;
 import com.example.premarital.services.TherapistService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/quiz-configurator/v1")
 @RequiredArgsConstructor
+@Tag(name = "Quiz Configurator", description = "Quiz Configurator for Therapist Endpoints")
 public class QuizConfiguratorController {
 
     private final TherapistService therapistService;
