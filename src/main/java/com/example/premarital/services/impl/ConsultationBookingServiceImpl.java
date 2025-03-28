@@ -11,10 +11,13 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -25,6 +28,7 @@ public class ConsultationBookingServiceImpl implements ConsultationBookingServic
     private final UserRepository userRepository;
     private final TransactionRepository transactionRepository;
     private final CategoryRepository categoryRepository;
+    private final WalletRepository walletRepository;
     private static final Logger logger = LoggerFactory.getLogger(ConsultationBookingServiceImpl.class);
 
     @Override
@@ -127,6 +131,76 @@ public class ConsultationBookingServiceImpl implements ConsultationBookingServic
         } catch (Exception e) {
             logger.error("Unexpected error while updating ConsultationBooking with ID {}: {}", id, e.getMessage(), e);
             throw new RuntimeException("Failed to update ConsultationBooking", e);
+        }
+    }
+
+    @Override
+    @Transactional
+    public boolean processBookingPayment(Long customerId, Long therapistId, Long bookingId, Long amount) {
+        try {
+            // Lấy ví của khách hàng
+            Wallet customerWallet = walletRepository.getWalletByUserId(customerId);
+
+            if (customerWallet == null) {
+                throw new EntityNotFoundException("Customer wallet not found");
+            }
+
+            // Kiểm tra số dư có đủ không
+            if (customerWallet.getBalance() < amount) {
+                throw new RuntimeException("Not enough balance to complete the transaction.");
+            }
+
+            // Lấy ví của therapist
+            Wallet therapistWallet = walletRepository.getWalletByUserId(therapistId);
+
+            if (therapistWallet == null) {
+                throw new EntityNotFoundException("Customer wallet not found");
+            }
+
+            // Cập nhật số dư
+            Long customerOldBalance = customerWallet.getBalance();
+            Long therapistOldBalance = therapistWallet.getBalance();
+            customerWallet.setBalance(customerOldBalance - amount);
+            therapistWallet.setBalance(therapistOldBalance + amount);
+
+            // Tạo giao dịch cho khách hàng (trừ tiền)
+            Transaction customerTransaction = new Transaction();
+            customerTransaction.setAmount(amount);
+            customerTransaction.setBalanceBefore(customerOldBalance);
+            customerTransaction.setTotalAmount(customerWallet.getBalance());
+            customerTransaction.setTransactionType("PAYMENT");
+            customerTransaction.setTransactionStatus("SUCCESSFUL");
+            customerTransaction.setWallet(customerWallet);
+            customerTransaction.setTransactionTime(LocalDateTime.now());
+            customerTransaction.setConsultationBooking(consultationBookingRepository.getReferenceById(bookingId));
+
+            // Tạo giao dịch cho therapist (nhận tiền)
+            Transaction therapistTransaction = new Transaction();
+            therapistTransaction.setAmount(amount);
+            therapistTransaction.setBalanceBefore(therapistOldBalance);
+            therapistTransaction.setTotalAmount(therapistWallet.getBalance());
+            therapistTransaction.setTransactionType("RECEIVE_PAYMENT");
+            therapistTransaction.setTransactionStatus("SUCCESSFUL");
+            therapistTransaction.setWallet(therapistWallet);
+            therapistTransaction.setTransactionTime(LocalDateTime.now());
+            therapistTransaction.setConsultationBooking(consultationBookingRepository.getReferenceById(bookingId));
+
+            // Lưu vào DB
+            transactionRepository.save(customerTransaction);
+            transactionRepository.save(therapistTransaction);
+            walletRepository.save(customerWallet);
+            walletRepository.save(therapistWallet);
+
+            return true;
+        } catch (EntityNotFoundException e) {
+            logger.error("Wallet not found: {}", e.getMessage());
+            throw e;
+        } catch (DataAccessException e) {
+            logger.error("Database error: {}", e.getMessage());
+            throw new RuntimeException("Database error occurred.");
+        } catch (Exception e) {
+            logger.error("Unexpected error: {}", e.getMessage());
+            throw new RuntimeException("Unexpected error occurred.");
         }
     }
 }

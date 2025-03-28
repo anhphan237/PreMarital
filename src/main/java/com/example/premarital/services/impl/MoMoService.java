@@ -41,7 +41,7 @@ public class MoMoService {
     @Value(value = "K951B6PE1waDMi640xX08PD3vg6EkVlz")
     private String SECRET_KEY;
 
-    @Value(value = "http://localhost:5173/customer-home")
+    @Value(value = "http://localhost:5173/customer-home/wallet")
     private String REDIRECT_URL;
 
     @Value(value = "http://localhost:8080/api/momo/ipn-handler")
