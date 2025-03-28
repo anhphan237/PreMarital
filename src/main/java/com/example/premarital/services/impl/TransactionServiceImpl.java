@@ -17,6 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.function.Function;
 
 @Service
@@ -67,6 +68,15 @@ public class TransactionServiceImpl implements TransactionService {
         return transactionRepository.findById(id)
                 .map(transactionMapper::toDTO)
                 .orElseThrow(() -> new EntityNotFoundException("Transaction with ID " + id + " not found"));
+    }
+
+    @Override
+    public Page<TransactionDTO> getTransactionsByWalletId(Pageable pageable, Long walletId) {
+        Page<Transaction> transactions = transactionRepository.findTransactionsByWalletId(pageable, walletId);
+        if (transactions.isEmpty()) {
+            logger.warn("No schedules actively found in the system");
+        }
+        return transactions.map(transactionMapper::toDTO);
     }
 
     @Override

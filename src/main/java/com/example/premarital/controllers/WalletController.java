@@ -71,4 +71,12 @@ public class WalletController {
                 ? ResponseEntity.ok("Wallet updated successfully")
                 : ResponseEntity.status(HttpStatus.NOT_FOUND).body("Wallet not found");
     }
+
+    @PutMapping("/Balance/{id}")
+    public ResponseEntity<String> updateWalletBalance(@PathVariable Long id, @RequestParam Long balance) {
+        boolean updated = walletService.updateWalletBalance(id, balance);
+        return updated
+                ? ResponseEntity.ok("Wallet balance updated successfully")
+                : ResponseEntity.status(HttpStatus.NOT_FOUND).body("Wallet balance not found");
+    }
 }

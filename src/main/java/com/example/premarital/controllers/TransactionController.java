@@ -44,6 +44,32 @@ public class TransactionController {
         return ResponseEntity.ok(transactions);
     }
 
+    @GetMapping("/wallet/{walletId}")
+    public ResponseEntity<?> getTransactionsByWalletId(
+            @PathVariable Long walletId,
+            @RequestParam(defaultValue = "1") Integer page,
+            @RequestParam(defaultValue = "5") Integer size,
+            @RequestParam(defaultValue = "id") String sort,
+            @RequestParam(defaultValue = "ASC") Sort.Direction direction
+    ) {
+        if (page < 1 || size <= 1) {
+            return ResponseEntity.badRequest().body("Page number must be >= 1 and size must be > 1");
+        }
+
+        Pageable pageable = PageRequest.of(
+                page - 1,
+                size,
+                direction != null ? direction : Sort.Direction.ASC,
+                sort != null ? sort : "id"
+        );
+
+        Page<TransactionDTO> transactions = transactionService.getTransactionsByWalletId(pageable, walletId);
+        if (transactions.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(transactions);
+    }
+
     @PostMapping
     public ResponseEntity<String> createTransaction(@RequestBody TransactionDTO transactionDTO){
         transactionService.createTransaction(transactionDTO);

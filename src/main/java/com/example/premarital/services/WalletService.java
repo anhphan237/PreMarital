@@ -11,4 +11,5 @@ public interface WalletService {
     WalletDTO getWalletByUserId(Long userId);
     boolean deleteWalletById(Long id);
     boolean updateWallet(Long id, WalletDTO updatedWalletDTO);
+    boolean updateWalletBalance(Long id, Long balance);
 }
