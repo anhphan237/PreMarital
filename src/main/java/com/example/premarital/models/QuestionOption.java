@@ -18,7 +18,7 @@ public class QuestionOption {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "question_id", nullable = false)
     @JsonIgnore
     private Question question;
