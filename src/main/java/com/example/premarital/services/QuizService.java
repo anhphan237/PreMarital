@@ -1,13 +1,18 @@
 package com.example.premarital.services;
 
+import com.example.premarital.dtos.QuizCreationDTO;
 import com.example.premarital.dtos.QuizDTO;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import com.example.premarital.models.Therapist;
+
+import java.util.List;
+
 
 public interface QuizService {
-    Page<QuizDTO> getQuizzes(Pageable pageable);
-    void createQuiz(QuizDTO dto);
+    QuizDTO createQuiz(Therapist therapist, QuizCreationDTO dto);
+
     QuizDTO getQuizById(Long id);
-    boolean deleteQuizById(Long id);
-    boolean updateQuiz(Long id, QuizDTO updatedQuizDTO);
+
+    List<QuizDTO> getAllQuizzes();
+
+    List<QuizDTO> getQuizzesByTherapistEmail(String email);
 }

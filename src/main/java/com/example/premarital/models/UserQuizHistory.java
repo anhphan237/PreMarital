@@ -2,9 +2,11 @@ package com.example.premarital.models;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -12,26 +14,33 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class UserQuizHistory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = true)
     private User user;
 
-    @OneToMany(mappedBy = "userQuizHistory")
-    private List<Quiz> quiz;
+    @ManyToOne
+    @JoinColumn(name = "quizId", nullable = false)
+    Quiz quiz;
 
     private int quizPoint;
 
-    @OneToOne(mappedBy = "userQuizHistory")
+    @ManyToOne
+    @JoinColumn(name = "quizUserAdviceId", nullable = false)
     private QuizUserAdvice quizUserAdvice;
 
     @OneToMany(mappedBy = "userQuizHistory")
     private List<UserAnswer> userAnswer;
 
-    @Column(name = "is_active")
-    private Boolean isActive;
+    private LocalDateTime attemptTime;
+
+    @PrePersist
+    private void prePersist() {
+        this.attemptTime = LocalDateTime.now();
+    }
 }

@@ -29,9 +29,6 @@ public class Category {
     @OneToMany(mappedBy = "category")
     private List<ConsultationBooking> consultationBookings;
 
-    @OneToMany(mappedBy = "category")
-    private List<QuizQuestion> quizQuestions;
-
     private String description;
 
     @Column(name = "is_active")
