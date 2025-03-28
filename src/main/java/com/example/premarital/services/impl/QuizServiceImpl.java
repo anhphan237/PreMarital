@@ -4,6 +4,7 @@ import com.example.premarital.dtos.QuestionDTO;
 import com.example.premarital.dtos.QuestionOptionDTO;
 import com.example.premarital.dtos.QuizAdviceDTO;
 import com.example.premarital.dtos.QuizCreationDTO;
+import com.example.premarital.dtos.QuizDTO;
 import com.example.premarital.models.Question;
 import com.example.premarital.models.QuestionOption;
 import com.example.premarital.models.Quiz;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -32,7 +34,7 @@ public class QuizServiceImpl implements QuizService {
 
 
     @Override
-    public Quiz createQuiz(Therapist therapist, QuizCreationDTO dto) {
+    public QuizDTO createQuiz(Therapist therapist, QuizCreationDTO dto) {
         Quiz quiz = new Quiz();
         quiz.setTherapist(therapist);
         quiz.setTitle(dto.getTitle());
@@ -81,7 +83,26 @@ public class QuizServiceImpl implements QuizService {
             }
         }
 
-        return quizRepository.save(quiz);
+        return QuizDTO.of(quizRepository.save(quiz));
+    }
+
+    @Override
+    public QuizDTO getQuizById(Long id) {
+        return QuizDTO.of(quizRepository.findById(id).orElseThrow(() -> new RuntimeException("Quiz not found")));
+    }
+
+    @Override
+    public List<QuizDTO> getAllQuizzes() {
+        return quizRepository.findAll().stream()
+                .map(QuizDTO::of)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<QuizDTO> getQuizzesByTherapistEmail(String email) {
+        return quizRepository.findAllByTherapist_User_Email(email).stream()
+                .map(QuizDTO::of)
+                .collect(Collectors.toList());
     }
 
 

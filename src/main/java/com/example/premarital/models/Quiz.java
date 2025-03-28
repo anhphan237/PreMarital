@@ -1,6 +1,8 @@
 package com.example.premarital.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,15 +29,18 @@ public class Quiz {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnore
     private Therapist therapist;
 
     private String title;
     private String description;
 
     @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<QuizQuestion> quizQuestions;
 
     @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<QuizUserAdvice> advices;
 
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
