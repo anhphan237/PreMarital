@@ -125,6 +125,7 @@ public class TherapistScheduleServiceImpl implements TherapistScheduleService {
 
         try {
             TherapistSchedule updatedTherapistSchedule = therapistScheduleMapper.toEntityWithId(id, dto);
+            updatedTherapistSchedule.setTherapist(existingSchedule.getTherapist());
             therapistScheduleRepository.save(updatedTherapistSchedule);
             logger.info("TherapistSchedule with ID {} updated successfully", id);
             return true;
