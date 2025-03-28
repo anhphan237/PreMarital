@@ -1,6 +1,7 @@
 package com.example.premarital.controllers.quiz;
 
 import com.example.premarital.dtos.QuizCreationDTO;
+import com.example.premarital.dtos.QuizUpdateDTO;
 import com.example.premarital.models.Therapist;
 import com.example.premarital.services.JwtService;
 import com.example.premarital.services.QuizService;
@@ -10,16 +11,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/quiz-configurator/v1")
 @RequiredArgsConstructor
+@CrossOrigin("*")
 @Tag(name = "Quiz Configurator", description = "Quiz Configurator for Therapist Endpoints")
 public class QuizConfiguratorController {
 
@@ -45,7 +42,6 @@ public class QuizConfiguratorController {
     public ResponseEntity<Object> getQuizById(
             @PathVariable Long id
     ) {
-
         return ResponseEntity.ok(quizService.getQuizById(id));
     }
 
@@ -63,5 +59,17 @@ public class QuizConfiguratorController {
     @GetMapping("/all-quizzes")
     public ResponseEntity<Object> getAllQuizzes() {
         return ResponseEntity.ok(quizService.getAllQuizzes());
+    }
+    
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> updateQuiz(
+            @PathVariable Long id,
+            @RequestBody QuizUpdateDTO dto,
+            HttpServletRequest httpServletRequest
+    ) {
+        String token = httpServletRequest.getHeader("Authorization").substring(7);
+        String email = jwtService.getUserEmail(token);
+        
+        return ResponseEntity.ok(quizService.updateQuiz(id, dto, email));
     }
 }
