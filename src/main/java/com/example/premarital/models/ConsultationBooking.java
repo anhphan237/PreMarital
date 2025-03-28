@@ -33,7 +33,7 @@ public class ConsultationBooking {
     private String meetUrl;
 
     @ManyToOne
-    @JoinColumn(name = "category_id", nullable = false)
+    @JoinColumn(name = "category_id")
     private Category category;
 
     @Column(name = "is_active")

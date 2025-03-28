@@ -16,6 +16,7 @@ public class ArticlePart {
     private Long id;
 
     private String title;
+    @Column(columnDefinition = "TEXT")
     private String content;
     private int orderIndex;
     private String imageLink;
