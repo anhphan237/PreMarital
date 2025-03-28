@@ -33,7 +33,6 @@ public class ConsultationBookingDTO {
     @Size(max = 255, message = "Meet URL cannot exceed 255 characters")
     private String meetUrl;
 
-    @NotNull(message = "CategoryId is required")
     private Long categoryId;
 
     @JsonProperty("isActive")
