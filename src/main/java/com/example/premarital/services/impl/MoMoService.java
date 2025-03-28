@@ -1,8 +1,21 @@
 package com.example.premarital.services.impl;
 
 import com.example.premarital.client.MomoApi;
+import com.example.premarital.dtos.TransactionDTO;
+import com.example.premarital.dtos.WalletDTO;
 import com.example.premarital.models.MomoRequest;
 import com.example.premarital.models.MomoResponse;
+import com.example.premarital.models.Transaction;
+import com.example.premarital.models.Wallet;
+import com.example.premarital.repositories.ConsultationBookingRepository;
+import com.example.premarital.repositories.TherapistScheduleRepository;
+import com.example.premarital.repositories.TransactionRepository;
+import com.example.premarital.repositories.WalletRepository;
+import com.example.premarital.services.ConsultationBookingService;
+import com.example.premarital.services.TherapistScheduleService;
+import com.example.premarital.services.TransactionService;
+import com.example.premarital.services.WalletService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,6 +51,11 @@ public class MoMoService {
     private String REQUEST_TYPE;
 
     private final MomoApi momoApi;
+
+    private final ConsultationBookingService consultationBookingService;
+    private final TherapistScheduleService therapistScheduleService;
+    private final TransactionService transactionService;
+    private final WalletService walletService;
 
     public MomoResponse createMomoQR(Long amount) {
         String orderId = UUID.randomUUID().toString();
@@ -106,4 +124,14 @@ public class MoMoService {
         return hexString.toString();
     }
 
+    @Transactional
+    public boolean updateAll(String orderId, Long amount, int resultCode, Long userId, Long therapistId) {
+        WalletDTO userWallet = walletService.getWalletByUserId(userId);
+        WalletDTO therapistWallet = walletService.getWalletByUserId(therapistId);
+
+        userWallet.setBalance(userWallet.getBalance() - amount);
+        therapistWallet.setBalance(therapistWallet.getBalance() + amount);
+
+        return true;
+    }
 }

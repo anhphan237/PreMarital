@@ -5,14 +5,17 @@ import com.example.premarital.mappers.WalletMapper;
 import com.example.premarital.models.User;
 import com.example.premarital.models.Wallet;
 import com.example.premarital.repositories.UserRepository;
+import com.example.premarital.repositories.WalletRepository;
 import org.springframework.stereotype.Component;
 
 @Component
 public class WalletMapperImpl implements WalletMapper {
     private final UserRepository userRepository;
+    private final WalletRepository walletRepository;
 
-    public WalletMapperImpl(UserRepository userRepository) {
+    public WalletMapperImpl(UserRepository userRepository, WalletRepository walletRepository) {
         this.userRepository = userRepository;
+        this.walletRepository = walletRepository;
     }
 
     @Override
@@ -62,6 +65,14 @@ public class WalletMapperImpl implements WalletMapper {
             wallet.setUser(user);
         }
         wallet.setIsActive(dto.getIsActive());
+
+        return wallet;
+    }
+
+    @Override
+    public Wallet toEntityWithIdBalance(Long id, Long balance) {
+        Wallet wallet = walletRepository.getReferenceById(id);
+        wallet.setBalance(balance);
 
         return wallet;
     }

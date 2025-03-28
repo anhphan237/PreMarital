@@ -7,4 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
     Page<Transaction> findTransactionsByIsActiveTrue(Pageable pageable);
+    Page<Transaction> findTransactionsByWalletId(Pageable pageable, Long walletId);
 }

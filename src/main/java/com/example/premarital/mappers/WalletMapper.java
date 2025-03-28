@@ -7,4 +7,5 @@ public interface WalletMapper {
     WalletDTO toDTO(Wallet wallet);
     Wallet toEntity(WalletDTO dto);
     Wallet toEntityWithId(Long id, WalletDTO dto);
+    Wallet toEntityWithIdBalance(Long id, Long balance);
 }

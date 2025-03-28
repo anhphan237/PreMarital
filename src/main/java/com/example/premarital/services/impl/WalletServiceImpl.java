@@ -66,4 +66,13 @@ public class WalletServiceImpl implements WalletService {
             return true;
         }).orElse(false);
     }
+
+    @Override
+    public boolean updateWalletBalance(Long id, Long balance) {
+        return walletRepository.findById(id).map(wallet -> {
+            Wallet updatedWallet = walletMapper.toEntityWithIdBalance(id, balance);
+            walletRepository.save(updatedWallet);
+            return true;
+        }).orElse(false);
+    }
 }
