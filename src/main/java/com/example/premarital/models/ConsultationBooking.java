@@ -23,8 +23,9 @@ public class ConsultationBooking {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @OneToOne
-    @JoinColumn(name = "transaction_id", nullable = false)
+//    @OneToOne(mappedBy = "consultationBooking")
+//    private Transaction transaction;
+    @OneToOne(mappedBy = "consultationBooking", cascade = CascadeType.ALL)
     private Transaction transaction;
 
     private String status;

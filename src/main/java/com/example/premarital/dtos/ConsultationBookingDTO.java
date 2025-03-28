@@ -21,9 +21,6 @@ public class ConsultationBookingDTO {
     @NotNull(message = "UserId is required")
     private Long userId;
 
-    @NotNull(message = "TransactionId is required")
-    private Long transactionId;
-
     @NotBlank(message = "Status is required")
     @Size(max = 50, message = "Status cannot exceed 50 characters")
     private String status;
