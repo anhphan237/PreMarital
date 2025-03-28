@@ -1,6 +1,7 @@
 package com.example.premarital.controllers;
 
 import com.example.premarital.constant.MomoParameter;
+import com.example.premarital.dtos.MomoRequestDTO;
 import com.example.premarital.models.MomoResponse;
 import com.example.premarital.services.impl.MoMoService;
 import lombok.extern.slf4j.Slf4j;
@@ -19,8 +20,8 @@ public class MoMoController {
     }
 
     @PostMapping("/create")
-    public MomoResponse createQR(){
-        return momoService.createMomoQR();
+    public MomoResponse createQR(@RequestBody MomoRequestDTO dto){
+        return momoService.createMomoQR(dto.getAmount());
     }
 
     @PostMapping("/ipn-handler")

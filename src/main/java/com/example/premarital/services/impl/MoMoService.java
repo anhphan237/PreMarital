@@ -39,12 +39,11 @@ public class MoMoService {
 
     private final MomoApi momoApi;
 
-    public MomoResponse createMomoQR() {
+    public MomoResponse createMomoQR(Long amount) {
         String orderId = UUID.randomUUID().toString();
         String orderInfo = "Thanh toán đơn hàng: " + orderId;
         String requestId = UUID.randomUUID().toString();
         String extraData = "";
-        Long amount = 1000L;
         String bearerToken = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjdXN0b21lcjEyM0BnbWFpbC5jb20iLCJpYXQiOjE3NDMxMjY5MzcsImV4cCI6MTc0MzEyODM3N30.al9QvE754VVCpEbfi3K8x3bpDBjWy8eH2aNw2-VR0EI"; // Lấy token từ đâu đó
         String fullRedirectUrl = REDIRECT_URL + "?token=" + URLEncoder.encode(bearerToken, StandardCharsets.UTF_8);
 
