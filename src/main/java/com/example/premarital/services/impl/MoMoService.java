@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
@@ -27,13 +28,13 @@ public class MoMoService {
     @Value(value = "K951B6PE1waDMi640xX08PD3vg6EkVlz")
     private String SECRET_KEY;
 
-    @Value(value = "http://localhost:5173/")
+    @Value(value = "http://localhost:5173/customer-home")
     private String REDIRECT_URL;
 
     @Value(value = "http://localhost:8080/api/momo/ipn-handler")
     private String IPN_URL;
 
-    @Value(value = "payWithCC")
+    @Value(value = "captureWallet")
     private String REQUEST_TYPE;
 
     private final MomoApi momoApi;
@@ -43,7 +44,9 @@ public class MoMoService {
         String orderInfo = "Thanh toán đơn hàng: " + orderId;
         String requestId = UUID.randomUUID().toString();
         String extraData = "";
-        Long amount = 100000L;
+        Long amount = 1000L;
+        String bearerToken = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjdXN0b21lcjEyM0BnbWFpbC5jb20iLCJpYXQiOjE3NDMxMjY5MzcsImV4cCI6MTc0MzEyODM3N30.al9QvE754VVCpEbfi3K8x3bpDBjWy8eH2aNw2-VR0EI"; // Lấy token từ đâu đó
+        String fullRedirectUrl = REDIRECT_URL + "?token=" + URLEncoder.encode(bearerToken, StandardCharsets.UTF_8);
 
         String rawSignature = String.format(
                 "accessKey=%s&amount=%d&extraData=%s&ipnUrl=%s&orderId=%s&orderInfo=%s&partnerCode=%s&redirectUrl=%s&requestId=%s&requestType=%s",
