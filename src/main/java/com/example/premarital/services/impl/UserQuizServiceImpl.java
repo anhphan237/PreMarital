@@ -1,6 +1,7 @@
 package com.example.premarital.services.impl;
 
 import com.example.premarital.dtos.QuizSubmissionDTO;
+import com.example.premarital.dtos.UserQuizHistoryDTO;
 import com.example.premarital.models.Question;
 import com.example.premarital.models.QuestionOption;
 import com.example.premarital.models.Quiz;
@@ -31,7 +32,7 @@ public class UserQuizServiceImpl implements UserQuizService {
     private final UserQuizHistoryRepository userQuizHistoryRepository;
 
     @Override
-    public void submit(String userEmail, QuizSubmissionDTO quizSubmissionDTO) {
+    public UserQuizHistoryDTO submit(String userEmail, QuizSubmissionDTO quizSubmissionDTO) {
 
         User user = userRepository.findByEmail(userEmail).orElse(null);
         Quiz quiz = quizRepository.findById(quizSubmissionDTO.getQuizId()).orElseThrow(() -> new RuntimeException("Quiz not found: " + quizSubmissionDTO.getQuizId()));
@@ -67,9 +68,21 @@ public class UserQuizServiceImpl implements UserQuizService {
                 .quizUserAdvice(advice)
                 .build();
 
-        userQuizHistoryRepository.save(userQuizHistory);
+        UserQuizHistory persistedEntity = userQuizHistoryRepository.save(userQuizHistory);
+
+        return UserQuizHistoryDTO.of(persistedEntity);
     }
 
+    @Override
+    public List<UserQuizHistoryDTO> histories(String userEmail) {
+        User user = userRepository.findByEmail(userEmail).orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        List<UserQuizHistory> histories = userQuizHistoryRepository.findAllByUser_Email(userEmail);
+
+        return histories.stream()
+                .map(UserQuizHistoryDTO::of)
+                .toList();
+    }
 
     private QuizUserAdvice getQuizUserAdvice(Quiz quiz, int point) {
         return quiz.getAdvices().stream()
