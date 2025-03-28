@@ -51,10 +51,6 @@ public class ConsultationBookingServiceImpl implements ConsultationBookingServic
             throw new InvalidDataException("Invalid userId: " + dto.getUserId());
         }
 
-        if (!transactionRepository.existsById(dto.getTransactionId())) {
-            throw new InvalidDataException("Invalid transactionId: " + dto.getTransactionId());
-        }
-
         if (!categoryRepository.existsById(dto.getCategoryId())) {
             throw new InvalidDataException("Invalid categoryId: " + dto.getCategoryId());
         }
@@ -114,10 +110,6 @@ public class ConsultationBookingServiceImpl implements ConsultationBookingServic
 
         if (!userRepository.existsById(updatedConsultationBookingDTO.getUserId())) {
             throw new EntityNotFoundException("User with ID " + updatedConsultationBookingDTO.getUserId() + " not found");
-        }
-
-        if (!transactionRepository.existsById(updatedConsultationBookingDTO.getTransactionId())) {
-            throw new EntityNotFoundException("Transaction with ID " + updatedConsultationBookingDTO.getTransactionId() + " not found");
         }
 
         if (!categoryRepository.existsById(updatedConsultationBookingDTO.getCategoryId())) {

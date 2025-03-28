@@ -34,6 +34,10 @@ public class Transaction {
     @OneToOne(mappedBy = "transaction")
     private WithdrawRequest withdrawRequest;
 
-    @OneToOne(mappedBy = "transaction")
+//    @OneToOne
+//    @JoinColumn(name = "transaction_id", nullable = false)
+//    private ConsultationBooking consultationBooking;
+    @OneToOne
+    @JoinColumn(name = "booking_id", nullable = true)
     private ConsultationBooking consultationBooking;
 }

@@ -41,9 +41,6 @@ public class ConsultationBookingMapperImpl implements ConsultationBookingMapper 
         if (consultationBooking.getUser() != null) {
             dto.setUserId(consultationBooking.getUser().getId());
         }
-        if (consultationBooking.getTransaction() != null) {
-            dto.setTransactionId(consultationBooking.getTransaction().getId());
-        }
         if (consultationBooking.getTherapistSchedule() != null) {
             dto.setTherapistScheduleId(consultationBooking.getTherapistSchedule().getId());
         }
@@ -73,9 +70,6 @@ public class ConsultationBookingMapperImpl implements ConsultationBookingMapper 
         if (dto.getUserId() != null) {
             consultationBooking.setUser(userRepository.findById(dto.getUserId()).orElse(null));
         }
-        if (dto.getTransactionId() != null) {
-            consultationBooking.setTransaction(transactionRepository.findById(dto.getTransactionId()).orElse(null));
-        }
         if (dto.getTherapistScheduleId() != null) {
             consultationBooking.setTherapistSchedule(therapistScheduleRepository.findById(dto.getTherapistScheduleId()).orElse(null));
         }
@@ -104,9 +98,6 @@ public class ConsultationBookingMapperImpl implements ConsultationBookingMapper 
         }
         if (dto.getUserId() != null) {
             consultationBooking.setUser(userRepository.findById(dto.getUserId()).orElse(null));
-        }
-        if (dto.getTransactionId() != null) {
-            consultationBooking.setTransaction(transactionRepository.findById(dto.getTransactionId()).orElse(null));
         }
         if (dto.getTherapistScheduleId() != null) {
             consultationBooking.setTherapistSchedule(therapistScheduleRepository.findById(dto.getTherapistScheduleId()).orElse(null));

@@ -2,6 +2,7 @@ package com.example.premarital.mappers.impl;
 
 import com.example.premarital.dtos.TransactionDTO;
 import com.example.premarital.mappers.TransactionMapper;
+import com.example.premarital.models.ConsultationBooking;
 import com.example.premarital.models.Transaction;
 import com.example.premarital.repositories.WalletRepository;
 import com.example.premarital.repositories.WithdrawRequestRepository;
@@ -26,6 +27,7 @@ public class TransactionMapperImpl implements TransactionMapper {
         return new TransactionDTO(
                 transaction.getId(),
                 transaction.getWallet() != null ? transaction.getWallet().getId() : null,
+                transaction.getConsultationBooking() != null ? transaction.getConsultationBooking().getId() : null,
                 transaction.getAmount(),
                 transaction.getTransactionType(),
                 transaction.getTransactionTime(),
@@ -44,6 +46,9 @@ public class TransactionMapperImpl implements TransactionMapper {
             return null;
         }
 
+        ConsultationBooking consultationBooking = new ConsultationBooking();
+        consultationBooking.setId(dto.getBookingId());
+
         Transaction transaction = new Transaction();
         transaction.setId(dto.getId());
 
@@ -59,6 +64,7 @@ public class TransactionMapperImpl implements TransactionMapper {
         transaction.setTransactionFee(dto.getTransactionFee());
         transaction.setTotalAmount(dto.getTotalAmount());
         transaction.setIsActive(dto.getIsActive());
+        transaction.setConsultationBooking(consultationBooking);
         // WithdrawRequest handling if needed
         if (dto.getWithdrawRequestId() != null) {
             transaction.setWithdrawRequest(withdrawRequestRepository.getReferenceById(dto.getWithdrawRequestId()));
@@ -72,6 +78,9 @@ public class TransactionMapperImpl implements TransactionMapper {
         if (dto == null) {
             return null;
         }
+
+        ConsultationBooking consultationBooking = new ConsultationBooking();
+        consultationBooking.setId(dto.getBookingId());
 
         Transaction transaction = new Transaction();
         transaction.setId(id);
@@ -88,6 +97,7 @@ public class TransactionMapperImpl implements TransactionMapper {
         transaction.setTransactionFee(dto.getTransactionFee());
         transaction.setTotalAmount(dto.getTotalAmount());
         transaction.setIsActive(dto.getIsActive());
+        transaction.setConsultationBooking(consultationBooking);
         // WithdrawRequest handling if needed
         if (dto.getWithdrawRequestId() != null) {
             transaction.setWithdrawRequest(withdrawRequestRepository.getReferenceById(dto.getWithdrawRequestId()));
