@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -30,7 +31,7 @@ public class TransactionDTO {
 
     @NotNull(message = "Transaction time cannot be null")
     @PastOrPresent(message = "Transaction time must be in the past or present")
-    private Date transactionTime;
+    private LocalDateTime transactionTime;
 
     @NotBlank(message = "Transaction status is required")
     @Pattern(regexp = "PENDING|COMPLETED|FAILED", message = "Transaction status must be PENDING, COMPLETED, or FAILED")
