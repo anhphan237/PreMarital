@@ -72,7 +72,7 @@ public class WalletMapperImpl implements WalletMapper {
     @Override
     public Wallet toEntityWithIdBalance(Long id, Long balance) {
         Wallet wallet = walletRepository.getReferenceById(id);
-        wallet.setBalance(balance);
+        wallet.setBalance(balance + wallet.getBalance());
 
         return wallet;
     }
