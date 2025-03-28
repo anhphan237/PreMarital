@@ -35,6 +35,7 @@ public class SecurityConfiguration {
             "/v3/api-docs/**",
             "/swagger-ui/**",
             "/api/auth/**",
+            "/api/momo/**"
     };
 
     private static final String[] THERAPIST_ACCESS_LIST = {

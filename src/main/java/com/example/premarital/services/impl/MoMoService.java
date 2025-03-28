@@ -53,8 +53,6 @@ public class MoMoService {
                 ACCESS_KEY, amount, extraData, IPN_URL, orderId, orderInfo, PARTNER_CODE, REDIRECT_URL, requestId, REQUEST_TYPE
         );
 
-        log.info(rawSignature);
-
         String prettySignature = "";
         try {
             prettySignature = signHmacSHA256(rawSignature, SECRET_KEY);
@@ -62,6 +60,9 @@ public class MoMoService {
             log.error(">>> Có lỗi khi hash code: " + e);
             return null;
         }
+
+        log.info(">>> Raw signature: " + rawSignature);
+        log.info(">>> Generated signature: " + prettySignature);
 
         if (prettySignature.isBlank()) {
             log.error(">>> signature is blank");
