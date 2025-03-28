@@ -1,5 +1,6 @@
 package com.example.premarital.services.impl;
 
+import com.example.premarital.dtos.TherapistDTO;
 import com.example.premarital.exceptions.InvalidDataException;
 import com.example.premarital.mappers.ConsultationBookingMapper;
 import com.example.premarital.models.*;
@@ -60,9 +61,74 @@ public class ConsultationBookingServiceImpl implements ConsultationBookingServic
         }
 
         try {
+            TherapistSchedule therapistSchedule = therapistScheduleRepository.getReferenceById(dto.getTherapistScheduleId());
+            Long therapistId = therapistSchedule.getTherapist().getUser().getId();
+            therapistSchedule.setBooked(true);
+
+            // Tạo ConsultationBooking trước
             ConsultationBooking consultationBooking = consultationBookingMapper.toEntity(dto);
-            consultationBookingRepository.save(consultationBooking);
-            logger.info("Consultation booking created successfully with ID: {}", consultationBooking.getId());
+            consultationBooking = consultationBookingRepository.save(consultationBooking);
+
+            // Lấy ID của booking vừa tạo
+            Long bookingId = consultationBooking.getId();
+
+            // Lấy ví của khách hàng
+            Wallet customerWallet = walletRepository.getWalletByUserId(dto.getUserId());
+            if (customerWallet == null) {
+                throw new EntityNotFoundException("Customer wallet not found");
+            }
+
+            // Lấy ví của therapist
+            Wallet therapistWallet = walletRepository.getWalletByUserId(therapistId);
+            if (therapistWallet == null) {
+                throw new EntityNotFoundException("Therapist wallet not found");
+            }
+
+            // Kiểm tra số dư của khách hàng
+            if (customerWallet.getBalance() < dto.getAmount()) {
+                throw new RuntimeException("Not enough balance to complete the transaction.");
+            }
+
+            // Cập nhật số dư
+            Long customerOldBalance = customerWallet.getBalance();
+            Long therapistOldBalance = therapistWallet.getBalance();
+            customerWallet.setBalance(customerOldBalance - dto.getAmount());
+            therapistWallet.setBalance(therapistOldBalance + dto.getAmount());
+
+            // Tạo giao dịch cho khách hàng (trừ tiền)
+            Transaction customerTransaction = new Transaction();
+            customerTransaction.setAmount(dto.getAmount());
+            customerTransaction.setBalanceBefore(customerOldBalance);
+            customerTransaction.setTotalAmount(customerWallet.getBalance());
+            customerTransaction.setTransactionType("PAYMENT");
+            customerTransaction.setTransactionStatus("SUCCESSFUL");
+            customerTransaction.setWallet(customerWallet);
+            customerTransaction.setTransactionTime(LocalDateTime.now());
+            customerTransaction.setIsActive(true);
+            customerTransaction.setTransactionFee(0L);
+            customerTransaction.setConsultationBooking(consultationBooking); // Gán đúng booking đã tạo
+            transactionRepository.save(customerTransaction);
+
+            // Tạo giao dịch cho therapist (nhận tiền)
+            Transaction therapistTransaction = new Transaction();
+            therapistTransaction.setAmount(dto.getAmount());
+            therapistTransaction.setBalanceBefore(therapistOldBalance);
+            therapistTransaction.setTotalAmount(therapistWallet.getBalance());
+            therapistTransaction.setTransactionType("RECEIVE_PAYMENT");
+            therapistTransaction.setTransactionStatus("SUCCESSFUL");
+            therapistTransaction.setWallet(therapistWallet);
+            therapistTransaction.setTransactionTime(LocalDateTime.now());
+            therapistTransaction.setIsActive(true);
+            therapistTransaction.setTransactionFee(0L);
+            therapistTransaction.setConsultationBooking(consultationBooking); // Gán đúng booking đã tạo
+
+
+            // Lưu vào DB
+            transactionRepository.save(therapistTransaction);
+            walletRepository.save(customerWallet);
+            walletRepository.save(therapistWallet);
+
+            logger.info("Consultation booking created successfully with ID: {}", bookingId);
         } catch (DataIntegrityViolationException e) {
             logger.error("Database constraint violation while creating consultation booking: {}", e.getMessage(), e);
             throw new InvalidDataException("Invalid consultation booking data: " + e.getMessage());
@@ -131,76 +197,6 @@ public class ConsultationBookingServiceImpl implements ConsultationBookingServic
         } catch (Exception e) {
             logger.error("Unexpected error while updating ConsultationBooking with ID {}: {}", id, e.getMessage(), e);
             throw new RuntimeException("Failed to update ConsultationBooking", e);
-        }
-    }
-
-    @Override
-    @Transactional
-    public boolean processBookingPayment(Long customerId, Long therapistId, Long bookingId, Long amount) {
-        try {
-            // Lấy ví của khách hàng
-            Wallet customerWallet = walletRepository.getWalletByUserId(customerId);
-
-            if (customerWallet == null) {
-                throw new EntityNotFoundException("Customer wallet not found");
-            }
-
-            // Kiểm tra số dư có đủ không
-            if (customerWallet.getBalance() < amount) {
-                throw new RuntimeException("Not enough balance to complete the transaction.");
-            }
-
-            // Lấy ví của therapist
-            Wallet therapistWallet = walletRepository.getWalletByUserId(therapistId);
-
-            if (therapistWallet == null) {
-                throw new EntityNotFoundException("Customer wallet not found");
-            }
-
-            // Cập nhật số dư
-            Long customerOldBalance = customerWallet.getBalance();
-            Long therapistOldBalance = therapistWallet.getBalance();
-            customerWallet.setBalance(customerOldBalance - amount);
-            therapistWallet.setBalance(therapistOldBalance + amount);
-
-            // Tạo giao dịch cho khách hàng (trừ tiền)
-            Transaction customerTransaction = new Transaction();
-            customerTransaction.setAmount(amount);
-            customerTransaction.setBalanceBefore(customerOldBalance);
-            customerTransaction.setTotalAmount(customerWallet.getBalance());
-            customerTransaction.setTransactionType("PAYMENT");
-            customerTransaction.setTransactionStatus("SUCCESSFUL");
-            customerTransaction.setWallet(customerWallet);
-            customerTransaction.setTransactionTime(LocalDateTime.now());
-            customerTransaction.setConsultationBooking(consultationBookingRepository.getReferenceById(bookingId));
-
-            // Tạo giao dịch cho therapist (nhận tiền)
-            Transaction therapistTransaction = new Transaction();
-            therapistTransaction.setAmount(amount);
-            therapistTransaction.setBalanceBefore(therapistOldBalance);
-            therapistTransaction.setTotalAmount(therapistWallet.getBalance());
-            therapistTransaction.setTransactionType("RECEIVE_PAYMENT");
-            therapistTransaction.setTransactionStatus("SUCCESSFUL");
-            therapistTransaction.setWallet(therapistWallet);
-            therapistTransaction.setTransactionTime(LocalDateTime.now());
-            therapistTransaction.setConsultationBooking(consultationBookingRepository.getReferenceById(bookingId));
-
-            // Lưu vào DB
-            transactionRepository.save(customerTransaction);
-            transactionRepository.save(therapistTransaction);
-            walletRepository.save(customerWallet);
-            walletRepository.save(therapistWallet);
-
-            return true;
-        } catch (EntityNotFoundException e) {
-            logger.error("Wallet not found: {}", e.getMessage());
-            throw e;
-        } catch (DataAccessException e) {
-            logger.error("Database error: {}", e.getMessage());
-            throw new RuntimeException("Database error occurred.");
-        } catch (Exception e) {
-            logger.error("Unexpected error: {}", e.getMessage());
-            throw new RuntimeException("Unexpected error occurred.");
         }
     }
 }

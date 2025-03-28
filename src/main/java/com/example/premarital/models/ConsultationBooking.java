@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Table(name = "consultation_bookings")
 @Data
@@ -23,10 +25,8 @@ public class ConsultationBooking {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-//    @OneToOne(mappedBy = "consultationBooking")
-//    private Transaction transaction;
-    @OneToOne(mappedBy = "consultationBooking", cascade = CascadeType.ALL)
-    private Transaction transaction;
+    @OneToMany(mappedBy = "consultationBooking", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Transaction> transactions;
 
     private String status;
     private Long amount;
