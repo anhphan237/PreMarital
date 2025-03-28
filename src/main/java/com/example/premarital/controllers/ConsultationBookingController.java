@@ -1,11 +1,13 @@
 package com.example.premarital.controllers;
 
+import com.example.premarital.dtos.BookingPaymentDTO;
 import com.example.premarital.dtos.ConsultationBookingDTO;
 import com.example.premarital.dtos.RoleDTO;
 import com.example.premarital.dtos.TherapistScheduleDTO;
 import com.example.premarital.models.ConsultationBooking;
 import com.example.premarital.models.Role;
 import com.example.premarital.services.ConsultationBookingService;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -51,6 +53,35 @@ public class ConsultationBookingController {
     public ResponseEntity<String> createConsultationBooking(@Valid @RequestBody ConsultationBookingDTO consultationBookingDTO){
         consultationBookingService.createConsultationBooking(consultationBookingDTO);
         return new ResponseEntity<>("Consultation Booking created successfully",HttpStatus.CREATED);
+    }
+
+    @PostMapping("/payment")
+    public ResponseEntity<String> processBookingPayment(@RequestBody BookingPaymentDTO bookingPaymentDTO) {
+        try {
+            boolean success = consultationBookingService.processBookingPayment(
+                    bookingPaymentDTO.getCustomerId(),
+                    bookingPaymentDTO.getTherapistId(),
+                    bookingPaymentDTO.getBookingId(),
+                    bookingPaymentDTO.getAmount()
+            );
+
+            if (success) {
+                return ResponseEntity.status(HttpStatus.CREATED)
+                        .body("Payment processed successfully.");
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body("Failed to process payment.");
+            }
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Wallet not found: " + e.getMessage());
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Transaction failed: " + e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("An unexpected error occurred: " + e.getMessage());
+        }
     }
 
     @GetMapping("/{id}")
