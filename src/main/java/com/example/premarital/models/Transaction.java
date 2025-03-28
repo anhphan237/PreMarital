@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -23,7 +24,7 @@ public class Transaction {
 
     private Long amount;
     private String transactionType;
-    private Date transactionTime;
+    private LocalDateTime transactionTime;
     private String transactionStatus;
     private Long balanceBefore;
     private Long transactionFee;
@@ -34,9 +35,6 @@ public class Transaction {
     @OneToOne(mappedBy = "transaction")
     private WithdrawRequest withdrawRequest;
 
-//    @OneToOne
-//    @JoinColumn(name = "transaction_id", nullable = false)
-//    private ConsultationBooking consultationBooking;
     @OneToOne
     @JoinColumn(name = "booking_id", nullable = true)
     private ConsultationBooking consultationBooking;
