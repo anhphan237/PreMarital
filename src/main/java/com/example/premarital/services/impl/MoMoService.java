@@ -39,12 +39,11 @@ public class MoMoService {
 
     private final MomoApi momoApi;
 
-    public MomoResponse createMomoQR() {
+    public MomoResponse createMomoQR(Long amount) {
         String orderId = UUID.randomUUID().toString();
         String orderInfo = "Thanh toán đơn hàng: " + orderId;
         String requestId = UUID.randomUUID().toString();
         String extraData = "";
-        Long amount = 1000L;
         String bearerToken = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjdXN0b21lcjEyM0BnbWFpbC5jb20iLCJpYXQiOjE3NDMxMjY5MzcsImV4cCI6MTc0MzEyODM3N30.al9QvE754VVCpEbfi3K8x3bpDBjWy8eH2aNw2-VR0EI"; // Lấy token từ đâu đó
         String fullRedirectUrl = REDIRECT_URL + "?token=" + URLEncoder.encode(bearerToken, StandardCharsets.UTF_8);
 
@@ -53,8 +52,6 @@ public class MoMoService {
                 ACCESS_KEY, amount, extraData, IPN_URL, orderId, orderInfo, PARTNER_CODE, REDIRECT_URL, requestId, REQUEST_TYPE
         );
 
-        log.info(rawSignature);
-
         String prettySignature = "";
         try {
             prettySignature = signHmacSHA256(rawSignature, SECRET_KEY);
@@ -62,6 +59,9 @@ public class MoMoService {
             log.error(">>> Có lỗi khi hash code: " + e);
             return null;
         }
+
+        log.info(">>> Raw signature: " + rawSignature);
+        log.info(">>> Generated signature: " + prettySignature);
 
         if (prettySignature.isBlank()) {
             log.error(">>> signature is blank");

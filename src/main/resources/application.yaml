@@ -18,12 +18,14 @@ momo:
   secret-key: K951B6PE1waDMi640xX08PD3vg6EkVlz
   partnerCode: MOMO
   return-url: http://localhost:5173/
-  ipn-url: http://localhost:8080/api/momo/ipn-handler
+  ipn-url: http://localhost:8080/api/momo/ipn
   request-type: captureWallet
 
 logging:
   level:
+    org.springframework.web: DEBUG
     org:
       apache:
         coyote:
           http11: DEBUG
+
